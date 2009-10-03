@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,12 +18,12 @@
 //
 // $Id: SelfDestructTask.as 7231 2009-01-23 20:17:52Z tim $
 
-package com.whirled.contrib.simplegame.tasks {
+package flashbang.tasks {
 
 import com.threerings.util.Assert;
-import com.whirled.contrib.simplegame.ObjectTask;
-import com.whirled.contrib.simplegame.SimObject;
-import com.whirled.contrib.simplegame.ObjectMessage;
+import flashbang.ObjectTask;
+import flashbang.SimObject;
+import flashbang.ObjectMessage;
 
 public class SelfDestructTask
     implements ObjectTask

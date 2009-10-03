@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,15 +18,15 @@
 //
 // $Id: SceneObject.as 7231 2009-01-23 20:17:52Z tim $
 
-package com.whirled.contrib.simplegame.objects {
+package flashbang.objects {
 
-import com.whirled.contrib.simplegame.SimObject;
-import com.whirled.contrib.simplegame.components.AlphaComponent;
-import com.whirled.contrib.simplegame.components.BoundsComponent;
-import com.whirled.contrib.simplegame.components.RotationComponent;
-import com.whirled.contrib.simplegame.components.ScaleComponent;
-import com.whirled.contrib.simplegame.components.SceneComponent;
-import com.whirled.contrib.simplegame.components.VisibleComponent;
+import flashbang.SimObject;
+import flashbang.components.AlphaComponent;
+import flashbang.components.BoundsComponent;
+import flashbang.components.RotationComponent;
+import flashbang.components.ScaleComponent;
+import flashbang.components.SceneComponent;
+import flashbang.components.VisibleComponent;
 
 import flash.display.DisplayObject;
 

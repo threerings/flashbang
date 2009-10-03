@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,12 +18,12 @@
 //
 // $Id: VariableTimedTask.as 6711 2008-11-18 00:31:58Z tim $
 
-package com.whirled.contrib.simplegame.tasks {
+package flashbang.tasks {
 
-import com.whirled.contrib.simplegame.ObjectMessage;
-import com.whirled.contrib.simplegame.ObjectTask;
-import com.whirled.contrib.simplegame.SimObject;
-import com.whirled.contrib.simplegame.util.Rand;
+import flashbang.ObjectMessage;
+import flashbang.ObjectTask;
+import flashbang.SimObject;
+import flashbang.util.Rand;
 
 public class VariableTimedTask
     implements ObjectTask

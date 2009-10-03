@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,9 +18,9 @@
 //
 // $Id: AppMode.as 9579 2009-05-20 21:00:50Z tim $
 
-package com.whirled.contrib.simplegame {
+package flashbang {
 
-import com.whirled.contrib.simplegame.components.SceneComponent;
+import flashbang.components.SceneComponent;
 
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
@@ -39,8 +39,8 @@ public class AppMode extends ObjectDB
         return _modeSprite;
     }
 
-    /** Returns the SGContext associated with this AppMode. */
-    public final function get ctx () :SGContext
+    /** Returns the Context associated with this AppMode. */
+    public final function get ctx () :Context
     {
         return _ctx;
     }
@@ -164,7 +164,7 @@ public class AppMode extends ObjectDB
     protected var _modeSprite :Sprite = new Sprite();
 
     // Managed by MainLoop
-    internal var _ctx :SGContext;
+    internal var _ctx :Context;
 }
 
 }

@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,14 +18,14 @@
 //
 // $Id: ColorMatrixBlendTask.as 9653 2009-07-21 21:58:12Z mdb $
 
-package com.whirled.contrib.simplegame.tasks {
+package flashbang.tasks {
 
 import com.threerings.display.FilterUtil;
 import com.whirled.contrib.ColorMatrix;
-import com.whirled.contrib.simplegame.ObjectMessage;
-import com.whirled.contrib.simplegame.ObjectTask;
-import com.whirled.contrib.simplegame.SimObject;
-import com.whirled.contrib.simplegame.components.SceneComponent;
+import flashbang.ObjectMessage;
+import flashbang.ObjectTask;
+import flashbang.SimObject;
+import flashbang.components.SceneComponent;
 
 import flash.display.DisplayObject;
 import flash.filters.ColorMatrixFilter;

@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,11 +18,11 @@
 //
 // $Id: SimpleTimer.as 7240 2009-01-23 23:02:53Z tim $
 
-package com.whirled.contrib.simplegame.objects {
+package flashbang.objects {
 
-import com.whirled.contrib.simplegame.MainLoop;
-import com.whirled.contrib.simplegame.SimObject;
-import com.whirled.contrib.simplegame.tasks.*;
+import flashbang.MainLoop;
+import flashbang.SimObject;
+import flashbang.tasks.*;
 
 public class SimpleTimer extends SimObject
 {

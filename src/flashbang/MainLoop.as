@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,12 +18,12 @@
 //
 // $Id: MainLoop.as 9691 2009-08-06 19:35:38Z tim $
 
-package com.whirled.contrib.simplegame {
+package flashbang {
 
 import com.threerings.util.ArrayUtil;
 import com.threerings.util.Assert;
-import com.whirled.contrib.simplegame.audio.*;
-import com.whirled.contrib.simplegame.resource.*;
+import flashbang.audio.*;
+import flashbang.resource.*;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -37,7 +37,7 @@ public class MainLoop extends EventDispatcher
     public static const HAS_STOPPED :String = "HasStopped";
     public static const HAS_SHUTDOWN :String = "HasShutdown";
 
-    public function MainLoop (ctx :SGContext, minFrameRate :Number)
+    public function MainLoop (ctx :Context, minFrameRate :Number)
     {
         _ctx = ctx;
         _minFrameRate = minFrameRate;
@@ -461,7 +461,7 @@ public class MainLoop extends EventDispatcher
         dispatchEvent(new Event(HAS_SHUTDOWN));
     }
 
-    protected var _ctx :SGContext;
+    protected var _ctx :Context;
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;
     protected var _keyDispatcher :IEventDispatcher;
@@ -486,7 +486,7 @@ public class MainLoop extends EventDispatcher
 
 }
 
-import com.whirled.contrib.simplegame.AppMode;
+import flashbang.AppMode;
 
 class ModeTransition
 {

@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,12 +18,12 @@
 //
 // $Id: AudioManager.as 7240 2009-01-23 23:02:53Z tim $
 
-package com.whirled.contrib.simplegame.audio {
+package flashbang.audio {
 
 import com.threerings.util.Log;
-import com.whirled.contrib.simplegame.SGContext;
-import com.whirled.contrib.simplegame.Updatable;
-import com.whirled.contrib.simplegame.resource.*;
+import flashbang.Context;
+import flashbang.Updatable;
+import flashbang.resource.*;
 
 import flash.events.Event;
 import flash.media.SoundTransform;
@@ -34,7 +34,7 @@ public class AudioManager
 {
     public static const LOOP_FOREVER :int = -1;
 
-    public function AudioManager (ctx :SGContext, maxChannels :int = 25)
+    public function AudioManager (ctx :Context, maxChannels :int = 25)
     {
         _ctx = ctx;
         _channels = new Array(maxChannels);
@@ -293,7 +293,7 @@ public class AudioManager
         }
     }
 
-    protected var _ctx :SGContext;
+    protected var _ctx :Context;
     protected var _channels :Array; // of AudioChannels
     protected var _freeChannelIds :Array; // of ints
     protected var _masterControls :AudioControls;

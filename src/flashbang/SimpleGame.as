@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,10 +18,10 @@
 //
 // $Id: SimpleGame.as 9690 2009-08-05 23:16:46Z tim $
 
-package com.whirled.contrib.simplegame {
+package flashbang {
 
-import com.whirled.contrib.simplegame.audio.*;
-import com.whirled.contrib.simplegame.resource.*;
+import flashbang.audio.*;
+import flashbang.resource.*;
 
 import flash.display.Sprite;
 import flash.events.IEventDispatcher;
@@ -70,12 +70,12 @@ public class SimpleGame
         }
     }
 
-    public function get ctx () :SGContext
+    public function get ctx () :Context
     {
         return _ctx;
     }
 
-    protected var _ctx :SGContext = new SGContext();
+    protected var _ctx :Context = new Context();
     protected var _ownsResourceManager :Boolean;
 }
 

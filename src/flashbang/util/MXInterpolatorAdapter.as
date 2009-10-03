@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,10 +18,10 @@
 //
 // $Id: MXInterpolatorAdapter.as 4225 2008-05-01 19:14:32Z nathan $
 
-package com.whirled.contrib.simplegame.util
+package flashbang.util
 {
 
-import com.whirled.contrib.simplegame.util.Interpolator;
+import flashbang.util.Interpolator;
 import com.threerings.util.Assert;
 
 public class MXInterpolatorAdapter

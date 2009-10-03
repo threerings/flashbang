@@ -1,5 +1,5 @@
-// Whirled contrib library - tools for developing whirled games
-// http://www.whirled.com/code/contrib/asdocs
+// Flashbang - a framework for creating Flash games
+// http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -18,11 +18,11 @@
 //
 // $Id: WaitOnPredicateTask.as 6025 2008-10-07 00:09:41Z tim $
 
-package com.whirled.contrib.simplegame.tasks {
+package flashbang.tasks {
 
-import com.whirled.contrib.simplegame.*;
-import com.whirled.contrib.simplegame.components.*;
-import com.whirled.contrib.simplegame.objects.*;
+import flashbang.*;
+import flashbang.components.*;
+import flashbang.objects.*;
 
 import flash.display.MovieClip;
 
