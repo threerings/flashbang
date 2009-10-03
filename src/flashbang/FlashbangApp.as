@@ -26,9 +26,9 @@ import flashbang.resource.*;
 import flash.display.Sprite;
 import flash.events.IEventDispatcher;
 
-public class SimpleGame
+public class FlashbangApp
 {
-    public function SimpleGame (config :Config = null)
+    public function FlashbangApp (config :Config = null)
     {
         if (config == null) {
             config = new Config();
