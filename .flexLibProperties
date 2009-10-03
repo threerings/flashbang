@@ -3,15 +3,15 @@
   <includeClasses>
     <classEntry path="flashbang.AppMode"/>
     <classEntry path="flashbang.Config"/>
+    <classEntry path="flashbang.Context"/>
     <classEntry path="flashbang.CuePoint"/>
+    <classEntry path="flashbang.FlashbangApp"/>
     <classEntry path="flashbang.MainLoop"/>
     <classEntry path="flashbang.ObjectDB"/>
     <classEntry path="flashbang.ObjectMessage"/>
     <classEntry path="flashbang.ObjectTask"/>
-    <classEntry path="flashbang.Context"/>
     <classEntry path="flashbang.SimObject"/>
     <classEntry path="flashbang.SimObjectRef"/>
-    <classEntry path="flashbang.FlashbangApp"/>
     <classEntry path="flashbang.Updatable"/>
     <classEntry path="flashbang.audio.AudioChannel"/>
     <classEntry path="flashbang.audio.AudioControls"/>
