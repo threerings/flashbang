@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties version="1">
+  <includeClasses>
+    <classEntry path="flashbang.AppMode"/>
+    <classEntry path="flashbang.Config"/>
+    <classEntry path="flashbang.CuePoint"/>
+    <classEntry path="flashbang.MainLoop"/>
+    <classEntry path="flashbang.ObjectDB"/>
+    <classEntry path="flashbang.ObjectMessage"/>
+    <classEntry path="flashbang.ObjectTask"/>
+    <classEntry path="flashbang.Context"/>
+    <classEntry path="flashbang.SimObject"/>
+    <classEntry path="flashbang.SimObjectRef"/>
+    <classEntry path="flashbang.FlashbangApp"/>
+    <classEntry path="flashbang.Updatable"/>
+    <classEntry path="flashbang.audio.AudioChannel"/>
+    <classEntry path="flashbang.audio.AudioControls"/>
+    <classEntry path="flashbang.audio.AudioManager"/>
+    <classEntry path="flashbang.audio.AudioState"/>
+    <classEntry path="flashbang.components.AlphaComponent"/>
+    <classEntry path="flashbang.components.BoundsComponent"/>
+    <classEntry path="flashbang.components.LocationComponent"/>
+    <classEntry path="flashbang.components.MeterComponent"/>
+    <classEntry path="flashbang.components.RotationComponent"/>
+    <classEntry path="flashbang.components.ScaleComponent"/>
+    <classEntry path="flashbang.components.SceneComponent"/>
+    <classEntry path="flashbang.components.VisibleComponent"/>
+    <classEntry path="flashbang.objects.DraggableObject"/>
+    <classEntry path="flashbang.objects.Dragger"/>
+    <classEntry path="flashbang.objects.SceneObject"/>
+    <classEntry path="flashbang.objects.SimpleSceneObject"/>
+    <classEntry path="flashbang.objects.SimpleTimer"/>
+    <classEntry path="flashbang.resource.ImageResource"/>
+    <classEntry path="flashbang.resource.Resource"/>
+    <classEntry path="flashbang.resource.ResourceManager"/>
+    <classEntry path="flashbang.resource.ResourceSet"/>
+    <classEntry path="flashbang.resource.SoundResource"/>
+    <classEntry path="flashbang.resource.SwfResource"/>
+    <classEntry path="flashbang.resource.XmlResource"/>
+    <classEntry path="flashbang.tasks.After"/>
+    <classEntry path="flashbang.tasks.AlphaTask"/>
+    <classEntry path="flashbang.tasks.AnimateValueTask"/>
+    <classEntry path="flashbang.tasks.ColorMatrixBlendTask"/>
+    <classEntry path="flashbang.tasks.ComplexLocationTask"/>
+    <classEntry path="flashbang.tasks.CuePointTask"/>
+    <classEntry path="flashbang.tasks.FunctionTask"/>
+    <classEntry path="flashbang.tasks.GoToFrameTask"/>
+    <classEntry path="flashbang.tasks.LocationTask"/>
+    <classEntry path="flashbang.tasks.MeterValueTask"/>
+    <classEntry path="flashbang.tasks.ParallelTask"/>
+    <classEntry path="flashbang.tasks.PlayFramesTask"/>
+    <classEntry path="flashbang.tasks.PlaySoundTask"/>
+    <classEntry path="flashbang.tasks.RepeatingTask"/>
+    <classEntry path="flashbang.tasks.RotationTask"/>
+    <classEntry path="flashbang.tasks.ScaleTask"/>
+    <classEntry path="flashbang.tasks.SelfDestructTask"/>
+    <classEntry path="flashbang.tasks.SerialTask"/>
+    <classEntry path="flashbang.tasks.TaskContainer"/>
+    <classEntry path="flashbang.tasks.TimedTask"/>
+    <classEntry path="flashbang.tasks.VariableTimedTask"/>
+    <classEntry path="flashbang.tasks.VisibleTask"/>
+    <classEntry path="flashbang.tasks.WaitForFrameTask"/>
+    <classEntry path="flashbang.tasks.WaitOnPredicateTask"/>
+    <classEntry path="flashbang.util.Collision"/>
+    <classEntry path="flashbang.util.IntRange"/>
+    <classEntry path="flashbang.util.Interpolator"/>
+    <classEntry path="flashbang.util.Loadable"/>
+    <classEntry path="flashbang.util.LoadableBatch"/>
+    <classEntry path="flashbang.util.MXInterpolatorAdapter"/>
+    <classEntry path="flashbang.util.NumRange"/>
+    <classEntry path="flashbang.util.Rand"/>
+    <classEntry path="flashbang.util.WeightedArray"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
