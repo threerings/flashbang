@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: FunctionTask.as 9638 2009-07-08 21:30:11Z tim $
+// $Id$
 
 package flashbang.tasks {
 

@@ -16,13 +16,11 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: MXInterpolatorAdapter.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
-package flashbang.util
-{
+package flashbang.util {
 
 import flashbang.util.Interpolator;
-import com.threerings.util.Assert;
 
 public class MXInterpolatorAdapter
    implements Interpolator
@@ -44,7 +42,7 @@ public class MXInterpolatorAdapter
         // b - specifies the initial position of a component
         // c - specifies the total change in position of the component
         // d - specifies the duration of the effect, in milliseconds
-        
+
         if (duration <= 0) {
             return b;
         }

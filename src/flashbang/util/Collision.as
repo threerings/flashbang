@@ -16,16 +16,16 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: Collision.as 9653 2009-07-21 21:58:12Z mdb $
+// $Id$
 
 package flashbang.util {
 
 import com.threerings.geom.Vector2;
 
-import flashbang.*;
-
 import flash.display.DisplayObject;
 import flash.geom.Point;
+
+import flashbang.*;
 
 public class Collision
 {

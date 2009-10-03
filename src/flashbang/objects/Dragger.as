@@ -21,13 +21,14 @@
 package flashbang.objects {
 
 import com.threerings.util.MathUtil;
-import flashbang.SimObject;
 
 import flash.display.DisplayObject;
 import flash.display.InteractiveObject;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+
+import flashbang.SimObject;
 
 public class Dragger extends SimObject
 {

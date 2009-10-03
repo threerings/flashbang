@@ -16,18 +16,19 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: AudioManager.as 7240 2009-01-23 23:02:53Z tim $
+// $Id$
 
 package flashbang.audio {
 
 import com.threerings.util.Log;
-import flashbang.Context;
-import flashbang.Updatable;
-import flashbang.resource.*;
 
 import flash.events.Event;
 import flash.media.SoundTransform;
 import flash.utils.getTimer;
+
+import flashbang.Context;
+import flashbang.Updatable;
+import flashbang.resource.*;
 
 public class AudioManager
     implements Updatable

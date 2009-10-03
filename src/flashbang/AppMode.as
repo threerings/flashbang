@@ -16,15 +16,15 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: AppMode.as 9579 2009-05-20 21:00:50Z tim $
+// $Id$
 
 package flashbang {
-
-import flashbang.components.SceneComponent;
 
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
+
+import flashbang.components.SceneComponent;
 
 public class AppMode extends ObjectDB
 {

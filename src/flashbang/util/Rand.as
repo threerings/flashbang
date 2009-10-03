@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: Rand.as 9700 2009-08-11 22:45:36Z tim $
+// $Id$
 
 package flashbang.util {
 

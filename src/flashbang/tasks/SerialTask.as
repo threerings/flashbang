@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SerialTask.as 6032 2008-10-07 01:48:02Z tim $
+// $Id$
 
 package flashbang.tasks {
 

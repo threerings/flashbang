@@ -16,15 +16,15 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: GoToFrameTask.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.tasks {
+
+import flash.display.MovieClip;
 
 import flashbang.*;
 import flashbang.components.*;
 import flashbang.objects.*;
-
-import flash.display.MovieClip;
 
 public class GoToFrameTask implements ObjectTask
 {

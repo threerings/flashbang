@@ -16,15 +16,16 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: Updatable.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
-package flashbang
+package flashbang {
+
+public interface Updatable
 {
-    public interface Updatable
-    {
-        /**
-         * Update this object. dt is the number of seconds that have elapsed since the last update.
-         */
-        function update (dt :Number) :void;
-    }
+    /**
+     * Update this object. dt is the number of seconds that have elapsed since the last update.
+     */
+    function update (dt :Number) :void;
+}
+
 }

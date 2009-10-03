@@ -16,23 +16,18 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ScaleTask.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.tasks {
 
-import com.threerings.util.Assert;
-
-import flashbang.SimObject;
-import flashbang.ObjectTask;
 import flashbang.ObjectMessage;
+import flashbang.ObjectTask;
+import flashbang.SimObject;
+import flashbang.components.ScaleComponent;
 import flashbang.util.Interpolator;
 import flashbang.util.MXInterpolatorAdapter;
 
-import flash.geom.Point;
-
 import mx.effects.easing.*;
-import flash.display.DisplayObject;
-import flashbang.components.ScaleComponent;
 
 public class ScaleTask
     implements ObjectTask

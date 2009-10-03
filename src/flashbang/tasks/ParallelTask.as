@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ParallelTask.as 6032 2008-10-07 01:48:02Z tim $
+// $Id$
 
 package flashbang.tasks {
 

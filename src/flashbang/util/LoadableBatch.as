@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: LoadableBatch.as 9637 2009-07-08 00:34:41Z tim $
+// $Id$
 
 package flashbang.util {
 

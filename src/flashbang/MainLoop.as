@@ -16,14 +16,12 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: MainLoop.as 9691 2009-08-06 19:35:38Z tim $
+// $Id$
 
 package flashbang {
 
 import com.threerings.util.ArrayUtil;
 import com.threerings.util.Assert;
-import flashbang.audio.*;
-import flashbang.resource.*;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -31,6 +29,9 @@ import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 import flash.utils.getTimer;
+
+import flashbang.audio.*;
+import flashbang.resource.*;
 
 public class MainLoop extends EventDispatcher
 {

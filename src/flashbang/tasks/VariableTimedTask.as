@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: VariableTimedTask.as 6711 2008-11-18 00:31:58Z tim $
+// $Id$
 
 package flashbang.tasks {
 

@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: After.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
 package flashbang.tasks {
     

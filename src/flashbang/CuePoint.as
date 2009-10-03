@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: CuePoint.as 9722 2009-08-24 06:34:21Z ray $
+// $Id$
 
 package flashbang {
 

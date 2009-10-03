@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SimpleTimer.as 7240 2009-01-23 23:02:53Z tim $
+// $Id$
 
 package flashbang.objects {
 

@@ -16,13 +16,13 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: AudioChannel.as 4552 2008-06-01 00:29:45Z tim $
+// $Id$
 
 package flashbang.audio {
 
-import flashbang.resource.SoundResource;
-
 import flash.media.SoundChannel;
+
+import flashbang.resource.SoundResource;
 
 public class AudioChannel
 {

@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ObjectDB.as 9722 2009-08-24 06:34:21Z ray $
+// $Id$
 
 package flashbang {
 
@@ -24,11 +24,11 @@ import com.threerings.util.ArrayUtil;
 import com.threerings.util.Assert;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
-import com.whirled.contrib.EventHandlerManager;
-import flashbang.tasks.*;
 
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
+
+import flashbang.tasks.*;
 
 public class ObjectDB extends EventDispatcher
     implements Updatable

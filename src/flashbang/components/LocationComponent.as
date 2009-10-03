@@ -16,16 +16,17 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: LocationComponent.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
-package flashbang.components
+package flashbang.components {
+
+public interface LocationComponent
 {
-    public interface LocationComponent
-    {
-        function get x () :Number;
-        function get y () :Number;
+    function get x () :Number;
+    function get y () :Number;
 
-        function set x (val :Number) :void;
-        function set y (val :Number) :void;
-    }
+    function set x (val :Number) :void;
+    function set y (val :Number) :void;
+}
+
 }

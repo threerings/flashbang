@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: IntRange.as 9741 2009-09-02 21:32:14Z tim $
+// $Id$
 
 package flashbang.util {
 

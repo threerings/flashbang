@@ -16,18 +16,18 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SimObject.as 9722 2009-08-24 06:34:21Z ray $
+// $Id$
 
 package flashbang {
 
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
-import com.whirled.contrib.EventHandlerManager;
-import flashbang.tasks.ParallelTask;
-import flashbang.tasks.TaskContainer;
 
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
+
+import flashbang.tasks.ParallelTask;
+import flashbang.tasks.TaskContainer;
 
 public class SimObject extends EventDispatcher
 {

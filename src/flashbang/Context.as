@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: Context.as 9627 2009-06-26 03:48:48Z tim $
+// $Id$
 
 package flashbang {
 

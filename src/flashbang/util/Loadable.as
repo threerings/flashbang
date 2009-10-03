@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: Loadable.as 9755 2009-09-24 01:34:59Z tim $
+// $Id$
 
 package flashbang.util {
 

@@ -16,23 +16,18 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: LocationTask.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.tasks {
 
-import com.threerings.util.Assert;
-
-import flashbang.SimObject;
+import flashbang.ObjectMessage;
 import flashbang.ObjectTask;
+import flashbang.SimObject;
+import flashbang.components.LocationComponent;
 import flashbang.util.Interpolator;
 import flashbang.util.MXInterpolatorAdapter;
 
-import flash.geom.Point;
-
 import mx.effects.easing.*;
-import flash.display.DisplayObject;
-import flashbang.components.LocationComponent;
-import flashbang.ObjectMessage;
 
 public class LocationTask
     implements ObjectTask

@@ -16,13 +16,14 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: RotationComponent.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
-package flashbang.components
+package flashbang.components {
+
+public interface RotationComponent
 {
-    public interface RotationComponent
-    {
-        function get rotation () :Number;
-        function set rotation (val :Number) :void;
-    }
+    function get rotation () :Number;
+    function set rotation (val :Number) :void;
+}
+
 }

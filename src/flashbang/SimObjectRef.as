@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SimObjectRef.as 9670 2009-07-27 20:50:46Z tim $
+// $Id$
 
 package flashbang {
 

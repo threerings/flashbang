@@ -16,24 +16,18 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: RotationTask.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.tasks {
 
-import com.threerings.util.Assert;
-
-import flashbang.SimObject;
-import flashbang.ObjectTask;
 import flashbang.ObjectMessage;
-
+import flashbang.ObjectTask;
+import flashbang.SimObject;
+import flashbang.components.RotationComponent;
 import flashbang.util.Interpolator;
 import flashbang.util.MXInterpolatorAdapter;
 
-import flash.geom.Point;
-
 import mx.effects.easing.*;
-import flash.display.DisplayObject;
-import flashbang.components.RotationComponent;
 
 public class RotationTask
     implements ObjectTask

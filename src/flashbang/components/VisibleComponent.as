@@ -16,13 +16,14 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: VisibleComponent.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
-package flashbang.components
+package flashbang.components {
+
+public interface VisibleComponent
 {
-    public interface VisibleComponent
-    {
-        function get visible () :Boolean;
-        function set visible (val :Boolean) :void;
-    }
+    function get visible () :Boolean;
+    function set visible (val :Boolean) :void;
+}
+
 }

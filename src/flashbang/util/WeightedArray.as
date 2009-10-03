@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: WeightedArray.as 9739 2009-09-01 20:29:36Z tim $
+// $Id$
 
 package flashbang.util {
 

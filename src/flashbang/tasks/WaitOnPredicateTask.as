@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: WaitOnPredicateTask.as 6025 2008-10-07 00:09:41Z tim $
+// $Id$
 
 package flashbang.tasks {
 

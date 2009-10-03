@@ -16,15 +16,15 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: PlayFramesTask.as 9651 2009-07-20 22:41:38Z tim $
+// $Id$
 
 package flashbang.tasks {
+
+import flash.display.MovieClip;
 
 import flashbang.*;
 import flashbang.components.*;
 import flashbang.objects.*;
-
-import flash.display.MovieClip;
 
 import mx.effects.easing.Linear;
 

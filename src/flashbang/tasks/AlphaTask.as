@@ -16,14 +16,13 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: AlphaTask.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.tasks {
 
-import com.threerings.util.Assert;
-import flashbang.SimObject;
 import flashbang.ObjectMessage;
 import flashbang.ObjectTask;
+import flashbang.SimObject;
 import flashbang.components.AlphaComponent;
 import flashbang.util.Interpolator;
 import flashbang.util.MXInterpolatorAdapter;

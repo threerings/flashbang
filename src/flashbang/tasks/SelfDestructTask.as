@@ -16,14 +16,13 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SelfDestructTask.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.tasks {
 
-import com.threerings.util.Assert;
+import flashbang.ObjectMessage;
 import flashbang.ObjectTask;
 import flashbang.SimObject;
-import flashbang.ObjectMessage;
 
 public class SelfDestructTask
     implements ObjectTask

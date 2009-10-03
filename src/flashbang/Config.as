@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: Config.as 9690 2009-08-05 23:16:46Z tim $
+// $Id$
 
 package flashbang {
 

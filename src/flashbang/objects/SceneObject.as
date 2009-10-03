@@ -16,9 +16,11 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SceneObject.as 7231 2009-01-23 20:17:52Z tim $
+// $Id$
 
 package flashbang.objects {
+
+import flash.display.DisplayObject;
 
 import flashbang.SimObject;
 import flashbang.components.AlphaComponent;
@@ -27,8 +29,6 @@ import flashbang.components.RotationComponent;
 import flashbang.components.ScaleComponent;
 import flashbang.components.SceneComponent;
 import flashbang.components.VisibleComponent;
-
-import flash.display.DisplayObject;
 
 public class SceneObject extends SimObject
     implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,

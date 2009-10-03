@@ -16,19 +16,19 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ColorMatrixBlendTask.as 9653 2009-07-21 21:58:12Z mdb $
+// $Id$
 
 package flashbang.tasks {
 
 import com.threerings.display.FilterUtil;
-import com.whirled.contrib.ColorMatrix;
+
+import flash.display.DisplayObject;
+import flash.filters.ColorMatrixFilter;
+
 import flashbang.ObjectMessage;
 import flashbang.ObjectTask;
 import flashbang.SimObject;
 import flashbang.components.SceneComponent;
-
-import flash.display.DisplayObject;
-import flash.filters.ColorMatrixFilter;
 
 import mx.effects.easing.*;
 

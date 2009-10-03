@@ -16,16 +16,17 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ScaleComponent.as 4225 2008-05-01 19:14:32Z nathan $
+// $Id$
 
-package flashbang.components
+package flashbang.components {
+
+public interface ScaleComponent
 {
-    public interface ScaleComponent
-    {
-        function get scaleX () :Number;
-        function get scaleY () :Number;
+    function get scaleX () :Number;
+    function get scaleY () :Number;
 
-        function set scaleX (val :Number) :void;
-        function set scaleY (val :Number) :void;
-    }
+    function set scaleX (val :Number) :void;
+    function set scaleY (val :Number) :void;
+}
+
 }

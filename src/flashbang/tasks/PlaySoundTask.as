@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: PlaySoundTask.as 8243 2009-03-16 22:56:03Z tim $
+// $Id$
 
 package flashbang.tasks {
 

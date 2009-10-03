@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ResourceManager.as 9723 2009-08-24 06:41:24Z ray $
+// $Id$
 
 package flashbang.resource {
 

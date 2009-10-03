@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SwfResource.as 9692 2009-08-06 21:01:00Z tim $
+// $Id$
 
 package flashbang.resource {
 

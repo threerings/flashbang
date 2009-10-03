@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: CuePointTask.as 9696 2009-08-11 20:28:14Z tim $
+// $Id$
 
 package flashbang.tasks {
 

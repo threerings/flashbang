@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: XmlResource.as 9624 2009-06-26 00:19:45Z tim $
+// $Id$
 
 package flashbang.resource {
 

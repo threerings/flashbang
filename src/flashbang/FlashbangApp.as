@@ -16,15 +16,15 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: SimpleGame.as 9690 2009-08-05 23:16:46Z tim $
+// $Id$
 
 package flashbang {
 
-import flashbang.audio.*;
-import flashbang.resource.*;
-
 import flash.display.Sprite;
 import flash.events.IEventDispatcher;
+
+import flashbang.audio.*;
+import flashbang.resource.*;
 
 public class FlashbangApp
 {

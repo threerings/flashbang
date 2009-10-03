@@ -16,13 +16,14 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: ResourceSet.as 9722 2009-08-24 06:34:21Z ray $
+// $Id$
 
 package flashbang.resource {
 
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
+
 import flashbang.util.LoadableBatch;
 
 public class ResourceSet extends LoadableBatch

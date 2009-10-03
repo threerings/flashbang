@@ -16,7 +16,7 @@
 //
 // Copyright 2008 Three Rings Design
 //
-// $Id: AudioControls.as 7563 2009-02-12 20:32:41Z tim $
+// $Id$
 
 package flashbang.audio {
 
