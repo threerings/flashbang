@@ -105,7 +105,7 @@
       <keep-generated-actionscript>false</keep-generated-actionscript>
       <!-- compiler.library-path: list of SWC files or directories that contain SWC files-->
       <library-path>
-         <path-element>../dist/lib/corelib.swc</path-element>
+         <path-element>../dist/lib/ooolib.swc</path-element>
       </library-path>
       <!-- compiler.locale: specifies the locale for internationalization-->
       <locale>
@@ -295,13 +295,13 @@
       <contributor>name</contributor>
       -->
       <!-- metadata.creator: A creator's name to store in the SWF metadata-->
-      <creator>Three Rings Design, Inc.</creator>
+      <creator>Tim Conkling</creator>
       <!-- metadata.date: The creation date to store in the SWF metadata-->
       <!-- metadata.date usage:
       <date>text</date>
       -->
       <!-- metadata.description: The default description to store in the SWF metadata-->
-      <description>http://www.threerings.net/code/@lib_name@/</description>
+      <description>http://code.google.com/p/flashbang/</description>
       <!-- metadata.language: The language to store in the SWF metadata (i.e. EN, FR)-->
       <language>EN</language>
       <!-- metadata.localized-description: A localized RDF/XMP description to store in the SWF metadata-->
@@ -323,7 +323,7 @@
       <!-- metadata.publisher: A publisher's name to store in the SWF metadata-->
       <publisher>Three Rings Design, Inc.</publisher>
       <!-- metadata.title: The default title to store in the SWF metadata-->
-      <title>Whirled</title>
+      <title>flashbang</title>
    </metadata>
    <!-- output: the filename of the SWF movie to create-->
    <!-- output usage:

@@ -1,17 +1,18 @@
 <?xml version="1.0" standalone="yes"?>
-<project name="flashbang" default="compile" basedir=".">
+<project name="flashbang" default="aslib" basedir=".">
 
   <!-- configuration parameters -->
   <property name="lib.name"     value="flashbang"/>
   <property name="deploy.dir"   value="dist"/>
   <property name="libs.dir"     value="lib"/>
+
+  <!-- our dependencies are in a separate file so that we can integrate into OOO builds -->
   <import file="etc/libs-incl.xml"/>
 
+  <!-- we read our flexsdk.dir from build.properties when building standalone -->
+  <property file="etc/build.properties"/>
+
   <target name="prepare">
-    <fail><condition><not><isset property="flexsdk.dir"/></not></condition>
-      You must pass -Dflexsdk.dir=/path/to/flexsdk when building. It must be an
-      absolute path.
-    </fail>
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/lib"/>
     <copy todir="${deploy.dir}/lib" flatten="true">
@@ -33,7 +34,6 @@
     <copy file="etc/aslib-config.xml.in" tofile="${deploy.dir}/aslib-config.xml">
       <filterset>
         <filter token="flex_sdk_dir" value="${flexsdk.dir}"/>
-        <filter token="lib_name" value="${lib.name}"/>
       </filterset>
     </copy>
     <!-- actually build our library -->
@@ -41,8 +41,8 @@
       <arg value="-load-config"/>
       <arg value="${deploy.dir}/aslib-config.xml"/>
       <arg value="-compiler.optimize"/>
-      <arg value="-compiler.source-path=src/as/"/>
-      <arg value="-include-sources=src/as/"/>
+      <arg value="-compiler.source-path=src/"/>
+      <arg value="-include-sources=src/"/>
       <arg value="-output"/>
       <arg value="${deploy.dir}/${lib.name}.swc"/>
     </java>
@@ -58,7 +58,7 @@
       <arg value="+flexlib=${flexsdk.dir}/frameworks"/>
       <arg line="-library-path ${flexsdk.dir}/frameworks/libs"/>
       <arg line="-templates-path ${flexsdk.dir}/asdoc/templates"/>
-      <arg line="-doc-sources src/as"/>
+      <arg line="-doc-sources src"/>
       <arg line="-output ${deploy.dir}/asdocs"/>
     </java>
   </target>

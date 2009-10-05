@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- declares the libraries needed to build ooolib -->
 <project name="library-dependencies">
-  <fileset dir="${libs.dir}" id="ooolib.libs">
-    <include name="corelib.swc"/>
+  <fileset dir="${libs.dir}" id="flashbang.libs">
+    <include name="ooolib*.swc"/>
   </fileset>
 </project>
