@@ -29,7 +29,7 @@ public class Config
 
     /**
      * If not null, externalResourceManager will be used in place of a new ResourceManager.
-     * externalResourceManager will not be shut down when the SimpleGame is.
+     * externalResourceManager will not be shut down when the FlashbangApp is.
      * Defaults to null.
      */
     public var externalResourceManager :ResourceManager;
