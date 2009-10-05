@@ -15,4 +15,11 @@
 		<nature>com.adobe.flexbuilder.project.flexlibnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>[source path] as</name>
+			<type>2</type>
+			<locationURI>EXPORT_ROOT/ooo-libs/flash-utils/src/as</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
