@@ -20,6 +20,7 @@
 
 package flashbang {
 
+import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 

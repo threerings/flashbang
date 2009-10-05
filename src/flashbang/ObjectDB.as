@@ -22,6 +22,7 @@ package flashbang {
 
 import com.threerings.util.ArrayUtil;
 import com.threerings.util.Assert;
+import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 

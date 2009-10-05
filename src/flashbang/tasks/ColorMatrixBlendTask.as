@@ -20,6 +20,7 @@
 
 package flashbang.tasks {
 
+import com.threerings.display.ColorMatrix;
 import com.threerings.display.FilterUtil;
 
 import flash.display.DisplayObject;
