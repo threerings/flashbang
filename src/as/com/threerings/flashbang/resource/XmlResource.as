@@ -95,7 +95,11 @@ public class XmlResource extends Resource
             var ba :ByteArray = ByteArray(new theClass());
             instantiateXml(ba.readUTFBytes(ba.length));
         } catch (e :TypeError) {
-            instantiateXml(XML(theClass.data));
+            if (theClass != null && theClass.hasOwnProperty("data")) {
+                instantiateXml(XML(theClass.data));
+            } else {
+                onError("missing XML data!");
+            }
         }
     }
 
