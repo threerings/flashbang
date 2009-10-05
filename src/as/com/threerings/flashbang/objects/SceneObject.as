@@ -22,7 +22,7 @@ package com.threerings.flashbang.objects {
 
 import flash.display.DisplayObject;
 
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.AlphaComponent;
 import com.threerings.flashbang.components.BoundsComponent;
 import com.threerings.flashbang.components.RotationComponent;
@@ -30,7 +30,7 @@ import com.threerings.flashbang.components.ScaleComponent;
 import com.threerings.flashbang.components.SceneComponent;
 import com.threerings.flashbang.components.VisibleComponent;
 
-public class SceneObject extends SimObject
+public class SceneObject extends GameObject
     implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,
                RotationComponent
 {

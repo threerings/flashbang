@@ -37,7 +37,7 @@ public class GoToFrameTask implements ObjectTask
         _movie = movie;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         var movieClip :MovieClip = _movie;
 

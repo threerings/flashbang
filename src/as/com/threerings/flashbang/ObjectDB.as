@@ -37,7 +37,7 @@ public class ObjectDB extends EventDispatcher
     /**
      * Adds a SimObject to the ObjectDB. The SimObject must not be owned by another ObjectDB.
      */
-    public function addObject (obj :SimObject) :SimObjectRef
+    public function addObject (obj :GameObject) :GameObjectRef
     {
         if (null == obj || null != obj._ref) {
             throw new ArgumentError("obj must be non-null, and must never have belonged to " +
@@ -45,11 +45,11 @@ public class ObjectDB extends EventDispatcher
         }
 
         // create a new SimObjectRef
-        var ref :SimObjectRef = new SimObjectRef();
+        var ref :GameObjectRef = new GameObjectRef();
         ref._obj = obj;
 
         // add the ref to the list
-        var oldListHead :SimObjectRef = _listHead;
+        var oldListHead :GameObjectRef = _listHead;
         _listHead = ref;
 
         if (null != oldListHead) {
@@ -96,7 +96,7 @@ public class ObjectDB extends EventDispatcher
     /** Removes a SimObject from the ObjectDB. */
     public function destroyObjectNamed (name :String) :void
     {
-        var obj :SimObject = getObjectNamed(name);
+        var obj :GameObject = getObjectNamed(name);
         if (null != obj) {
             destroyObject(obj.ref);
         }
@@ -105,7 +105,7 @@ public class ObjectDB extends EventDispatcher
     /** Removes all SimObjects in the given group from the ObjectDB. */
     public function destroyObjectsInGroup (groupName :String) :void
     {
-        for each (var ref :SimObjectRef in getObjectRefsInGroup(groupName)) {
+        for each (var ref :GameObjectRef in getObjectRefsInGroup(groupName)) {
             if (!ref.isNull) {
                 ref.object.destroySelf();
             }
@@ -113,13 +113,13 @@ public class ObjectDB extends EventDispatcher
     }
 
     /** Removes a SimObject from the ObjectDB. */
-    public function destroyObject (ref :SimObjectRef) :void
+    public function destroyObject (ref :GameObjectRef) :void
     {
         if (null == ref) {
             return;
         }
 
-        var obj :SimObject = ref.object;
+        var obj :GameObject = ref.object;
 
         if (null == obj) {
             return;
@@ -149,9 +149,9 @@ public class ObjectDB extends EventDispatcher
     }
 
     /** Returns the object in this mode with the given name, or null if no such object exists. */
-    public function getObjectNamed (name :String) :SimObject
+    public function getObjectNamed (name :String) :GameObject
     {
-        return (_namedObjects.get(name) as SimObject);
+        return (_namedObjects.get(name) as GameObject);
     }
 
     /**
@@ -183,7 +183,7 @@ public class ObjectDB extends EventDispatcher
         // Array might contain fewer entries than the source.
 
         var objs :Array = new Array();
-        for each (var ref :SimObjectRef in refs) {
+        for each (var ref :GameObjectRef in refs) {
             if (!ref.isNull) {
                 objs.push(ref.object);
             }
@@ -202,7 +202,7 @@ public class ObjectDB extends EventDispatcher
     /** Sends a message to every object in the database. */
     public function broadcastMessage (msg :ObjectMessage) :void
     {
-        var ref :SimObjectRef = _listHead;
+        var ref :GameObjectRef = _listHead;
         while (null != ref) {
             if (!ref.isNull) {
                 ref.object.receiveMessageInternal(msg);
@@ -213,7 +213,7 @@ public class ObjectDB extends EventDispatcher
     }
 
     /** Sends a message to a specific object. */
-    public function sendMessageTo (msg :ObjectMessage, targetRef :SimObjectRef) :void
+    public function sendMessageTo (msg :ObjectMessage, targetRef :GameObjectRef) :void
     {
         if (!targetRef.isNull) {
             targetRef.object.receiveMessageInternal(msg);
@@ -223,7 +223,7 @@ public class ObjectDB extends EventDispatcher
     /** Sends a message to the object with the given name. */
     public function sendMessageToNamedObject (msg :ObjectMessage, objectName :String) :void
     {
-        var target :SimObject = getObjectNamed(objectName);
+        var target :GameObject = getObjectNamed(objectName);
         if (null != target) {
             target.receiveMessageInternal(msg);
         }
@@ -233,7 +233,7 @@ public class ObjectDB extends EventDispatcher
     public function sendMessageToGroup (msg :ObjectMessage, groupName :String) :void
     {
         var refs :Array = getObjectRefsInGroup(groupName);
-        for each (var ref :SimObjectRef in refs) {
+        for each (var ref :GameObjectRef in refs) {
             sendMessageTo(msg, ref);
         }
     }
@@ -282,9 +282,9 @@ public class ObjectDB extends EventDispatcher
     {
         // update all objects
 
-        var ref :SimObjectRef = _listHead;
+        var ref :GameObjectRef = _listHead;
         while (null != ref) {
-            var obj :SimObject = ref._obj;
+            var obj :GameObject = ref._obj;
             if (null != obj) {
                 obj.updateInternal(dt);
             }
@@ -299,7 +299,7 @@ public class ObjectDB extends EventDispatcher
         // clean out all objects that were destroyed during the update loop
 
         if (null != _objectsPendingRemoval) {
-            for each (var obj :SimObject in _objectsPendingRemoval) {
+            for each (var obj :GameObject in _objectsPendingRemoval) {
                 finalizeObjectRemoval(obj);
             }
 
@@ -308,15 +308,15 @@ public class ObjectDB extends EventDispatcher
     }
 
     /** Removes a single dead object from the object list. */
-    protected function finalizeObjectRemoval (obj :SimObject) :void
+    protected function finalizeObjectRemoval (obj :GameObject) :void
     {
         Assert.isTrue(null != obj._ref && null == obj._ref._obj);
 
         // unlink the object ref
-        var ref :SimObjectRef = obj._ref;
+        var ref :GameObjectRef = obj._ref;
 
-        var prev :SimObjectRef = ref._prev;
-        var next :SimObjectRef = ref._next;
+        var prev :GameObjectRef = ref._prev;
+        var next :GameObjectRef = ref._next;
 
         if (null != prev) {
             prev._next = next;
@@ -362,7 +362,7 @@ public class ObjectDB extends EventDispatcher
      */
     protected function shutdown () :void
     {
-        var ref :SimObjectRef = _listHead;
+        var ref :GameObjectRef = _listHead;
         while (null != ref) {
             if (!ref.isNull) {
                 ref.object.destroyedInternal();
@@ -380,7 +380,7 @@ public class ObjectDB extends EventDispatcher
         _events.freeAllHandlers();
     }
 
-    protected var _listHead :SimObjectRef;
+    protected var _listHead :GameObjectRef;
     protected var _objectCount :uint;
 
     /** An array of SimObjects */

@@ -22,7 +22,7 @@ package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.VisibleComponent;
 
 public class VisibleTask
@@ -33,7 +33,7 @@ public class VisibleTask
         _visible = visible;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         var vc :VisibleComponent = (obj as VisibleComponent);
 

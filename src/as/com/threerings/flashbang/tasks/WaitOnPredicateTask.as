@@ -33,7 +33,7 @@ public class WaitOnPredicateTask implements ObjectTask
         _pred = pred;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         return _pred();
     }

@@ -22,12 +22,12 @@ package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 
 public class SelfDestructTask
     implements ObjectTask
 {
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         obj.destroySelf();
         return true;

@@ -25,7 +25,7 @@ import com.threerings.util.Assert;
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 
 public class TaskContainer
     implements ObjectTask
@@ -78,7 +78,7 @@ public class TaskContainer
         return (_activeTaskCount > 0);
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         var result :Boolean = applyFunction(
             function (task :ObjectTask) :Boolean {

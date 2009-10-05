@@ -23,7 +23,7 @@ package com.threerings.flashbang.tasks {
 import com.threerings.flashbang.CuePoint;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 
 public class CuePointTask
     implements ObjectTask
@@ -43,7 +43,7 @@ public class CuePointTask
         _cuePoint = CuePoint.create(cueName);
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         if (!_hasCued) {
             _cuePoint.cue();

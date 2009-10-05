@@ -28,7 +28,7 @@ import flash.filters.ColorMatrixFilter;
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.SceneComponent;
 
 import mx.effects.easing.*;
@@ -62,7 +62,7 @@ public class ColorMatrixBlendTask
         _preserveFilters = preserveFilters;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         var disp :DisplayObject = _disp;
         if (disp == null) {

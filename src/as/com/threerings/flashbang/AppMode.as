@@ -55,8 +55,8 @@ public class AppMode extends ObjectDB
      * @param displayIdx the index at which the object will be added to displayParent,
      * or -1 to add to the end of displayParent
      */
-    public function addSceneObject (obj :SimObject, displayParent :DisplayObjectContainer = null,
-        displayIdx :int = -1) :SimObjectRef
+    public function addSceneObject (obj :GameObject, displayParent :DisplayObjectContainer = null,
+        displayIdx :int = -1) :GameObjectRef
     {
         if (!(obj is SceneComponent)) {
             throw new Error("obj must implement SceneComponent");
@@ -83,7 +83,7 @@ public class AppMode extends ObjectDB
         return addObject(obj);
     }
 
-    override public function destroyObject (ref :SimObjectRef) :void
+    override public function destroyObject (ref :GameObjectRef) :void
     {
         if (null != ref && null != ref.object) {
             // if the object is attached to a DisplayObject, and if that

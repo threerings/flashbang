@@ -34,7 +34,7 @@ public class PlaySoundTask
         _parentControls = parentControls;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         if (null == _channel) {
             _channel = (obj.db as AppMode).ctx.audio.playSoundNamed(_soundName, _parentControls);

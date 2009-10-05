@@ -20,9 +20,9 @@
 
 package com.threerings.flashbang {
 
-public class SimObjectRef
+public class GameObjectRef
 {
-    public static function Null () :SimObjectRef
+    public static function Null () :GameObjectRef
     {
         return g_null;
     }
@@ -34,7 +34,7 @@ public class SimObjectRef
         }
     }
 
-    public function get object () :SimObject
+    public function get object () :GameObject
     {
         return _obj;
     }
@@ -49,12 +49,12 @@ public class SimObjectRef
         return (null == _obj);
     }
 
-    protected static var g_null :SimObjectRef = new SimObjectRef();
+    protected static var g_null :GameObjectRef = new GameObjectRef();
 
     // managed by ObjectDB
-    internal var _obj :SimObject;
-    internal var _next :SimObjectRef;
-    internal var _prev :SimObjectRef;
+    internal var _obj :GameObject;
+    internal var _next :GameObjectRef;
+    internal var _prev :GameObjectRef;
 }
 
 }

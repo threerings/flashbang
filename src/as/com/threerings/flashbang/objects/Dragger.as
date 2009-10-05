@@ -28,9 +28,9 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 
-public class Dragger extends SimObject
+public class Dragger extends GameObject
 {
     public static const SNAP_NONE :int = 0;
 

@@ -30,12 +30,12 @@ import flash.events.IEventDispatcher;
 import com.threerings.flashbang.tasks.ParallelTask;
 import com.threerings.flashbang.tasks.TaskContainer;
 
-public class SimObject extends EventDispatcher
+public class GameObject extends EventDispatcher
 {
     /**
      * Returns the unique SimObjectRef that stores a reference to this SimObject.
      */
-    public final function get ref () :SimObjectRef
+    public final function get ref () :GameObjectRef
     {
         return _ref;
     }
@@ -288,7 +288,7 @@ public class SimObject extends EventDispatcher
         _updatingTasks = true;
         _anonymousTasks.update(dt, this);
         if (!_namedTasks.isEmpty()) {
-            var thisSimObject :SimObject = this;
+            var thisSimObject :GameObject = this;
             _namedTasks.forEach(updateNamedTaskContainer);
         }
         _updatingTasks = false;
@@ -330,7 +330,7 @@ public class SimObject extends EventDispatcher
     protected var _events :EventHandlerManager = new EventHandlerManager();
 
     // managed by ObjectDB/AppMode
-    internal var _ref :SimObjectRef;
+    internal var _ref :GameObjectRef;
     internal var _parentDB :ObjectDB;
 }
 

@@ -20,7 +20,7 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.ObjectMessage;
 
@@ -32,7 +32,7 @@ public class TimedTask
         _time = time;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         _elapsedTime += dt;
 

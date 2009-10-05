@@ -22,7 +22,7 @@ package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.ScaleComponent;
 import com.threerings.flashbang.util.Interpolator;
 import com.threerings.flashbang.util.MXInterpolatorAdapter;
@@ -81,7 +81,7 @@ public class ScaleTask
         _interpolator = interpolator;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         var sc :ScaleComponent = (obj as ScaleComponent);
 

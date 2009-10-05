@@ -22,7 +22,7 @@ package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.util.Rand;
 
 public class VariableTimedTask
@@ -37,7 +37,7 @@ public class VariableTimedTask
         _time = Rand.nextNumberRange(timeLo, timeHi, randStreamId);
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         _elapsedTime += dt;
 

@@ -10,8 +10,8 @@
     <classEntry path="com.threerings.flashbang.ObjectDB"/>
     <classEntry path="com.threerings.flashbang.ObjectMessage"/>
     <classEntry path="com.threerings.flashbang.ObjectTask"/>
-    <classEntry path="com.threerings.flashbang.SimObject"/>
-    <classEntry path="com.threerings.flashbang.SimObjectRef"/>
+    <classEntry path="com.threerings.flashbang.GameObject"/>
+    <classEntry path="com.threerings.flashbang.GameObjectRef"/>
     <classEntry path="com.threerings.flashbang.Updatable"/>
     <classEntry path="com.threerings.flashbang.audio.AudioChannel"/>
     <classEntry path="com.threerings.flashbang.audio.AudioControls"/>

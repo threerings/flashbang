@@ -21,10 +21,10 @@
 package com.threerings.flashbang.objects {
 
 import com.threerings.flashbang.MainLoop;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.tasks.*;
 
-public class SimpleTimer extends SimObject
+public class SimpleTimer extends GameObject
 {
     public static function getTimeLeft (mainLoop :MainLoop, timerName :String) :Number
     {

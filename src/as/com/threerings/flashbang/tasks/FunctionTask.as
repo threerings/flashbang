@@ -22,7 +22,7 @@ package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.SimObject;
+import com.threerings.flashbang.GameObject;
 
 public class FunctionTask
     implements ObjectTask
@@ -36,7 +36,7 @@ public class FunctionTask
         _fn = fn;
     }
 
-    public function update (dt :Number, obj :SimObject) :Boolean
+    public function update (dt :Number, obj :GameObject) :Boolean
     {
         _fn();
         return true;
