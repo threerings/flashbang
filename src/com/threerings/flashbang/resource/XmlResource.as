@@ -20,7 +20,7 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.util.Util;
+import com.threerings.util.XmlUtil;
 
 import flash.events.ErrorEvent;
 import flash.events.Event;
@@ -117,7 +117,7 @@ public class XmlResource extends Resource
     {
         // the XML may be malformed, so catch errors thrown when it's instantiated
         try {
-            _xml = Util.newXML(data);
+            _xml = XmlUtil.newXML(data);
         } catch (e :Error) {
             onError(e.message);
             return;
