@@ -56,7 +56,7 @@ public class WeightedArray
         }
 
         var max :Number = WeightedData(_data[_data.length - 1]).max;
-        var val :Number = Rand.nextNumberRange(0, max, _defaultRandStreamId);
+        var val :Number = Rand.nextNumberInRange(0, max, _defaultRandStreamId);
 
         // binary-search the set of WeightedData
         var loIdx :int = 0;

@@ -59,15 +59,6 @@ public class Rand
         return getStream(streamId).nextInt();
     }
 
-    /**
-     * Returns an int in the range [low, high)
-     * @deprecated use {@link #nextIntInRange}
-     */
-    public static function nextIntRange (low :int, high :int, streamId :uint) :int
-    {
-        return nextIntInRange(low, high - 1, streamId);
-    }
-
     /** Returns an int in the range [min, max] */
     public static function nextIntInRange (min :int, max :int, streamId :uint) :int
     {
@@ -93,15 +84,6 @@ public class Rand
     public static function nextNumber (streamId :uint) :Number
     {
         return getStream(streamId).nextNumber();
-    }
-
-    /**
-     * Returns a Number in the range [low, high)
-     * @deprecated use {@link #nextNumberInRange}
-     */
-    public static function nextNumberRange (low :Number, high :Number, streamId :uint) :Number
-    {
-        return nextNumberInRange(low, high, streamId);
     }
 
     /** Returns a Number in the range [low, high) */
