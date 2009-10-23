@@ -26,7 +26,7 @@ public class IntRange
     public var max :int;
     public var defaultRandStreamId :uint;
 
-    public function IntRange (min :int, max :int, defaultRandStreamId :uint)
+    public function IntRange (min :int, max :int, defaultRandStreamId :uint = uint.MAX_VALUE)
     {
         this.min = min;
         this.max = max;

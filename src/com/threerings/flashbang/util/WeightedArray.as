@@ -22,7 +22,7 @@ package com.threerings.flashbang.util {
 
 public class WeightedArray
 {
-    public function WeightedArray (defaultRandStreamId :int)
+    public function WeightedArray (defaultRandStreamId :uint = uint.MAX_VALUE)
     {
         _defaultRandStreamId = defaultRandStreamId;
     }
@@ -43,7 +43,7 @@ public class WeightedArray
         _dataDirty = true;
     }
 
-    public function getNextData (randStream :int = -1) :*
+    public function getNextData (randStreamId :int = -1) :*
     {
         updateData();
 
@@ -51,8 +51,8 @@ public class WeightedArray
             return undefined;
         }
 
-        if (randStream < 0) {
-            randStream = _defaultRandStreamId;
+        if (randStreamId < 0) {
+            randStreamId = _defaultRandStreamId;
         }
 
         var max :Number = WeightedData(_data[_data.length - 1]).max;
@@ -148,7 +148,7 @@ public class WeightedArray
         }
     }
 
-    protected var _defaultRandStreamId :int;
+    protected var _defaultRandStreamId :uint;
     protected var _dataDirty :Boolean;
 
     protected var _data :Array = [];
