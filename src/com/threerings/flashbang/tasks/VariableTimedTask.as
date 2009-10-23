@@ -34,7 +34,7 @@ public class VariableTimedTask
         _timeHi = timeHi;
         _randStreamId = randStreamId;
 
-        _time = Rand.nextNumberRange(timeLo, timeHi, randStreamId);
+        _time = Rand.nextNumberInRange(timeLo, timeHi, randStreamId);
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean

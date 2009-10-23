@@ -28,6 +28,13 @@ public class Rand
     public static const STREAM_GAME :uint = 0;
     public static const STREAM_COSMETIC :uint = 1;
 
+    /**
+     * Set to true to have an error thrown if the streamId parameter is not specified for any of the
+     * functions that take it. Useful for applications that must take care to keep their random
+     * streams in sync.
+     */
+    public static var errorOnUnspecifiedStreamId :Boolean = false;
+
     /** Adds a new random stream, and returns its streamId. */
     public static function addStream (seed :uint = 0) :uint
     {
@@ -36,8 +43,16 @@ public class Rand
     }
 
     /** Returns the Random object associated with the given streamId. */
-    public static function getStream (streamId :uint) :Random
+    public static function getStream (streamId :uint = uint.MAX_VALUE) :Random
     {
+        if (streamId == uint.MAX_VALUE) {
+            if (errorOnUnspecifiedStreamId) {
+                throw new Error("streamId must be specified");
+            } else {
+                streamId = 0;
+            }
+        }
+
         return (_randStreams[streamId] as Random);
     }
 
@@ -48,25 +63,25 @@ public class Rand
     }
 
     /** Returns a random element from the given Array. */
-    public static function nextElement (arr :Array, streamId :uint) :*
+    public static function nextElement (arr :Array, streamId :uint = uint.MAX_VALUE) :*
     {
         return (arr.length > 0 ? arr[nextIntInRange(0, arr.length - 1, streamId)] : undefined);
     }
 
     /** Returns an integer in the range [0, MAX) */
-    public static function nextInt (streamId :uint) :int
+    public static function nextInt (streamId :uint = uint.MAX_VALUE) :int
     {
         return getStream(streamId).nextInt();
     }
 
     /** Returns an int in the range [min, max] */
-    public static function nextIntInRange (min :int, max :int, streamId :uint) :int
+    public static function nextIntInRange (min :int, max :int, streamId :uint = uint.MAX_VALUE) :int
     {
         return min + getStream(streamId).nextInt(max - min + 1);
     }
 
     /** Returns a Boolean. */
-    public static function nextBoolean (streamId :uint) :Boolean
+    public static function nextBoolean (streamId :uint = uint.MAX_VALUE) :Boolean
     {
         return getStream(streamId).nextBoolean();
     }
@@ -75,25 +90,26 @@ public class Rand
      * Returns true (chance * 100)% of the time.
      * @param chance a number in the range [0, 1)
      */
-    public static function nextChance (chance :Number, streamId :uint) :Boolean
+    public static function nextChance (chance :Number, streamId :uint = uint.MAX_VALUE) :Boolean
     {
         return nextNumber(streamId) < chance;
     }
 
     /** Returns a Number in the range [0.0, 1.0) */
-    public static function nextNumber (streamId :uint) :Number
+    public static function nextNumber (streamId :uint = uint.MAX_VALUE) :Number
     {
         return getStream(streamId).nextNumber();
     }
 
     /** Returns a Number in the range [low, high) */
-    public static function nextNumberInRange (low :Number, high :Number, streamId :uint) :Number
+    public static function nextNumberInRange (low :Number, high :Number,
+        streamId :uint = uint.MAX_VALUE) :Number
     {
         return low + (getStream(streamId).nextNumber() * (high - low));
     }
 
     /** Randomizes the order of the elements in the given Array, in place. */
-    public static function shuffleArray (arr :Array, streamId :uint) :void
+    public static function shuffleArray (arr :Array, streamId :uint = uint.MAX_VALUE) :void
     {
         ArrayUtil.shuffle(arr, getStream(streamId));
     }
