@@ -154,7 +154,7 @@ public class TaskContainer
 
             if (_invalidated) {
                 // The TaskContainer was destroyed by its containing
-                // SimObject during task iteration. Stop processing immediately.
+                // GameObject during task iteration. Stop processing immediately.
                 return false;
             }
 

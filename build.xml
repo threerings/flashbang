@@ -11,6 +11,7 @@
 
   <!-- we read our flexsdk.dir from build.properties when building standalone -->
   <property file="etc/build.properties"/>
+  <echo message="flexsdk.dir = ${flexsdk.dir}"/>
 
   <target name="prepare">
     <mkdir dir="${deploy.dir}"/>

@@ -20,74 +20,55 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.ScaleComponent;
-import com.threerings.flashbang.util.Interpolator;
-import com.threerings.flashbang.util.MXInterpolatorAdapter;
+
+import flash.display.DisplayObject;
 
 import mx.effects.easing.*;
 
-public class ScaleTask
-    implements ObjectTask
+public class ScaleTask extends InterpolatingTask
 {
-    public static function CreateLinear (x :Number, y :Number, time :Number) :ScaleTask
+    public static function CreateLinear (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :ScaleTask
     {
-        return new ScaleTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone));
+        return new ScaleTask(x, y, time, mx.effects.easing.Linear.easeNone, disp);
     }
 
-    public static function CreateSmooth (x :Number, y :Number, time :Number) :ScaleTask
+    public static function CreateSmooth (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :ScaleTask
     {
-        return new ScaleTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeInOut));
+        return new ScaleTask(x, y, time, mx.effects.easing.Cubic.easeInOut, disp);
     }
 
-    public static function CreateEaseIn (x :Number, y :Number, time :Number) :ScaleTask
+    public static function CreateEaseIn (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :ScaleTask
     {
-        return new ScaleTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeIn));
+        return new ScaleTask(x, y, time, mx.effects.easing.Cubic.easeIn, disp);
     }
 
-    public static function CreateEaseOut (x :Number, y :Number, time :Number) :ScaleTask
+    public static function CreateEaseOut (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :ScaleTask
     {
-        return new ScaleTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeOut));
+        return new ScaleTask(x, y, time, mx.effects.easing.Cubic.easeOut, disp);
     }
 
-    public function ScaleTask (
-        x :Number,
-        y :Number,
-        time :Number = 0,
-        interpolator :Interpolator = null)
+    public function ScaleTask (x :Number, y :Number, time :Number = 0,
+        easingFn :Function = null, disp :DisplayObject = null)
     {
-        // default to linear interpolation
-        if (null == interpolator) {
-            interpolator = new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone);
-        }
-
+        super(time, easingFn);
         _toX = x;
         _toY = y;
-        _totalTime = Math.max(time, 0);
-        _interpolator = interpolator;
+        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var sc :ScaleComponent = (obj as ScaleComponent);
-
+        var sc :ScaleComponent =
+            (!_dispOverride.isNull ? _dispOverride : obj as ScaleComponent);
         if (null == sc) {
-            throw new Error("ScaleTask can only be applied to SimObjects that implement " +
-                            "ScaleComponent");
+            throw new Error("obj does not implement ScaleComponent");
         }
 
         if (0 == _elapsedTime) {
@@ -96,33 +77,21 @@ public class ScaleTask
         }
 
         _elapsedTime += dt;
-
-        sc.scaleX = _interpolator.interpolate(_fromX, _toX, _elapsedTime, _totalTime);
-        sc.scaleY = _interpolator.interpolate(_fromY, _toY, _elapsedTime, _totalTime);
-
+        sc.scaleX = interpolate(_fromX, _toX, _elapsedTime, _totalTime, _easingFn);
+        sc.scaleY = interpolate(_fromY, _toY, _elapsedTime, _totalTime, _easingFn);
         return (_elapsedTime >= _totalTime);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new ScaleTask(_toX, _toY, _totalTime, _interpolator);
+        return new ScaleTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.displayObject);
     }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
-    protected var _interpolator :Interpolator;
 
     protected var _toX :Number;
     protected var _toY :Number;
-
     protected var _fromX :Number;
     protected var _fromY :Number;
-
-    protected var _totalTime :Number = 0;
-    protected var _elapsedTime :Number = 0;
+    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }

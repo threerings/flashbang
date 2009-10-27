@@ -20,72 +20,54 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.AlphaComponent;
-import com.threerings.flashbang.util.Interpolator;
-import com.threerings.flashbang.util.MXInterpolatorAdapter;
+
+import flash.display.DisplayObject;
 
 import mx.effects.easing.*;
 
-public class AlphaTask
-    implements ObjectTask
+public class AlphaTask extends InterpolatingTask
 {
-    public static function CreateLinear (alpha :Number, time :Number) :AlphaTask
+    public static function CreateLinear (alpha :Number, time :Number, disp :DisplayObject = null)
+        :AlphaTask
     {
-        return new AlphaTask(
-            alpha,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone));
+        return new AlphaTask(alpha, time, mx.effects.easing.Linear.easeNone, disp);
     }
 
-    public static function CreateSmooth (alpha :Number, time :Number) :AlphaTask
+    public static function CreateSmooth (alpha :Number, time :Number, disp :DisplayObject = null)
+        :AlphaTask
     {
-        return new AlphaTask(
-            alpha,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeInOut));
+        return new AlphaTask(alpha, time, mx.effects.easing.Cubic.easeInOut, disp);
     }
 
-    public static function CreateEaseIn (alpha :Number, time :Number) :AlphaTask
+    public static function CreateEaseIn (alpha :Number, time :Number, disp :DisplayObject = null)
+        :AlphaTask
     {
-        return new AlphaTask(
-            alpha,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeIn));
+        return new AlphaTask(alpha, time, mx.effects.easing.Cubic.easeIn, disp);
     }
 
-    public static function CreateEaseOut (alpha :Number, time :Number) :AlphaTask
+    public static function CreateEaseOut (alpha :Number, time :Number, disp :DisplayObject = null)
+        :AlphaTask
     {
-        return new AlphaTask(
-            alpha,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeOut));
+        return new AlphaTask(alpha, time, mx.effects.easing.Cubic.easeOut, disp);
     }
 
-    public function AlphaTask (
-        alpha :Number,
-        time :Number = 0,
-        interpolator :Interpolator = null)
+    public function AlphaTask (alpha :Number, time :Number = 0, easingFn :Function = null,
+        disp :DisplayObject = null)
     {
-        // default to linear interpolation
-        if (null == interpolator) {
-            interpolator = new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone);
-        }
-
+        super(time, easingFn);
         _to = alpha;
-        _totalTime = Math.max(time, 0);
-        _interpolator = interpolator;
+        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var alphaComponent :AlphaComponent = (obj as AlphaComponent);
-
+        var alphaComponent :AlphaComponent =
+            (!_dispOverride.isNull ? _dispOverride : obj as AlphaComponent);
         if (null == alphaComponent) {
-            throw new Error("AlphaTask can only be applied to SimObjects that implement " +
-                            "AlphaComponent");
+            throw new Error("obj does not implement AlphaComponent");
         }
 
         if (0 == _elapsedTime) {
@@ -94,28 +76,19 @@ public class AlphaTask
 
         _elapsedTime += dt;
 
-        alphaComponent.alpha = _interpolator.interpolate(_from, _to, _elapsedTime, _totalTime);
+        alphaComponent.alpha = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
 
         return (_elapsedTime >= _totalTime);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new AlphaTask(_to, _totalTime, _interpolator);
+        return new AlphaTask(_to, _totalTime, _easingFn, _dispOverride.displayObject);
     }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
-    protected var _interpolator :Interpolator;
 
     protected var _to :Number;
     protected var _from :Number;
-
-    protected var _totalTime :Number = 0;
-    protected var _elapsedTime :Number = 0;
+    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }

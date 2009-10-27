@@ -26,7 +26,8 @@ import com.threerings.flashbang.*;
 import com.threerings.flashbang.components.*;
 import com.threerings.flashbang.objects.*;
 
-public class GoToFrameTask implements ObjectTask
+public class GoToFrameTask
+    implements ObjectTask
 {
     public function GoToFrameTask (frame :Object, scene :String = null,
         gotoAndPlay :Boolean = true, movie :MovieClip = null)
@@ -48,7 +49,7 @@ public class GoToFrameTask implements ObjectTask
 
             if (null == movieClip) {
                 throw new Error("GoToFrameTask can only operate on SceneComponents with " +
-                                "MovieClip DisplayObjects");
+                    "MovieClip DisplayObjects");
             }
         }
 
@@ -75,7 +76,6 @@ public class GoToFrameTask implements ObjectTask
     protected var _scene :String;
     protected var _gotoAndPlay :Boolean;
     protected var _movie :MovieClip;
-
 }
 
 }

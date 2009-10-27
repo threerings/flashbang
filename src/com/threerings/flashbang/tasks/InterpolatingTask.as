@@ -23,54 +23,29 @@ package com.threerings.flashbang.tasks {
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.components.LocationComponent;
+import com.threerings.util.MathUtil;
 
-import flash.display.DisplayObject;
+import mx.effects.easing.Linear;
 
-import mx.effects.easing.*;
-
-public class ComplexLocationTask
+public class InterpolatingTask
     implements ObjectTask
 {
-    public function ComplexLocationTask (x :Number, y :Number, time :Number, xEasingFn :Function,
-        yEasingFn :Function, disp :DisplayObject = null)
+    public function InterpolatingTask (time :Number = 0, easingFn :Function = null)
     {
-        _toX = x;
-        _toY = y;
         _totalTime = Math.max(time, 0);
-        _xEasingFn = xEasingFn;
-        _yEasingFn = yEasingFn;
-        _dispOverride = DisplayObjectWrapper.create(disp);
+        // default to linear interpolation
+        _easingFn = (easingFn != null ? easingFn : mx.effects.easing.Linear.easeNone);
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var lc :LocationComponent =
-            (!_dispOverride.isNull ? _dispOverride : obj as LocationComponent);
-        if (null == lc) {
-            throw new Error("obj does not implement LocationComponent");
-        }
-
-        if (0 == _elapsedTime) {
-            _fromX = lc.x;
-            _fromY = lc.y;
-        }
-
         _elapsedTime += dt;
-
-        var totalMs :Number = _totalTime * 1000;
-        var elapsedMs :Number = Math.min(_elapsedTime * 1000, totalMs);
-
-        lc.x = _xEasingFn(elapsedMs, _fromX, (_toX - _fromX), totalMs);
-        lc.y = _yEasingFn(elapsedMs, _fromY, (_toY - _fromY), totalMs);
-
         return (_elapsedTime >= _totalTime);
     }
 
     public function clone () :ObjectTask
     {
-        return new ComplexLocationTask(_toX, _toY, _totalTime, _xEasingFn, _yEasingFn,
-            _dispOverride.displayObject);
+        return new InterpolatingTask(_totalTime, _easingFn);
     }
 
     public function receiveMessage (msg :ObjectMessage) :Boolean
@@ -78,19 +53,27 @@ public class ComplexLocationTask
         return false;
     }
 
-    protected var _xEasingFn :Function;
-    protected var _yEasingFn :Function;
+    protected static function interpolate (a :Number, b :Number, t :Number, duration :Number,
+        easingFn :Function) :Number
+    {
+        // we need to rejuggle arguments to fit the signature of the mx easing functions:
+        // ease(t, b, c, d)
+        // t - specifies time
+        // b - specifies the initial position of a component
+        // c - specifies the total change in position of the component
+        // d - specifies the duration of the effect, in milliseconds
 
-    protected var _toX :Number;
-    protected var _toY :Number;
-
-    protected var _fromX :Number;
-    protected var _fromY :Number;
+        if (duration <= 0) {
+            return b;
+        }
+        t = MathUtil.clamp(t, 0, duration);
+        return easingFn(t * 1000, a, (b - a), duration * 1000);
+    }
 
     protected var _totalTime :Number = 0;
     protected var _elapsedTime :Number = 0;
 
-    protected var _dispOverride :DisplayObjectWrapper;
+    protected var _easingFn :Function;
 }
 
 }

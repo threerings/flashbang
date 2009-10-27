@@ -20,83 +20,57 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.LocationComponent;
-import com.threerings.flashbang.util.Interpolator;
-import com.threerings.flashbang.util.MXInterpolatorAdapter;
+
+import flash.display.DisplayObject;
 
 import mx.effects.easing.*;
 
-public class LocationTask
+public class LocationTask extends InterpolatingTask
     implements ObjectTask
 {
-    public static function CreateLinear (x :Number, y :Number, time :Number) :LocationTask
+    public static function CreateLinear (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone));
+        return new LocationTask(x, y, time, mx.effects.easing.Linear.easeNone, disp);
     }
 
-    public static function CreateSmooth (x :Number, y :Number, time :Number) :LocationTask
+    public static function CreateSmooth (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeInOut));
+        return new LocationTask(x, y, time, mx.effects.easing.Cubic.easeInOut, disp);
     }
 
-    public static function CreateEaseIn (x :Number, y :Number, time :Number) :LocationTask
+    public static function CreateEaseIn (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeIn));
+        return new LocationTask(x, y, time, mx.effects.easing.Cubic.easeIn, disp);
     }
 
-    public static function CreateEaseOut (x :Number, y :Number, time :Number) :LocationTask
+    public static function CreateEaseOut (x :Number, y :Number, time :Number,
+        disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(
-            x, y,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeOut));
+        return new LocationTask(x, y, time, mx.effects.easing.Cubic.easeOut, disp);
     }
 
-    public static function CreateWithFunction (x :Number, y:Number, time :Number, fn :Function)
-        :LocationTask
+    public function LocationTask (x :Number, y :Number, time :Number = 0,
+        easingFn :Function = null, disp :DisplayObject = null)
     {
-        return new LocationTask(
-           x, y,
-           time,
-           new MXInterpolatorAdapter(fn));
-    }
-
-    public function LocationTask (
-        x :Number,
-        y :Number,
-        time :Number = 0,
-        interpolator :Interpolator = null)
-    {
-        // default to linear interpolation
-        if (null == interpolator) {
-            interpolator = new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone);
-        }
-
+        super(time, easingFn);
         _toX = x;
         _toY = y;
-        _totalTime = Math.max(time, 0);
-        _interpolator = interpolator;
+        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var lc :LocationComponent = (obj as LocationComponent);
+        var lc :LocationComponent =
+            (!_dispOverride.isNull ? _dispOverride : obj as LocationComponent);
 
         if (null == lc) {
-            throw new Error("LocationTask can only be applied to SimObjects that implement " +
-                            "LocationComponent");
+            throw new Error("obj does not implement LocationComponent");
         }
 
         if (0 == _elapsedTime) {
@@ -106,32 +80,22 @@ public class LocationTask
 
         _elapsedTime += dt;
 
-        lc.x = _interpolator.interpolate(_fromX, _toX, _elapsedTime, _totalTime);
-        lc.y = _interpolator.interpolate(_fromY, _toY, _elapsedTime, _totalTime);
+        lc.x = interpolate(_fromX, _toX, _elapsedTime, _totalTime, _easingFn);
+        lc.y = interpolate(_fromY, _toY, _elapsedTime, _totalTime, _easingFn);
 
         return (_elapsedTime >= _totalTime);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new LocationTask(_toX, _toY, _totalTime, _interpolator);
+        return new LocationTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.displayObject);
     }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
-    protected var _interpolator :Interpolator;
 
     protected var _toX :Number;
     protected var _toY :Number;
-
     protected var _fromX :Number;
     protected var _fromY :Number;
-
-    protected var _totalTime :Number = 0;
-    protected var _elapsedTime :Number = 0;
+    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }

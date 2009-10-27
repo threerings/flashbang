@@ -20,36 +20,37 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.VisibleComponent;
+
+import flash.display.DisplayObject;
 
 public class VisibleTask
     implements ObjectTask
 {
-    public function VisibleTask (visible :Boolean)
+    public function VisibleTask (visible :Boolean, disp :DisplayObject = null)
     {
         _visible = visible;
+        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var vc :VisibleComponent = (obj as VisibleComponent);
-
+        var vc :VisibleComponent =
+            (!_dispOverride.isNull ? _dispOverride : obj as VisibleComponent);
         if (null == vc) {
-            throw new Error("VisibleTask can only be applied to SimObjects that implement " +
-                            "VisibleComponent");
+            throw new Error("obj does not implement VisibleComponent");
         }
 
         vc.visible = _visible;
-
         return true;
     }
 
     public function clone () :ObjectTask
     {
-        return new VisibleTask(_visible);
+        return new VisibleTask(_visible, _dispOverride.displayObject);
     }
 
     public function receiveMessage (msg :ObjectMessage) :Boolean
@@ -58,6 +59,7 @@ public class VisibleTask
     }
 
     protected var _visible :Boolean;
+    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }

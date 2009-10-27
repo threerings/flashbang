@@ -35,7 +35,7 @@ public class ObjectDB extends EventDispatcher
     implements Updatable
 {
     /**
-     * Adds a SimObject to the ObjectDB. The SimObject must not be owned by another ObjectDB.
+     * Adds a GameObject to the ObjectDB. The GameObject must not be owned by another ObjectDB.
      */
     public function addObject (obj :GameObject) :GameObjectRef
     {
@@ -44,7 +44,7 @@ public class ObjectDB extends EventDispatcher
                                     "another ObjectDB");
         }
 
-        // create a new SimObjectRef
+        // create a new GameObjectRef
         var ref :GameObjectRef = new GameObjectRef();
         ref._obj = obj;
 
@@ -93,7 +93,7 @@ public class ObjectDB extends EventDispatcher
         return ref;
     }
 
-    /** Removes a SimObject from the ObjectDB. */
+    /** Removes a GameObject from the ObjectDB. */
     public function destroyObjectNamed (name :String) :void
     {
         var obj :GameObject = getObjectNamed(name);
@@ -102,7 +102,7 @@ public class ObjectDB extends EventDispatcher
         }
     }
 
-    /** Removes all SimObjects in the given group from the ObjectDB. */
+    /** Removes all GameObjects in the given group from the ObjectDB. */
     public function destroyObjectsInGroup (groupName :String) :void
     {
         for each (var ref :GameObjectRef in getObjectRefsInGroup(groupName)) {
@@ -112,7 +112,7 @@ public class ObjectDB extends EventDispatcher
         }
     }
 
-    /** Removes a SimObject from the ObjectDB. */
+    /** Removes a GameObject from the ObjectDB. */
     public function destroyObject (ref :GameObjectRef) :void
     {
         if (null == ref) {
@@ -169,7 +169,7 @@ public class ObjectDB extends EventDispatcher
     }
 
     /**
-     * Returns an Array containing the SimObjects in the given group.
+     * Returns an Array containing the GameObjects in the given group.
      * The returned Array is instantiated by the function, and so can be
      * safely modified by client code.
      *
@@ -238,7 +238,7 @@ public class ObjectDB extends EventDispatcher
         }
     }
 
-    /** Returns the number of live SimObjects in this ObjectDB. */
+    /** Returns the number of live GameObjects in this ObjectDB. */
     public function get objectCount () :uint
     {
         return _objectCount;
@@ -340,13 +340,13 @@ public class ObjectDB extends EventDispatcher
             if (null != groupName) {
                 var groupArray :Array = (_groupedObjects.get(groupName) as Array);
                 if (null == groupArray) {
-                    throw new Error("destroyed SimObject is returning different object groups " +
+                    throw new Error("destroyed GameObject is returning different object groups " +
                                     "than it did on creation");
                 }
 
                 var wasInArray :Boolean = ArrayUtil.removeFirst(groupArray, ref);
                 if (!wasInArray) {
-                    throw new Error("destroyed SimObject is returning different object groups " +
+                    throw new Error("destroyed GameObject is returning different object groups " +
                                     "than it did on creation");
                 }
             }
@@ -356,7 +356,7 @@ public class ObjectDB extends EventDispatcher
     }
 
     /**
-     * Destroys all SimObjects contained by this ObjectDB. Applications generally don't need
+     * Destroys all GameObjects contained by this ObjectDB. Applications generally don't need
      * to call this function - it's called automatically when an {@link AppMode} is popped from
      * the mode stack.
      */
@@ -383,7 +383,7 @@ public class ObjectDB extends EventDispatcher
     protected var _listHead :GameObjectRef;
     protected var _objectCount :uint;
 
-    /** An array of SimObjects */
+    /** An array of GameObjects */
     protected var _objectsPendingRemoval :Array;
 
     /** stores a mapping from String to Object */

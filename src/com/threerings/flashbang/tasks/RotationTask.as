@@ -20,103 +20,73 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.RotationComponent;
-import com.threerings.flashbang.util.Interpolator;
-import com.threerings.flashbang.util.MXInterpolatorAdapter;
+
+import flash.display.DisplayObject;
 
 import mx.effects.easing.*;
 
-public class RotationTask
-    implements ObjectTask
+public class RotationTask extends InterpolatingTask
 {
-    public static function CreateLinear (rotationDegrees :Number, time :Number) :RotationTask
+    public static function CreateLinear (rotationDegrees :Number, time :Number,
+        disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(
-            rotationDegrees,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone));
+        return new RotationTask(rotationDegrees, time, mx.effects.easing.Linear.easeNone, disp);
     }
 
-    public static function CreateSmooth (rotationDegrees :Number, time :Number) :RotationTask
+    public static function CreateSmooth (rotationDegrees :Number, time :Number,
+        disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(
-            rotationDegrees,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeInOut));
+        return new RotationTask(rotationDegrees, time, mx.effects.easing.Cubic.easeInOut, disp);
     }
 
-    public static function CreateEaseIn (rotationDegrees :Number, time :Number) :RotationTask
+    public static function CreateEaseIn (rotationDegrees :Number, time :Number,
+        disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(
-            rotationDegrees,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeIn));
+        return new RotationTask(rotationDegrees, time, mx.effects.easing.Cubic.easeIn, disp);
     }
 
-    public static function CreateEaseOut (rotationDegrees :Number, time :Number) :RotationTask
+    public static function CreateEaseOut (rotationDegrees :Number, time :Number,
+        disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(
-            rotationDegrees,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeOut));
+        return new RotationTask(rotationDegrees, time, mx.effects.easing.Cubic.easeOut, disp);
     }
 
-    public function RotationTask (
-        rotationDegrees :Number,
-        time :Number = 0,
-        interpolator :Interpolator = null)
+    public function RotationTask (rotationDegrees :Number, time :Number = 0,
+        easingFn :Function = null, disp :DisplayObject = null)
     {
-        // default to linear interpolation
-        if (null == interpolator) {
-            interpolator = new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone);
-        }
-
+        super(time, easingFn);
         _to = rotationDegrees;
-        _totalTime = Math.max(time, 0);
-        _interpolator = interpolator;
+        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var rotationComponent :RotationComponent = (obj as RotationComponent);
-
-        if (null == rotationComponent) {
-            throw new Error("RotationTask can only be applied to SimObjects that implement " +
-                            "RotationComponent");
+        var rc :RotationComponent =
+            (!_dispOverride.isNull ? _dispOverride : obj as RotationComponent);
+        if (null == rc) {
+            throw new Error("obj does not implement RotationComponent");
         }
 
         if (0 == _elapsedTime) {
-            _from = rotationComponent.rotation;
+            _from = rc.rotation;
         }
 
         _elapsedTime += dt;
-
-        rotationComponent.rotation =
-            _interpolator.interpolate(_from, _to, _elapsedTime, _totalTime);
-
+        rc.rotation = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
         return (_elapsedTime >= _totalTime);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new RotationTask(_to, _totalTime, _interpolator);
+        return new RotationTask(_to, _totalTime, _easingFn, _dispOverride.displayObject);
     }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
-    protected var _interpolator :Interpolator;
 
     protected var _to :Number;
     protected var _from :Number;
-
-    protected var _totalTime :Number = 0;
-    protected var _elapsedTime :Number = 0;
+    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }

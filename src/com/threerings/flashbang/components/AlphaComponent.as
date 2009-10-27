@@ -18,11 +18,12 @@
 //
 // $Id$
 
-package com.threerings.flashbang.components
+package com.threerings.flashbang.components {
+
+public interface AlphaComponent
 {
-    public interface AlphaComponent
-    {
-        function get alpha () :Number;
-        function set alpha (val :Number) :void;
-    }
+    function get alpha () :Number;
+    function set alpha (val :Number) :void;
+}
+
 }

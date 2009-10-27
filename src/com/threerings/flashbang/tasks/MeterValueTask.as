@@ -20,81 +20,45 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.MeterComponent;
-import com.threerings.flashbang.util.Interpolator;
-import com.threerings.flashbang.util.MXInterpolatorAdapter;
 
 import mx.effects.easing.*;
 
-public class MeterValueTask
-    implements ObjectTask
+public class MeterValueTask extends InterpolatingTask
 {
     public static function CreateLinear (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(
-            value,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone));
+        return new MeterValueTask(value, time, mx.effects.easing.Linear.easeNone);
     }
 
     public static function CreateSmooth (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(
-            value,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeInOut));
+        return new MeterValueTask(value, time, mx.effects.easing.Cubic.easeInOut);
     }
 
     public static function CreateEaseIn (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(
-            value,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeIn));
+        return new MeterValueTask(value, time, mx.effects.easing.Cubic.easeIn);
     }
 
     public static function CreateEaseOut (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(
-            value,
-            time,
-            new MXInterpolatorAdapter(mx.effects.easing.Cubic.easeOut));
+        return new MeterValueTask(value, time, mx.effects.easing.Cubic.easeOut);
     }
 
-    public static function CreateWithFunction (value :Number, time :Number, fn :Function)
-        :MeterValueTask
+    public function MeterValueTask (value :Number, time :Number = 0, easingFn :Function = null)
     {
-        return new MeterValueTask(
-           value,
-           time,
-           new MXInterpolatorAdapter(fn));
-    }
-
-    public function MeterValueTask (
-        value :Number,
-        time :Number = 0,
-        interpolator :Interpolator = null)
-    {
-        // default to linear interpolation
-        if (null == interpolator) {
-            interpolator = new MXInterpolatorAdapter(mx.effects.easing.Linear.easeNone);
-        }
-
+        super(time, easingFn);
         _to = value;
-        _totalTime = Math.max(time, 0);
-        _interpolator = interpolator;
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
         var meterComponent :MeterComponent = (obj as MeterComponent);
-
         if (null == meterComponent) {
-            throw new Error("MeterValueTask can only be applied to SimObjects that implement " +
-                            "MeterComponent");
+            throw new Error("obj does not implement MeterComponent");
         }
 
         if (0 == _elapsedTime) {
@@ -102,29 +66,17 @@ public class MeterValueTask
         }
 
         _elapsedTime += dt;
-
-        meterComponent.value = _interpolator.interpolate(_from, _to, _elapsedTime, _totalTime);
-
+        meterComponent.value = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
         return (_elapsedTime >= _totalTime);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new MeterValueTask(_to, _totalTime, _interpolator);
+        return new MeterValueTask(_to, _totalTime, _easingFn);
     }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
-    protected var _interpolator :Interpolator;
 
     protected var _to :Number;
     protected var _from :Number;
-
-    protected var _totalTime :Number = 0;
-    protected var _elapsedTime :Number = 0;
 }
 
 }

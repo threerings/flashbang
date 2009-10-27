@@ -33,7 +33,7 @@ import com.threerings.flashbang.tasks.TaskContainer;
 public class GameObject extends EventDispatcher
 {
     /**
-     * Returns the unique SimObjectRef that stores a reference to this SimObject.
+     * Returns the unique GameObjectRef that stores a reference to this GameObject.
      */
     public final function get ref () :GameObjectRef
     {
@@ -87,13 +87,13 @@ public class GameObject extends EventDispatcher
         return null;
     }
 
-    /** Removes the SimObject from its parent database. */
+    /** Removes the GameObject from its parent database. */
     public function destroySelf () :void
     {
         _parentDB.destroyObject(_ref);
     }
 
-    /** Adds an unnamed task to this SimObject. */
+    /** Adds an unnamed task to this GameObject. */
     public function addTask (task :ObjectTask) :void
     {
         if (null == task) {
@@ -103,7 +103,7 @@ public class GameObject extends EventDispatcher
         _anonymousTasks.addTask(task);
     }
 
-    /** Adds a named task to this SimObject. */
+    /** Adds a named task to this GameObject. */
     public function addNamedTask (name :String, task :ObjectTask,
         removeExistingTasks :Boolean = false) :void
     {
@@ -126,7 +126,7 @@ public class GameObject extends EventDispatcher
         namedTaskContainer.addTask(task);
     }
 
-    /** Removes all tasks from the SimObject. */
+    /** Removes all tasks from the GameObject. */
     public function removeAllTasks () :void
     {
         if (_updatingTasks) {
@@ -141,7 +141,7 @@ public class GameObject extends EventDispatcher
         _namedTasks.clear();
     }
 
-    /** Removes all tasks with the given name from the SimObject. */
+    /** Removes all tasks with the given name from the GameObject. */
     public function removeNamedTasks (name :String) :void
     {
         if (null == name || name.length == 0) {
@@ -157,7 +157,7 @@ public class GameObject extends EventDispatcher
         }
     }
 
-    /** Returns true if the SimObject has any tasks. */
+    /** Returns true if the GameObject has any tasks. */
     public function hasTasks () :Boolean
     {
         if (_anonymousTasks.hasTasks()) {
@@ -173,7 +173,7 @@ public class GameObject extends EventDispatcher
         return false;
     }
 
-    /** Returns true if the SimObject has any tasks with the given name. */
+    /** Returns true if the GameObject has any tasks with the given name. */
     public function hasTasksNamed (name :String) :Boolean
     {
         var namedTaskContainer :ParallelTask = (_namedTasks.get(name) as ParallelTask);
@@ -183,7 +183,7 @@ public class GameObject extends EventDispatcher
     /**
      * Adds the specified listener to the specified dispatcher for the specified event.
      *
-     * Listeners registered in this way will be automatically unregistered when the SimObject is
+     * Listeners registered in this way will be automatically unregistered when the GameObject is
      * destroyed.
      */
     protected function registerListener (dispatcher :IEventDispatcher, event :String,
@@ -204,7 +204,7 @@ public class GameObject extends EventDispatcher
     /**
      * Registers a zero-arg callback function that should be called once when the event fires.
      *
-     * Listeners registered in this way will be automatically unregistered when the SimObject is
+     * Listeners registered in this way will be automatically unregistered when the GameObject is
      * destroyed.
      */
     protected function registerOneShotCallback (dispatcher :IEventDispatcher, event :String,
@@ -223,7 +223,7 @@ public class GameObject extends EventDispatcher
     }
 
     /**
-     * Called immediately after the SimObject has been added to an ObjectDB.
+     * Called immediately after the GameObject has been added to an ObjectDB.
      * (Subclasses can override this to do something useful.)
      */
     protected function addedToDB () :void
@@ -231,9 +231,9 @@ public class GameObject extends EventDispatcher
     }
 
     /**
-     * Called immediately after the SimObject has been removed from an AppMode.
+     * Called immediately after the GameObject has been removed from an AppMode.
      *
-     * removedFromDB is not called when the SimObject's AppMode is removed from the mode stack.
+     * removedFromDB is not called when the GameObject's AppMode is removed from the mode stack.
      * For logic that must be run in this instance, see {@link #destroyed}.
      *
      * (Subclasses can override this to do something useful.)
@@ -243,13 +243,13 @@ public class GameObject extends EventDispatcher
     }
 
     /**
-     * Called after the SimObject has been removed from the active AppMode, or if the
+     * Called after the GameObject has been removed from the active AppMode, or if the
      * object's containing AppMode is removed from the mode stack.
      *
-     * If the SimObject is removed from the active AppMode, {@link #removedFromDB}
+     * If the GameObject is removed from the active AppMode, {@link #removedFromDB}
      * will be called before destroyed.
      *
-     * destroyed should be used for logic that must be always be run when the SimObject is
+     * destroyed should be used for logic that must be always be run when the GameObject is
      * destroyed (disconnecting event listeners, releasing resources, etc).
      *
      * (Subclasses can override this to do something useful.)
@@ -288,7 +288,7 @@ public class GameObject extends EventDispatcher
         _updatingTasks = true;
         _anonymousTasks.update(dt, this);
         if (!_namedTasks.isEmpty()) {
-            var thisSimObject :GameObject = this;
+            var thisGameObject :GameObject = this;
             _namedTasks.forEach(updateNamedTaskContainer);
         }
         _updatingTasks = false;
@@ -299,7 +299,7 @@ public class GameObject extends EventDispatcher
             // Tasks may be removed from the object during the _namedTasks.forEach() loop.
             // When this happens, we'll get undefined 'tasks' objects.
             if (undefined !== tasks) {
-                (tasks as ParallelTask).update(dt, thisSimObject);
+                (tasks as ParallelTask).update(dt, thisGameObject);
             }
         }
     }

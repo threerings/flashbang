@@ -17,6 +17,7 @@
 <classEntry path="com.threerings.flashbang.AppMode"/>
 <classEntry path="com.threerings.flashbang.tasks.AnimateValueTask"/>
 <classEntry path="com.threerings.flashbang.ObjectTask"/>
+<classEntry path="com.threerings.flashbang.tasks.DisplayObjectWrapper"/>
 <classEntry path="com.threerings.flashbang.audio.AudioManager"/>
 <classEntry path="com.threerings.flashbang.components.ScaleComponent"/>
 <classEntry path="com.threerings.flashbang.tasks.ParallelTask"/>
@@ -38,6 +39,7 @@
 <classEntry path="com.threerings.flashbang.tasks.VariableTimedTask"/>
 <classEntry path="com.threerings.flashbang.Config"/>
 <classEntry path="com.threerings.flashbang.resource.Resource"/>
+<classEntry path="com.threerings.flashbang.tasks.InterpolatingTask"/>
 <classEntry path="com.threerings.flashbang.resource.ResourceManager"/>
 <classEntry path="com.threerings.flashbang.components.BoundsComponent"/>
 <classEntry path="com.threerings.flashbang.util.Rand"/>
@@ -48,9 +50,7 @@
 <classEntry path="com.threerings.flashbang.components.RotationComponent"/>
 <classEntry path="com.threerings.flashbang.GameObjectRef"/>
 <classEntry path="com.threerings.flashbang.tasks.CuePointTask"/>
-<classEntry path="com.threerings.flashbang.util.MXInterpolatorAdapter"/>
 <classEntry path="com.threerings.flashbang.components.MeterComponent"/>
-<classEntry path="com.threerings.flashbang.util.Interpolator"/>
 <classEntry path="com.threerings.flashbang.util.Collision"/>
 <classEntry path="com.threerings.flashbang.resource.XmlResource"/>
 <classEntry path="com.threerings.flashbang.resource.SwfResource"/>
