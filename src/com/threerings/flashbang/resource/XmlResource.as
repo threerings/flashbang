@@ -56,14 +56,13 @@ public class XmlResource extends Resource
         _errorCallback = errorCallback;
 
         if (hasLoadParam("url")) {
-            loadFromURL(getLoadParam("url", String));
+            loadFromURL(getLoadParam("url"));
         } else if (hasLoadParam("embeddedClass")) {
-            loadFromEmbeddedClass(getLoadParam("embeddedClass", Class));
+            loadFromEmbeddedClass(getLoadParam("embeddedClass"));
         } else if (hasLoadParam("text")) {
-            loadFromText(getLoadParam("text", String));
+            loadFromText(getLoadParam("text"));
         } else {
-            throw new Error("XmlResourceLoader: 'url', 'embeddedClass', or 'text' must be " +
-                "specified in loadParams");
+            throw new Error("'url', 'embeddedClass', or 'text' must be specified in loadParams");
         }
     }
 

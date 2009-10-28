@@ -156,7 +156,7 @@ public class SwfResource extends Resource
         } catch (e :Error) {}
 
         // parse loadParams
-        if (getLoadParam("useSubDomain", Boolean, true)) {
+        if (getLoadParam("useSubDomain", true)) {
             // default to loading symbols into a subdomain
             context.applicationDomain = new ApplicationDomain(ApplicationDomain.currentDomain);
         } else {
@@ -164,15 +164,15 @@ public class SwfResource extends Resource
         }
 
         if (hasLoadParam("url")) {
-            _loader.load(new URLRequest(getLoadParam("url", String)), context);
+            _loader.load(new URLRequest(getLoadParam("url")), context);
         } else if (hasLoadParam("bytes")) {
-            _loader.loadBytes(getLoadParam("bytes", ByteArray), context);
+            _loader.loadBytes(getLoadParam("bytes"), context);
         } else if (hasLoadParam("embeddedClass")) {
-            var embeddedClass :Class = getLoadParam("embeddedClass", Class);
+            var embeddedClass :Class = getLoadParam("embeddedClass");
             _loader.loadBytes(ByteArray(new embeddedClass()), context);
         } else {
-            throw new Error("SwfResourceLoader: one of 'url', 'bytes', or 'embeddedClass' must " +
-                "be specified in loadParams");
+            throw new Error("one of 'url', 'bytes', or 'embeddedClass' must be specified in " +
+                "loadParams");
         }
     }
 

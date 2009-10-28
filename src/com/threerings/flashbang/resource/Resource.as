@@ -54,21 +54,9 @@ public class Resource
         return _loadParams.hasOwnProperty(name);
     }
 
-    protected function getLoadParam (name :String, requiredClazz :Class = null,
-        defaultValue :* = undefined) :*
+    protected function getLoadParam (name :String, defaultValue :* = undefined) :*
     {
-        if (hasLoadParam(name)) {
-            var val :* = _loadParams[name];
-            if (requiredClazz != null && !(val is requiredClazz)) {
-                throw new Error(Joiner.pairs("bad load param", "name", name, "val", val,
-                    "requiredClass", requiredClazz, "actualClass", ClassUtil.getClass(val)));
-            }
-            return val;
-        } else if (defaultValue !== undefined) {
-            return defaultValue;
-        } else {
-            return undefined;
-        }
+        return (hasLoadParam(name) ? _loadParams[name] : defaultValue);
     }
 
     internal function get loadable () :Loadable

@@ -67,20 +67,20 @@ public class SoundResource extends Resource
         _onLoadErr = onLoadErr;
 
         // parse loadParams
-        var typeName :String = getLoadParam("type", String, "sfx");
+        var typeName :String = getLoadParam("type", "sfx");
         _type = (typeName == "music" ? TYPE_MUSIC : TYPE_SFX);
 
-        _priority = getLoadParam("priority", int, 0);
-        _volume = getLoadParam("volume", Number, 1);
-        _pan = getLoadParam("pan", Number, 0);
+        _priority = getLoadParam("priority", 0);
+        _volume = getLoadParam("volume", 1);
+        _pan = getLoadParam("pan", 0);
 
         if (hasLoadParam("url")) {
-            _sound = new Sound(new URLRequest(getLoadParam("url", String)));
+            _sound = new Sound(new URLRequest(getLoadParam("url")));
 
             // If the sound is to complete immediately, we don't wait for it to finish loading
             // before we make it available. Sounds loaded in this manner can be played without
             // issue as long as they download quickly enough.
-            if (getLoadParam("completeImmediately", Boolean, false)) {
+            if (getLoadParam("completeImmediately", false)) {
                 onInit();
             } else {
                 _sound.addEventListener(Event.COMPLETE, onInit);
@@ -89,7 +89,7 @@ public class SoundResource extends Resource
 
         } else if (hasLoadParam("embeddedClass")) {
             try {
-                var embeddedClass :Class = getLoadParam("embeddedClass", Class);
+                var embeddedClass :Class = getLoadParam("embeddedClass");
                 _sound = Sound(new embeddedClass());
             } catch (e :Error) {
                 onError(e.message);
@@ -98,8 +98,7 @@ public class SoundResource extends Resource
             onInit();
 
         } else {
-            throw new Error("SoundResourceLoader: either 'url' or 'embeddedClass' must be " +
-                "specified in loadParams");
+            throw new Error("either 'url' or 'embeddedClass' must be specified in loadParams");
         }
     }
 
