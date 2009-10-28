@@ -66,15 +66,16 @@ public class ImageResource extends Resource
         _errorCallback = errorCallback;
 
         // parse loadParams
-        if (_loadParams.hasOwnProperty("url")) {
-            _loader.load(new URLRequest(_loadParams["url"]));
-        } else if (_loadParams.hasOwnProperty("bytes")) {
-            _loader.loadBytes(_loadParams["bytes"]);
-        } else if (_loadParams.hasOwnProperty("embeddedClass")) {
-            _loader.loadBytes(ByteArray(new _loadParams["embeddedClass"]()));
+        if (hasLoadParam("url")) {
+            _loader.load(new URLRequest(getLoadParam("url", String)));
+        } else if (hasLoadParam("bytes")) {
+            _loader.loadBytes(getLoadParam("bytes", ByteArray));
+        } else if (hasLoadParam("embeddedClass")) {
+            var embeddedClass :Class = getLoadParam("embeddedClass", Class);
+            _loader.loadBytes(ByteArray(new embeddedClass()));
         } else {
-            throw new Error("ImageResourceLoader: one of 'url', 'bytes', or 'embeddedClass' " +
-                            "must be specified in loadParams");
+            throw new Error("ImageResourceLoader: one of 'url', 'bytes', or 'embeddedClass' must " +
+                "be specified in loadParams");
         }
     }
 

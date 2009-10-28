@@ -55,15 +55,15 @@ public class XmlResource extends Resource
         _completeCallback = completeCallback;
         _errorCallback = errorCallback;
 
-        if (_loadParams.hasOwnProperty("url")) {
-            loadFromURL(_loadParams["url"]);
-        } else if (_loadParams.hasOwnProperty("embeddedClass")) {
-            loadFromEmbeddedClass(_loadParams["embeddedClass"]);
-        } else if (_loadParams.hasOwnProperty("text")) {
-            loadFromText(_loadParams["text"]);
+        if (hasLoadParam("url")) {
+            loadFromURL(getLoadParam("url", String));
+        } else if (hasLoadParam("embeddedClass")) {
+            loadFromEmbeddedClass(getLoadParam("embeddedClass", Class));
+        } else if (hasLoadParam("text")) {
+            loadFromText(getLoadParam("text", String));
         } else {
             throw new Error("XmlResourceLoader: 'url', 'embeddedClass', or 'text' must be " +
-                            "specified in loadParams");
+                "specified in loadParams");
         }
     }
 
@@ -75,6 +75,7 @@ public class XmlResource extends Resource
             } catch (e :Error) {
                 // swallow the exception
             }
+            _urlLoader = null;
         }
     }
 
@@ -85,8 +86,7 @@ public class XmlResource extends Resource
         _urlLoader.addEventListener(Event.COMPLETE, onComplete);
         _urlLoader.addEventListener(IOErrorEvent.IO_ERROR, handleLoadError);
         _urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleLoadError);
-
-        _urlLoader.load(new URLRequest(_loadParams["url"]));
+        _urlLoader.load(new URLRequest(urlString));
     }
 
     protected function loadFromEmbeddedClass (theClass :Class) :void

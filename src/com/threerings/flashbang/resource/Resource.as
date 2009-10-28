@@ -21,10 +21,12 @@
 package com.threerings.flashbang.resource {
 
 import com.threerings.flashbang.util.Loadable;
+import com.threerings.util.ClassUtil;
+import com.threerings.util.Joiner;
 
 public class Resource
 {
-    public function Resource (resourceName :String, loadParams :*)
+    public function Resource (resourceName :String, loadParams :Object)
     {
         _resourceName = resourceName;
         _loadParams = loadParams;
@@ -47,13 +49,35 @@ public class Resource
         // subclasses implement
     }
 
+    protected function hasLoadParam (name :String) :Boolean
+    {
+        return _loadParams.hasOwnProperty(name);
+    }
+
+    protected function getLoadParam (name :String, requiredClazz :Class = null,
+        defaultValue :* = undefined) :*
+    {
+        if (hasLoadParam(name)) {
+            var val :* = _loadParams[name];
+            if (requiredClazz != null && !(val is requiredClazz)) {
+                throw new Error(Joiner.pairs("bad load param", "name", name, "val", val,
+                    "requiredClass", requiredClazz, "actualClass", ClassUtil.getClass(val)));
+            }
+            return val;
+        } else if (defaultValue !== undefined) {
+            return defaultValue;
+        } else {
+            return undefined;
+        }
+    }
+
     internal function get loadable () :Loadable
     {
         return _loadable;
     }
 
     protected var _resourceName :String;
-    protected var _loadParams :*;
+    protected var _loadParams :Object;
     protected var _loadable :Loadable;
 }
 

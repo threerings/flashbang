@@ -67,43 +67,39 @@ public class SoundResource extends Resource
         _onLoadErr = onLoadErr;
 
         // parse loadParams
-        _type = (_loadParams.hasOwnProperty("type") && _loadParams["type"] == "music" ?
-            TYPE_MUSIC :
-            TYPE_SFX);
+        var typeName :String = getLoadParam("type", String, "sfx");
+        _type = (typeName == "music" ? TYPE_MUSIC : TYPE_SFX);
 
-        _priority = (_loadParams.hasOwnProperty("priority") ? int(_loadParams["priority"]) : 0);
-        _volume = (_loadParams.hasOwnProperty("volume") ? Number(_loadParams["volume"]) : 1);
-        _pan = (_loadParams.hasOwnProperty("pan") ? Number(_loadParams["pan"]) : 0);
+        _priority = getLoadParam("priority", int, 0);
+        _volume = getLoadParam("volume", Number, 1);
+        _pan = getLoadParam("pan", Number, 0);
 
-        if (_loadParams.hasOwnProperty("url")) {
-            var completeImmediately :Boolean = (_loadParams.hasOwnProperty("completeImmediately") ?
-                Boolean(_loadParams["completeImmediately"]) :
-                false);
-            var url :String = _loadParams["url"];
+        if (hasLoadParam("url")) {
+            _sound = new Sound(new URLRequest(getLoadParam("url", String)));
 
             // If the sound is to complete immediately, we don't wait for it to finish loading
             // before we make it available. Sounds loaded in this manner can be played without
             // issue as long as they download quickly enough.
-            if (completeImmediately) {
-                _sound = new Sound(new URLRequest(url));
+            if (getLoadParam("completeImmediately", Boolean, false)) {
                 onInit();
             } else {
-                _sound = new Sound(new URLRequest(_loadParams["url"]));
                 _sound.addEventListener(Event.COMPLETE, onInit);
                 _sound.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
             }
 
-        } else if (_loadParams.hasOwnProperty("embeddedClass")) {
+        } else if (hasLoadParam("embeddedClass")) {
             try {
-                _sound = Sound(new _loadParams["embeddedClass"]());
+                var embeddedClass :Class = getLoadParam("embeddedClass", Class);
+                _sound = Sound(new embeddedClass());
             } catch (e :Error) {
                 onError(e.message);
                 return;
             }
             onInit();
+
         } else {
             throw new Error("SoundResourceLoader: either 'url' or 'embeddedClass' must be " +
-                            "specified in loadParams");
+                "specified in loadParams");
         }
     }
 
@@ -116,6 +112,7 @@ public class SoundResource extends Resource
         } catch (e :Error) {
             // swallow the exception
         }
+        _sound = null;
     }
 
     protected function onInit (...ignored) :void
