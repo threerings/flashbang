@@ -48,7 +48,11 @@ public class SwfResource extends Resource
                 var cache :Array = getCache(theClass);
                 if (cache.length > 0) {
                     movie = cache.pop();
+                    // Reset some properties of the cached movie
                     movie.gotoAndPlay(1);
+                    movie.x = movie.y = 0;
+                    movie.scaleX = movie.scaleY = 1;
+                    movie.rotation = 0;
                 }
             }
             if (movie == null) {
