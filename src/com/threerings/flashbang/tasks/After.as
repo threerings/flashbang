@@ -19,12 +19,12 @@
 // $Id$
 
 package com.threerings.flashbang.tasks {
-    
+
 import com.threerings.flashbang.ObjectTask;
-    
+
 public function After (duration :Number, task :ObjectTask) :ObjectTask
 {
-    return new SerialTask(new TimedTask(duration), task);
+    return (duration > 0 ? new SerialTask(new TimedTask(duration), task) : task);
 }
-    
+
 }
