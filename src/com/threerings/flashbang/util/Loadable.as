@@ -90,7 +90,7 @@ public class Loadable
             if (_retriesRemaining > 0) {
                 _retriesRemaining--;
             }
-            log.info("Load error, retrying load", "err", err, "retriesRemaining",
+            log.warning("Load error, retrying load", "err", err, "retriesRemaining",
                 _retriesRemaining);
             doLoad();
 
