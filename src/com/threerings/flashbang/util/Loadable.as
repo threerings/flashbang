@@ -86,13 +86,12 @@ public class Loadable
 
     protected function onLoadErr (err :String) :void
     {
-        log.error("load error: " + err);
-
         if (_retriesRemaining != 0) {
             if (_retriesRemaining > 0) {
                 _retriesRemaining--;
             }
-            log.info("Retrying load", "retriesRemaining", _retriesRemaining);
+            log.info("Load error, retrying load", "err", err, "retriesRemaining",
+                _retriesRemaining);
             doLoad();
 
         } else {
@@ -105,7 +104,7 @@ public class Loadable
     }
 
     /**
-     * Subclasses may override this to perform logic when an in-progress load is canceled.
+     * Subclasses may override this to respond to the canceling of an in-progress load.
      */
     protected function onLoadCanceled () :void
     {
@@ -113,8 +112,8 @@ public class Loadable
 
     /**
      * Subclasses must override this to perform the load.
-     * If the load is successful, this function should call onLoaded, otherwise it should
-     * call unLoadErr.
+     * If the load is successful, this function should call onLoaded(), otherwise it should
+     * call onLoadErr().
      */
     protected function doLoad () :void
     {
