@@ -22,12 +22,17 @@ package com.threerings.flashbang.util {
 
 import com.threerings.util.Log;
 
+import flash.events.TimerEvent;
+import flash.utils.Timer;
+
 public class Loadable
 {
-    public function Loadable (numRetries :int = 0)
+    public function Loadable (numRetries :int = 0, retryDelayMs :int = 0)
     {
         // the number of times to retry a failed load attempt
         _numRetries = numRetries;
+        // the number of milliseconds to wait between retries
+        _retryDelayMs = retryDelayMs;
     }
 
     public function load (onLoaded :Function = null, onLoadErr :Function = null) :void
@@ -61,6 +66,7 @@ public class Loadable
         _loading = false;
         _onLoadedCallbacks = [];
         _onLoadErrCallbacks = [];
+        stopRetryTimer();
 
         doUnload();
     }
@@ -92,7 +98,12 @@ public class Loadable
             }
             log.warning("Load error, retrying load", "err", err, "retriesRemaining",
                 _retriesRemaining);
-            doLoad();
+
+            if (_retryDelayMs <= 0) {
+                doLoad();
+            } else {
+                startRetryTimer();
+            }
 
         } else {
             var callbacks :Array = _onLoadErrCallbacks;
@@ -128,12 +139,34 @@ public class Loadable
         throw new Error("abstract");
     }
 
+    protected function startRetryTimer () :void
+    {
+        stopRetryTimer();
+        _retryTimer = new Timer(_retryDelayMs, 1);
+        _retryTimer.addEventListener(TimerEvent.TIMER,
+            function (...ignored) :void {
+                doLoad();
+                _retryTimer = null;
+            });
+        _retryTimer.start();
+    }
+
+    protected function stopRetryTimer () :void
+    {
+        if (_retryTimer != null) {
+            _retryTimer.stop();
+            _retryTimer = null;
+        }
+    }
+
     protected var _onLoadedCallbacks :Array = [];
     protected var _onLoadErrCallbacks :Array = [];
     protected var _loading :Boolean;
     protected var _loaded :Boolean;
     protected var _numRetries :int;
+    protected var _retryDelayMs :int;
     protected var _retriesRemaining :int;
+    protected var _retryTimer :Timer;
 
     protected static const log :Log = Log.getLog(Loadable);
 }
