@@ -159,6 +159,11 @@ public class Loadable
         }
     }
 
+    protected function get willRetry () :Boolean
+    {
+        return (_retriesRemaining != 0);
+    }
+
     protected var _onLoadedCallbacks :Array = [];
     protected var _onLoadErrCallbacks :Array = [];
     protected var _loading :Boolean;
