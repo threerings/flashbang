@@ -27,7 +27,7 @@ import flash.display.DisplayObject;
  */
 public class SimpleSceneObject extends SceneObject
 {
-    public function SimpleSceneObject (displayObject :DisplayObject = null, name :String = null)
+    public function SimpleSceneObject (displayObject :DisplayObject, name :String = null)
     {
         _displayObject = displayObject;
         _name = name;
@@ -43,14 +43,8 @@ public class SimpleSceneObject extends SceneObject
         return _displayObject;
     }
 
-    public function set displayObject (displayObject :DisplayObject) :void
-    {
-        _displayObject = displayObject;
-    }
-
     protected var _displayObject :DisplayObject;
     protected var _name :String;
-
 }
 
 }
