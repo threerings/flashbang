@@ -35,9 +35,38 @@ import mx.effects.easing.*;
 public class ColorMatrixBlendTask
     implements ObjectTask
 {
+    public static function fadeToBlack (time :Number, disp :DisplayObject = null,
+        easingFn :Function = null, preserveFilters :Boolean = false,
+        removeFilterWhenComplete :Boolean = false) :ColorMatrixBlendTask
+    {
+        return new ColorMatrixBlendTask(
+            IDENTITY,
+            BLACK,
+            time,
+            disp,
+            easingFn,
+            preserveFilters,
+            removeFilterWhenComplete);
+    }
+
+    public static function fadeFromBlack (time :Number, disp :DisplayObject = null,
+        easingFn :Function = null, preserveFilters :Boolean = false,
+        removeFilterWhenComplete :Boolean = true) :ColorMatrixBlendTask
+    {
+        return new ColorMatrixBlendTask(
+            BLACK,
+            IDENTITY,
+            time,
+            disp,
+            easingFn,
+            preserveFilters,
+            removeFilterWhenComplete);
+    }
+
     public static function colorize (fromColor :uint, toColor :uint,
         time :Number, disp :DisplayObject = null, easingFn :Function = null,
-        preserveFilters :Boolean = false) :ColorMatrixBlendTask
+        preserveFilters :Boolean = false, removeFilterWhenComplete :Boolean = false)
+        :ColorMatrixBlendTask
     {
         return new ColorMatrixBlendTask(
             new ColorMatrix().colorize(fromColor, 1),
@@ -51,7 +80,8 @@ public class ColorMatrixBlendTask
     public function ColorMatrixBlendTask (cmFrom :ColorMatrix,
         cmTo :ColorMatrix, time :Number, disp :DisplayObject = null,
         easingFn :Function = null,
-        preserveFilters :Boolean = false)
+        preserveFilters :Boolean = false,
+        removeFilterWhenComplete :Boolean = false)
     {
         _dispOverride = DisplayObjectWrapper.create(disp);
         _from = cmFrom;
@@ -59,6 +89,7 @@ public class ColorMatrixBlendTask
         _totalTime = time;
         _easingFn = (easingFn != null ? easingFn : mx.effects.easing.Linear.easeNone);
         _preserveFilters = preserveFilters;
+        _removeFilterWhenComplete = removeFilterWhenComplete;
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean
@@ -70,8 +101,12 @@ public class ColorMatrixBlendTask
 
         _elapsedTime += dt;
 
-        var amount :Number = _easingFn(Math.min(_elapsedTime, _totalTime), 0, 1, _totalTime);
-        var filter :ColorMatrixFilter = _from.clone().blend(_to, amount).createFilter();
+        var complete :Boolean = (_elapsedTime >= _totalTime);
+        var filter :ColorMatrixFilter;
+        if (!complete || !_removeFilterWhenComplete) {
+            var amount :Number = _easingFn(Math.min(_elapsedTime, _totalTime), 0, 1, _totalTime);
+            filter = _from.clone().blend(_to, amount).createFilter();
+        }
 
         // If _preserveFilters is set, we'll preserve any filters already on the DisplayObject
         // when adding the new filter. This can be an expensive operation, so it's false by default.
@@ -79,14 +114,16 @@ public class ColorMatrixBlendTask
             if (_oldFilter != null) {
                 FilterUtil.removeFilter(sc.displayObject, _oldFilter);
             }
-            FilterUtil.addFilter(sc.displayObject, filter);
-            _oldFilter = filter;
+            if (filter != null) {
+                FilterUtil.addFilter(sc.displayObject, filter);
+                _oldFilter = filter;
+            }
 
         } else {
-            sc.displayObject.filters = [ filter ];
+            sc.displayObject.filters = (filter != null ? [ filter ] : []);
         }
 
-        return (_elapsedTime >= _totalTime);
+        return complete;
     }
 
     public function clone () :ObjectTask
@@ -106,10 +143,14 @@ public class ColorMatrixBlendTask
     protected var _totalTime :Number;
     protected var _easingFn :Function;
     protected var _preserveFilters :Boolean;
+    protected var _removeFilterWhenComplete :Boolean;
 
     protected var _oldFilter :ColorMatrixFilter;
 
     protected var _elapsedTime :Number = 0;
+
+    protected static const IDENTITY :ColorMatrix = new ColorMatrix();
+    protected static const BLACK :ColorMatrix = new ColorMatrix().tint(0);
 }
 
 }
