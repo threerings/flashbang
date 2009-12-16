@@ -18,7 +18,7 @@ public class DisplayObjectWrapper
 {
     public static function create (disp :DisplayObject) :DisplayObjectWrapper
     {
-        return (disp != null ? DisplayObjectWrapper(disp) : NULL_WRAPPER);
+        return (disp != null ? new DisplayObjectWrapper(disp) : NULL_WRAPPER);
     }
 
     public function get isNull () :Boolean
