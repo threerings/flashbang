@@ -20,15 +20,16 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.util.Rand;
 
 public class VariableTimedTask
     implements ObjectTask
 {
-    public function VariableTimedTask (timeLo :Number, timeHi :Number, randStreamId :int)
+    public function VariableTimedTask (timeLo :Number, timeHi :Number,
+        randStreamId :uint = Rand.STREAM_UNSPECIFIED)
     {
         _timeLo = timeLo;
         _timeHi = timeHi;
@@ -56,7 +57,7 @@ public class VariableTimedTask
 
     protected var _timeLo :Number;
     protected var _timeHi :Number;
-    protected var _randStreamId :int;
+    protected var _randStreamId :uint;
     protected var _time :Number = 0;
     protected var _elapsedTime :Number = 0;
 }
