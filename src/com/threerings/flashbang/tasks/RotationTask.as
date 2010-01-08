@@ -75,7 +75,7 @@ public class RotationTask extends InterpolatingTask
         }
 
         _elapsedTime += dt;
-        rc.rotation = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
+        rc.rotation = interpolate(_from, _to);
         return (_elapsedTime >= _totalTime);
     }
 

@@ -80,8 +80,8 @@ public class LocationTask extends InterpolatingTask
 
         _elapsedTime += dt;
 
-        lc.x = interpolate(_fromX, _toX, _elapsedTime, _totalTime, _easingFn);
-        lc.y = interpolate(_fromY, _toY, _elapsedTime, _totalTime, _easingFn);
+        lc.x = interpolate(_fromX, _toX);
+        lc.y = interpolate(_fromY, _toY);
 
         return (_elapsedTime >= _totalTime);
     }

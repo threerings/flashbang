@@ -77,8 +77,8 @@ public class ScaleTask extends InterpolatingTask
         }
 
         _elapsedTime += dt;
-        sc.scaleX = interpolate(_fromX, _toX, _elapsedTime, _totalTime, _easingFn);
-        sc.scaleY = interpolate(_fromY, _toY, _elapsedTime, _totalTime, _easingFn);
+        sc.scaleX = interpolate(_fromX, _toX);
+        sc.scaleY = interpolate(_fromY, _toY);
         return (_elapsedTime >= _totalTime);
     }
 

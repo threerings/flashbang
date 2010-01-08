@@ -53,7 +53,12 @@ public class InterpolatingTask
         return false;
     }
 
-    protected static function interpolate (a :Number, b :Number, t :Number, duration :Number,
+    protected function interpolate (a :Number, b :Number) :Number
+    {
+        return interp(a, b, _elapsedTime, _totalTime, _easingFn);
+    }
+
+    protected static function interp (a :Number, b :Number, t :Number, duration :Number,
         easingFn :Function) :Number
     {
         // we need to rejuggle arguments to fit the signature of the mx easing functions:
@@ -67,7 +72,7 @@ public class InterpolatingTask
             return b;
         }
         t = MathUtil.clamp(t, 0, duration);
-        return easingFn(t * 1000, a, (b - a), duration * 1000);
+        return easingFn(t, a, (b - a), duration);
     }
 
     protected var _totalTime :Number = 0;

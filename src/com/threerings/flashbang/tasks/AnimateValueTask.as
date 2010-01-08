@@ -91,7 +91,7 @@ public class AnimateValueTask extends InterpolatingTask
 
         _elapsedTime += dt;
 
-        _boxedValue.value = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
+        _boxedValue.value = interpolate(_from, _to);
 
         return (_elapsedTime >= _totalTime);
     }

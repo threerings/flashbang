@@ -76,7 +76,7 @@ public class AlphaTask extends InterpolatingTask
 
         _elapsedTime += dt;
 
-        alphaComponent.alpha = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
+        alphaComponent.alpha = interpolate(_from, _to);
 
         return (_elapsedTime >= _totalTime);
     }

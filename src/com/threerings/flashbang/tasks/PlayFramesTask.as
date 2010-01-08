@@ -20,28 +20,29 @@
 
 package com.threerings.flashbang.tasks {
 
-import flash.display.MovieClip;
-
 import com.threerings.flashbang.*;
 import com.threerings.flashbang.components.*;
 import com.threerings.flashbang.objects.*;
 
+import flash.display.MovieClip;
+
 import mx.effects.easing.Linear;
 
-public class PlayFramesTask
-    implements ObjectTask
+public class PlayFramesTask extends InterpolatingTask
 {
     public function PlayFramesTask (startFrame :int, endFrame :int, totalTime :Number,
-        movie :MovieClip = null)
+        easingFn :Function = null, movie :MovieClip = null)
     {
+        super(totalTime, easingFn);
         _startFrame = startFrame;
         _endFrame = endFrame;
-        _totalTime = totalTime;
         _movie = movie;
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
+        super.update(dt, obj);
+
         var movieClip :MovieClip = _movie;
 
         // if we don't have a default movie,
@@ -55,32 +56,20 @@ public class PlayFramesTask
             }
         }
 
-        _elapsedTime = Math.min(_elapsedTime + dt, _totalTime);
-        var curFrame :int = Math.floor(mx.effects.easing.Linear.easeNone(
-            _elapsedTime,
-            _startFrame, _endFrame - _startFrame,
-            _totalTime));
+        var curFrame :int = interpolate(_startFrame, _endFrame);
         _movie.gotoAndStop(curFrame);
 
         return _elapsedTime >= _totalTime;
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new PlayFramesTask(_startFrame, _endFrame, _totalTime, _movie);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
+        return new PlayFramesTask(_startFrame, _endFrame, _totalTime, _easingFn, _movie);
     }
 
     protected var _startFrame :int;
     protected var _endFrame :int;
-    protected var _totalTime :Number;
     protected var _movie :MovieClip;
-
-    protected var _elapsedTime :Number = 0;
 }
 
 }

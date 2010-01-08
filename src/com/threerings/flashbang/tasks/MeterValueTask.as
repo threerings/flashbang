@@ -66,7 +66,7 @@ public class MeterValueTask extends InterpolatingTask
         }
 
         _elapsedTime += dt;
-        meterComponent.value = interpolate(_from, _to, _elapsedTime, _totalTime, _easingFn);
+        meterComponent.value = interpolate(_from, _to);
         return (_elapsedTime >= _totalTime);
     }
 
