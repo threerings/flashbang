@@ -20,31 +20,35 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.GameObject;
 
 public class FunctionTask
     implements ObjectTask
 {
-    public function FunctionTask (fn :Function)
+    public function FunctionTask (fn :Function, ...args)
     {
         if (null == fn) {
             throw new ArgumentError("fn must be non-null");
         }
 
         _fn = fn;
+        _args = args;
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        _fn();
+        _fn.apply(null, _args);
         return true;
     }
 
     public function clone () :ObjectTask
     {
-        return new FunctionTask(_fn);
+        var task :FunctionTask = new FunctionTask(_fn);
+        // Work around for the pain associated with passing a normal Array as a varargs Array
+        task._args = _args;
+        return task;
     }
 
     public function receiveMessage (msg :ObjectMessage) :Boolean
@@ -53,6 +57,7 @@ public class FunctionTask
     }
 
     protected var _fn :Function;
+    protected var _args :Array;
 }
 
 }
