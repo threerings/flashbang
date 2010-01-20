@@ -268,12 +268,12 @@ public class AudioControls
         _globalState = AudioState.combine(_localState, parentState, _globalState);
 
         // update children
-        for (var i :int = 0; i < _children.length; ++i) {
-            var childController :AudioControls = _children[i];
+        for (var ii :int = 0; ii < _children.length; ++ii) {
+            var childController :AudioControls = _children[ii];
             childController.update(dt, _globalState);
             if (childController.needsCleanup) {
                 // @TODO - use a linked list?
-                _children.splice(i--, 1);
+                _children.splice(ii--, 1);
             }
         }
     }

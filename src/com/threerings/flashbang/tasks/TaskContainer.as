@@ -30,12 +30,6 @@ import com.threerings.flashbang.GameObject;
 public class TaskContainer
     implements ObjectTask
 {
-    public static const TYPE_PARALLEL :uint = 0;
-    public static const TYPE_SERIAL :uint = 1;
-    public static const TYPE_REPEATING :uint = 2;
-
-    public static const TYPE__LIMIT :uint = 3;
-
     public function TaskContainer (type :uint, subtasks :Array = null)
     {
         if (type >= TYPE__LIMIT) {
@@ -67,8 +61,8 @@ public class TaskContainer
     public function removeAllTasks () :void
     {
         _invalidated = true;
-        _tasks = new Array();
-        _completedTasks = new Array();
+        _tasks = [];
+        _completedTasks = [];
         _activeTaskCount = 0;
     }
 
@@ -86,24 +80,6 @@ public class TaskContainer
             });
 
         return result;
-    }
-
-    protected function cloneSubtasks () :Array
-    {
-        Assert.isTrue(_tasks.length == _completedTasks.length);
-
-        var out :Array = new Array(_tasks.length);
-
-        // clone each child task and put it in the cloned container
-        var n :int = _tasks.length;
-        for (var i :int = 0; i < n; ++i) {
-            var task :ObjectTask =
-                (null != _tasks[i] ? _tasks[i] as ObjectTask : _completedTasks[i] as ObjectTask);
-            Assert.isNotNull(task);
-            out[i] = task.clone();
-        }
-
-        return out;
     }
 
     /** Returns a clone of the TaskContainer. */
@@ -128,6 +104,24 @@ public class TaskContainer
         );
     }
 
+    protected function cloneSubtasks () :Array
+    {
+        Assert.isTrue(_tasks.length == _completedTasks.length);
+
+        var out :Array = new Array(_tasks.length);
+
+        // clone each child task and put it in the cloned container
+        var n :int = _tasks.length;
+        for (var ii :int = 0; ii < n; ++ii) {
+            var task :ObjectTask =
+                (null != _tasks[ii] ? _tasks[ii] as ObjectTask : _completedTasks[ii] as ObjectTask);
+            Assert.isNotNull(task);
+            out[ii] = task.clone();
+        }
+
+        return out;
+    }
+
     /**
      * Helper function that applies the function f to each object in the container
      * (for parallel tasks) or the first object in the container (for serial and repeating tasks)
@@ -141,9 +135,9 @@ public class TaskContainer
         _invalidated = false;
 
         var n :int = _tasks.length;
-        for (var i :int = 0; i < n; ++i) {
+        for (var ii :int = 0; ii < n; ++ii) {
 
-            var task :ObjectTask = (_tasks[i] as ObjectTask);
+            var task :ObjectTask = (_tasks[ii] as ObjectTask);
 
             // we can have holes in the array
             if (null == task) {
@@ -164,8 +158,8 @@ public class TaskContainer
 
             } else if (complete) {
                 // the task is complete - move it the completed tasks array
-                _completedTasks[i] = _tasks[i];
-                _tasks[i] = null;
+                _completedTasks[ii] = _tasks[ii];
+                _tasks[ii] = null;
                 _activeTaskCount -= 1;
             }
         }
@@ -191,6 +185,11 @@ public class TaskContainer
     protected var _completedTasks :Array = new Array();
     protected var _activeTaskCount :int;
     protected var _invalidated :Boolean;
+
+    protected static const TYPE_PARALLEL :uint = 0;
+    protected static const TYPE_SERIAL :uint = 1;
+    protected static const TYPE_REPEATING :uint = 2;
+    protected static const TYPE__LIMIT :uint = 3;
 }
 
 }

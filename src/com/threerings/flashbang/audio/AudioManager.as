@@ -20,15 +20,14 @@
 
 package com.threerings.flashbang.audio {
 
+import com.threerings.flashbang.Context;
+import com.threerings.flashbang.Updatable;
+import com.threerings.flashbang.resource.*;
 import com.threerings.util.Log;
 
 import flash.events.Event;
 import flash.media.SoundTransform;
 import flash.utils.getTimer;
-
-import com.threerings.flashbang.Context;
-import com.threerings.flashbang.Updatable;
-import com.threerings.flashbang.resource.*;
 
 public class AudioManager
     implements Updatable
@@ -40,26 +39,27 @@ public class AudioManager
         _ctx = ctx;
         _channels = new Array(maxChannels);
         _freeChannelIds = new Array(maxChannels);
-        for (var i :int = 0; i < maxChannels; ++i) {
+        var ii :int;
+        for (ii = 0; ii < maxChannels; ++ii) {
             // create a channel
             var channel :AudioChannel = new AudioChannel();
-            channel.id = i;
+            channel.id = ii;
             channel.completeHandler = createChannelCompleteHandler(channel);
 
             // stick it in the channel list
-            _channels[i] = channel;
+            _channels[ii] = channel;
 
             // the channel is currently unused
-            _freeChannelIds[i] = i;
+            _freeChannelIds[ii] = ii;
         }
 
         _masterControls = new AudioControls();
 
         _soundTypeControls = new Array(SoundResource.TYPE__LIMIT);
-        for (i = 0; i < SoundResource.TYPE__LIMIT; ++i) {
+        for (ii = 0; ii < SoundResource.TYPE__LIMIT; ++ii) {
             var subControls :AudioControls = new AudioControls(_masterControls);
             subControls.retain(); // these subcontrols will never be cleaned up
-            _soundTypeControls[i] = subControls;
+            _soundTypeControls[ii] = subControls;
         }
     }
 

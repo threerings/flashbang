@@ -24,23 +24,25 @@ import com.threerings.flashbang.*;
 import com.threerings.flashbang.components.*;
 import com.threerings.flashbang.objects.*;
 
-import flash.display.MovieClip;
-
 public class WaitOnPredicateTask implements ObjectTask
 {
-    public function WaitOnPredicateTask (pred :Function)
+    public function WaitOnPredicateTask (pred :Function, ...args)
     {
         _pred = pred;
+        _args = args;
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        return _pred();
+        return _pred.apply(null, _args);
     }
 
     public function clone () :ObjectTask
     {
-        return new WaitOnPredicateTask(_pred);
+        var task :WaitOnPredicateTask = new WaitOnPredicateTask(_pred);
+        // Work around for the pain associated with passing a normal Array as a varargs Array
+        task._args = _args;
+        return task;
     }
 
     public function receiveMessage (msg :ObjectMessage) :Boolean
@@ -49,6 +51,7 @@ public class WaitOnPredicateTask implements ObjectTask
     }
 
     protected var _pred :Function;
+    protected var _args :Array;
 }
 
 }
