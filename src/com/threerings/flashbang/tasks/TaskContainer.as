@@ -45,7 +45,7 @@ public class TaskContainer
     }
 
     /** Adds a child task to the TaskContainer. */
-    public function addTask (task :ObjectTask) :void
+    public function addTask (task :ObjectTask, ...moreTasks) :void
     {
         if (null == task) {
             throw new ArgumentError("task must be non-null");
@@ -54,12 +54,8 @@ public class TaskContainer
         _tasks.push(task);
         _completedTasks.push(null);
         _activeTaskCount += 1;
-    }
 
-    /** Adds multiple tasks to the TaskContainer. */
-    public function addTasks (...tasks) :void
-    {
-        for each (var task :ObjectTask in tasks) {
+        for each (var task :ObjectTask in moreTasks) {
             addTask(task);
         }
     }
