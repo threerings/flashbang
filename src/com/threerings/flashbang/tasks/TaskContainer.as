@@ -20,12 +20,11 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.util.ArrayUtil;
-import com.threerings.util.Assert;
-
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.GameObject;
+import com.threerings.util.ArrayUtil;
+import com.threerings.util.Assert;
 
 public class TaskContainer
     implements ObjectTask
@@ -55,6 +54,14 @@ public class TaskContainer
         _tasks.push(task);
         _completedTasks.push(null);
         _activeTaskCount += 1;
+    }
+
+    /** Adds multiple tasks to the TaskContainer. */
+    public function addTasks (...tasks) :void
+    {
+        for each (var task :ObjectTask in tasks) {
+            addTask(task);
+        }
     }
 
     /** Removes all tasks from the TaskContainer. */
