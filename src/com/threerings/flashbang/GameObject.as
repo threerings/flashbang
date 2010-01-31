@@ -20,15 +20,15 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.tasks.ParallelTask;
+import com.threerings.flashbang.tasks.TaskContainer;
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
-
-import com.threerings.flashbang.tasks.ParallelTask;
-import com.threerings.flashbang.tasks.TaskContainer;
+import flash.display.DisplayObjectContainer;
 
 public class GameObject extends EventDispatcher
 {
@@ -181,6 +181,36 @@ public class GameObject extends EventDispatcher
     }
 
     /**
+     * Causes the lifecycle of the given GameObject to be managed by this object. Dependent
+     * objects will be added to this object's ObjectDB, and will be destroyed when this
+     * object is destroyed.
+     */
+    public function addDependentObject (obj :GameObject) :void
+    {
+        if (_parentDB != null) {
+            addDependentToDB(obj, false, null, 0);
+        } else {
+            _pendingDependentObjects.push(new PendingDependentObject(obj, false, null, 0));
+        }
+    }
+
+    /**
+     * Causes the lifecycle of the given GameObject to be managed by this object. Dependent
+     * objects will be added to this object's ObjectDB, and will be destroyed when this
+     * object is destroyed.
+     */
+    public function addDependentSceneObject (obj :GameObject,
+        displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :void
+    {
+        if (_parentDB != null) {
+            addDependentToDB(obj, true, displayParent, displayIdx);
+        } else {
+            _pendingDependentObjects.push(
+                new PendingDependentObject(obj, true, displayParent, displayIdx));
+        }
+    }
+
+    /**
      * Adds the specified listener to the specified dispatcher for the specified event.
      *
      * Listeners registered in this way will be automatically unregistered when the GameObject is
@@ -269,11 +299,35 @@ public class GameObject extends EventDispatcher
 
     internal function addedToDBInternal () :void
     {
+        for each (var dep :PendingDependentObject in _pendingDependentObjects) {
+            addDependentToDB(dep.obj, dep.isSceneObject, dep.displayParent, dep.displayIdx);
+        }
+        _pendingDependentObjects = null;
         addedToDB();
+    }
+
+    internal function addDependentToDB (obj :GameObject, isSceneObject :Boolean,
+        displayParent :DisplayObjectContainer, displayIdx :int) :void
+    {
+        var ref :GameObjectRef;
+        if (isSceneObject) {
+            if (!(_parentDB is AppMode)) {
+                throw new Error("can't add SceneObject to non-AppMode ObjectDB");
+            }
+            ref = AppMode(_parentDB).addSceneObject(obj, displayParent, displayIdx);
+        } else {
+            ref = _parentDB.addObject(obj);
+        }
+        _dependentObjectRefs.push(ref);
     }
 
     internal function removedFromDBInternal () :void
     {
+        for each (var ref :GameObjectRef in _dependentObjectRefs) {
+            if (ref.isLive) {
+                ref.object.destroySelf();
+            }
+        }
         removedFromDB();
     }
 
@@ -321,17 +375,36 @@ public class GameObject extends EventDispatcher
     }
 
     protected var _anonymousTasks :ParallelTask = new ParallelTask();
-
-    // stores a mapping from String to ParallelTask
-    protected var _namedTasks :Map = Maps.newSortedMapOf(String);
-
+    protected var _namedTasks :Map = Maps.newSortedMapOf(String); // Map<String, ParallelTask>
     protected var _updatingTasks :Boolean;
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
+
+    protected var _dependentObjectRefs :Array = [];
+    protected var _pendingDependentObjects :Array = [];
 
     // managed by ObjectDB/AppMode
     internal var _ref :GameObjectRef;
     internal var _parentDB :ObjectDB;
 }
 
+}
+
+import com.threerings.flashbang.GameObject;
+import flash.display.DisplayObjectContainer;
+
+class PendingDependentObject
+{
+    public var obj :GameObject;
+    public var isSceneObject :Boolean;
+    public var displayParent :DisplayObjectContainer;
+    public var displayIdx :int;
+
+    public function PendingDependentObject (obj :GameObject, isSceneObject :Boolean,
+        displayParent :DisplayObjectContainer, displayIdx :int)
+    {
+        this.obj = obj;
+        this.displayParent = displayParent;
+        this.displayIdx = displayIdx;
+    }
 }
