@@ -404,6 +404,7 @@ class PendingDependentObject
         displayParent :DisplayObjectContainer, displayIdx :int)
     {
         this.obj = obj;
+        this.isSceneObject = isSceneObject;
         this.displayParent = displayParent;
         this.displayIdx = displayIdx;
     }
