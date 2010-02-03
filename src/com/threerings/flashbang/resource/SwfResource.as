@@ -112,7 +112,10 @@ public class SwfResource extends Resource
 
         _loader = new Loader();
         _loader.contentLoaderInfo.addEventListener(Event.INIT, onInit);
-        _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
+        _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
+            function (e :IOErrorEvent) :void {
+                onError(e.text);
+            });
     }
 
     public function getSymbol (name :String) :Object
@@ -170,10 +173,19 @@ public class SwfResource extends Resource
         if (hasLoadParam("url")) {
             _loader.load(new URLRequest(getLoadParam("url")), context);
         } else if (hasLoadParam("bytes")) {
-            _loader.loadBytes(getLoadParam("bytes"), context);
+            var bytes :ByteArray = getLoadParam("bytes");
+            if (bytes == null) {
+                onError("missing bytes!");
+            } else {
+                _loader.loadBytes(getLoadParam("bytes"), context);
+            }
         } else if (hasLoadParam("embeddedClass")) {
             var embeddedClass :Class = getLoadParam("embeddedClass");
-            _loader.loadBytes(ByteArray(new embeddedClass()), context);
+            if (embeddedClass == null) {
+                onError("missing embedded class!");
+            } else {
+                _loader.loadBytes(ByteArray(new embeddedClass()), context);
+            }
         } else {
             throw new Error("one of 'url', 'bytes', or 'embeddedClass' must be specified in " +
                 "loadParams");
@@ -205,9 +217,9 @@ public class SwfResource extends Resource
         _loaded = true;
     }
 
-    protected function onError (e :IOErrorEvent) :void
+    protected function onError (errText :String) :void
     {
-        _errorCallback("SwfResourceLoader (" + _resourceName + "): " + e.text);
+        _errorCallback("SwfResourceLoader (" + _resourceName + "): " + errText);
     }
 
     protected static function getClass (rsrcs :ResourceManager, resourceName :String,

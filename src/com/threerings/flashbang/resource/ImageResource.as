@@ -46,7 +46,10 @@ public class ImageResource extends Resource
 
         _loader = new Loader();
         _loader.contentLoaderInfo.addEventListener(Event.INIT, onInit);
-        _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
+        _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
+            function (e :IOErrorEvent) :void {
+                onError(e.text);
+            });
     }
 
     public function get bitmapData () :BitmapData
@@ -69,12 +72,21 @@ public class ImageResource extends Resource
         if (hasLoadParam("url")) {
             _loader.load(new URLRequest(getLoadParam("url")));
         } else if (hasLoadParam("bytes")) {
-            _loader.loadBytes(getLoadParam("bytes"));
+            var bytes :ByteArray = getLoadParam("bytes");
+            if (bytes == null) {
+                onError("missing bytes!");
+            } else {
+                _loader.loadBytes(getLoadParam("bytes"));
+            }
         } else if (hasLoadParam("embeddedClass")) {
             var embeddedClass :Class = getLoadParam("embeddedClass");
-            _loader.loadBytes(ByteArray(new embeddedClass()));
+            if (embeddedClass == null) {
+                onError("missing embedded class!");
+            } else {
+                _loader.loadBytes(ByteArray(new embeddedClass()));
+            }
         } else {
-            throw new Error("one of 'url', 'bytes', or 'embeddedClass' must  be specified in " +
+            throw new Error("one of 'url', 'bytes', or 'embeddedClass' must be specified in " +
                 "loadParams");
         }
     }
@@ -95,9 +107,9 @@ public class ImageResource extends Resource
         _completeCallback();
     }
 
-    protected function onError (e :IOErrorEvent) :void
+    protected function onError (errText :String) :void
     {
-        _errorCallback("ImageResourceLoader (" + _resourceName + "): " + e.text);
+        _errorCallback("ImageResourceLoader (" + _resourceName + "): " + errText);
     }
 
     protected var _loader :Loader;

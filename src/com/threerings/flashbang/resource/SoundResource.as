@@ -90,7 +90,11 @@ public class SoundResource extends Resource
         } else if (hasLoadParam("embeddedClass")) {
             try {
                 var embeddedClass :Class = getLoadParam("embeddedClass");
-                _sound = Sound(new embeddedClass());
+                if (embeddedClass == null) {
+                    onError("missing embedded class!");
+                } else {
+                    _sound = Sound(new embeddedClass());
+                }
             } catch (e :Error) {
                 onError(e.message);
                 return;
