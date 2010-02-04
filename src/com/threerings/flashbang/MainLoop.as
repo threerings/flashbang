@@ -20,6 +20,8 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.audio.*;
+import com.threerings.flashbang.resource.*;
 import com.threerings.util.ArrayUtil;
 import com.threerings.util.Assert;
 
@@ -29,9 +31,6 @@ import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 import flash.utils.getTimer;
-
-import com.threerings.flashbang.audio.*;
-import com.threerings.flashbang.resource.*;
 
 public class MainLoop extends EventDispatcher
 {
@@ -140,6 +139,24 @@ public class MainLoop extends EventDispatcher
     }
 
     /**
+     * Applies the specify mode transition to the mode stack.
+     * (Mode changes take effect between game updates.)
+     */
+    public function doModeTransition (type :ModeTransition, mode :AppMode = null, index :int = 0)
+        :void
+    {
+        if (type.requiresMode && mode == null) {
+            throw new Error("mode must be non-null for " + type);
+        }
+
+        var transition :PendingTransition = new PendingTransition();
+        transition.type = type;
+        transition.mode = mode;
+        transition.index = index;
+        _pendingModeTransitionQueue.push(transition);
+    }
+
+    /**
      * Inserts a mode into the stack at the specified index. All modes
      * at and above the specified index will move up in the stack.
      * (Mode changes take effect between game updates.)
@@ -151,11 +168,7 @@ public class MainLoop extends EventDispatcher
      */
     public function insertMode (mode :AppMode, index :int) :void
     {
-        if (null == mode) {
-            throw new ArgumentError("mode must be non-null");
-        }
-
-        createModeTransition(mode, TRANSITION_INSERT, index);
+        doModeTransition(ModeTransition.INSERT, mode, index);
     }
 
     /**
@@ -169,7 +182,7 @@ public class MainLoop extends EventDispatcher
      */
     public function removeMode (index :int) :void
     {
-        createModeTransition(null, TRANSITION_REMOVE, index);
+        doModeTransition(ModeTransition.REMOVE, null, index);
     }
 
     /**
@@ -179,11 +192,7 @@ public class MainLoop extends EventDispatcher
      */
     public function changeMode (mode :AppMode) :void
     {
-        if (null == mode) {
-            throw new ArgumentError("mode must be non-null");
-        }
-
-        createModeTransition(mode, TRANSITION_CHANGE);
+        doModeTransition(ModeTransition.CHANGE, mode);
     }
 
     /**
@@ -192,7 +201,7 @@ public class MainLoop extends EventDispatcher
      */
     public function pushMode (mode :AppMode) :void
     {
-        createModeTransition(mode, TRANSITION_PUSH);
+        doModeTransition(ModeTransition.PUSH, mode);
     }
 
     /**
@@ -201,7 +210,7 @@ public class MainLoop extends EventDispatcher
      */
     public function popMode () :void
     {
-        removeMode(-1);
+        doModeTransition(ModeTransition.REMOVE, null, -1);
     }
 
     /**
@@ -210,7 +219,7 @@ public class MainLoop extends EventDispatcher
      */
     public function popAllModes () :void
     {
-        createModeTransition(null, TRANSITION_UNWIND);
+        doModeTransition(ModeTransition.UNWIND);
     }
 
     /**
@@ -221,11 +230,7 @@ public class MainLoop extends EventDispatcher
      */
     public function unwindToMode (mode :AppMode) :void
     {
-        if (null == mode) {
-            throw new ArgumentError("mode must be non-null");
-        }
-
-        createModeTransition(mode, TRANSITION_UNWIND);
+        doModeTransition(ModeTransition.UNWIND, mode);
     }
 
     /** Returns the number of seconds that have elapsed since the application started. */
@@ -241,16 +246,6 @@ public class MainLoop extends EventDispatcher
     public function get fps () :Number
     {
         return _fps;
-    }
-
-    protected function createModeTransition (mode :AppMode, transitionType :uint, index :int = 0)
-        :void
-    {
-        var transition :ModeTransition = new ModeTransition();
-        transition.mode = mode;
-        transition.type = transitionType;
-        transition.index = index;
-        _pendingModeTransitionQueue.push(transition);
     }
 
     protected function handleModeTransitions () :void
@@ -323,22 +318,22 @@ public class MainLoop extends EventDispatcher
         var transitionQueue :Array = _pendingModeTransitionQueue;
         _pendingModeTransitionQueue = [];
 
-        for each (var transition :ModeTransition in transitionQueue) {
+        for each (var transition :PendingTransition in transitionQueue) {
             var mode :AppMode = transition.mode;
             switch (transition.type) {
-            case TRANSITION_PUSH:
+            case ModeTransition.PUSH:
                 doPushMode(mode);
                 break;
 
-            case TRANSITION_INSERT:
+            case ModeTransition.INSERT:
                 doInsertMode(mode, transition.index);
                 break;
 
-            case TRANSITION_REMOVE:
+            case ModeTransition.REMOVE:
                 doRemoveMode(transition.index);
                 break;
 
-            case TRANSITION_CHANGE:
+            case ModeTransition.CHANGE:
                 // a pop followed by a push
                 if (null != this.topMode) {
                     doRemoveMode(-1);
@@ -346,7 +341,7 @@ public class MainLoop extends EventDispatcher
                 doPushMode(mode);
                 break;
 
-            case TRANSITION_UNWIND:
+            case ModeTransition.UNWIND:
                 // pop modes until we find the one we're looking for
                 while (_modeStack.length > 0 && this.topMode != mode) {
                     doRemoveMode(-1);
@@ -476,22 +471,16 @@ public class MainLoop extends EventDispatcher
     protected var _pendingModeTransitionQueue :Array = [];
     protected var _updatables :Array = [];
     protected var _fps :Number = 0;
-
-    // mode transition constants
-    internal static const TRANSITION_PUSH :int = 0;
-    internal static const TRANSITION_UNWIND :int = 1;
-    internal static const TRANSITION_INSERT :int = 2;
-    internal static const TRANSITION_REMOVE :int = 3;
-    internal static const TRANSITION_CHANGE :int = 4;
 }
 
 }
 
 import com.threerings.flashbang.AppMode;
+import com.threerings.flashbang.ModeTransition;
 
-class ModeTransition
+class PendingTransition
 {
     public var mode :AppMode;
-    public var type :int;
+    public var type :ModeTransition;
     public var index :int;
 }
