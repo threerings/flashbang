@@ -59,10 +59,18 @@ public class XmlResource extends Resource
             loadFromURL(getLoadParam("url"));
         } else if (hasLoadParam("embeddedClass")) {
             loadFromEmbeddedClass(getLoadParam("embeddedClass"));
+        } else if (hasLoadParam("bytes")) {
+            var bytes :ByteArray = getLoadParam("bytes");
+            if (bytes == null) {
+                onError("missing bytes!");
+            } else {
+                instantiateXml(bytes.readUTFBytes(bytes.length));
+            }
         } else if (hasLoadParam("text")) {
             loadFromText(getLoadParam("text"));
         } else {
-            throw new Error("'url', 'embeddedClass', or 'text' must be specified in loadParams");
+            throw new Error("'url', 'embeddedClass', 'bytes', or 'text' must be specified in " +
+                "loadParams");
         }
     }
 
