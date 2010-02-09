@@ -76,7 +76,7 @@ public class ImageResource extends Resource
             if (bytes == null) {
                 onError("missing bytes!");
             } else {
-                _loader.loadBytes(getLoadParam("bytes"));
+                _loader.loadBytes(bytes);
             }
         } else if (hasLoadParam("embeddedClass")) {
             var embeddedClass :Class = getLoadParam("embeddedClass");

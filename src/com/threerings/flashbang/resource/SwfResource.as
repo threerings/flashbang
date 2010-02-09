@@ -177,7 +177,7 @@ public class SwfResource extends Resource
             if (bytes == null) {
                 onError("missing bytes!");
             } else {
-                _loader.loadBytes(getLoadParam("bytes"), context);
+                _loader.loadBytes(bytes, context);
             }
         } else if (hasLoadParam("embeddedClass")) {
             var embeddedClass :Class = getLoadParam("embeddedClass");
