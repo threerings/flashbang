@@ -47,6 +47,7 @@ public class FlashbangApp
             _ctx.rsrcs.registerResourceType("swf", SwfResource);
             _ctx.rsrcs.registerResourceType("xml", XmlResource);
             _ctx.rsrcs.registerResourceType("sound", SoundResource);
+            _ctx.rsrcs.registerResourceType("zip", ZipResource);
 
         } else {
             _ctx.rsrcs = config.externalResourceManager;
