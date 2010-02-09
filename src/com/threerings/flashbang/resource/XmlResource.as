@@ -142,7 +142,7 @@ public class XmlResource extends Resource
 
     protected function onError (errText :String) :void
     {
-        _errorCallback("XmlResourceLoader (" + _resourceName + "): " + errText);
+        _errorCallback("XmlResource (" + _resourceName + "): " + errText);
     }
 
     protected var _urlLoader :URLLoader;

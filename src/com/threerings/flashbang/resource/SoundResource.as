@@ -130,7 +130,7 @@ public class SoundResource extends Resource
 
     protected function onError (errString :String) :void
     {
-        _onLoadErr("SoundResourceLoader (" + _resourceName + "): " + errString);
+        _onLoadErr("SoundResource (" + _resourceName + "): " + errString);
     }
 
     protected var _sound :Sound;

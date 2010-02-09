@@ -219,7 +219,7 @@ public class SwfResource extends Resource
 
     protected function onError (errText :String) :void
     {
-        _errorCallback("SwfResourceLoader (" + _resourceName + "): " + errText);
+        _errorCallback("SwfResource (" + _resourceName + "): " + errText);
     }
 
     protected static function getClass (rsrcs :ResourceManager, resourceName :String,
