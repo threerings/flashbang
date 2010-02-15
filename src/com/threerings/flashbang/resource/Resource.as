@@ -23,6 +23,7 @@ package com.threerings.flashbang.resource {
 import com.threerings.flashbang.util.Loadable;
 import com.threerings.util.ClassUtil;
 import com.threerings.util.Joiner;
+import com.threerings.util.StringUtil;
 
 public class Resource
 {
@@ -57,6 +58,15 @@ public class Resource
     protected function getLoadParam (name :String, defaultValue :* = undefined) :*
     {
         return (hasLoadParam(name) ? _loadParams[name] : defaultValue);
+    }
+
+    protected function createLoadErrorString (errText :String) :String
+    {
+        var asdf :StringUtil
+        return Joiner.pairs(ClassUtil.tinyClassName(this) + " load error",
+            "resourceName", _resourceName, "loadParams", StringUtil.simpleToString(_loadParams),
+            "err", errText);
+
     }
 
     internal function get loadable () :Loadable

@@ -109,7 +109,7 @@ public class ImageResource extends Resource
 
     protected function onError (errText :String) :void
     {
-        _errorCallback("ImageResource (" + _resourceName + "): " + errText);
+        _errorCallback(createLoadErrorString(errText));
     }
 
     protected var _loader :Loader;

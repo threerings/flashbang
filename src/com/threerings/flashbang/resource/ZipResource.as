@@ -130,7 +130,7 @@ public class ZipResource extends Resource
 
     protected function onError (errText :String) :void
     {
-        _errorCallback("ZipResource (" + _resourceName + "): " + errText);
+        _errorCallback(createLoadErrorString(errText));
     }
 
     protected var _urlLoader :URLLoader;

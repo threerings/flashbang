@@ -63,8 +63,8 @@ public class SoundResource extends Resource
 
     override protected function load (onLoaded :Function, onLoadErr :Function) :void
     {
-        _onLoaded = onLoaded;
-        _onLoadErr = onLoadErr;
+        _completeCallback = onLoaded;
+        _errorCallback = onLoadErr;
 
         // parse loadParams
         var typeName :String = getLoadParam("type", "sfx");
@@ -120,7 +120,7 @@ public class SoundResource extends Resource
 
     protected function onInit (...ignored) :void
     {
-        _onLoaded();
+        _completeCallback();
     }
 
     protected function onIOError (e :IOErrorEvent) :void
@@ -128,9 +128,9 @@ public class SoundResource extends Resource
         onError(e.text);
     }
 
-    protected function onError (errString :String) :void
+    protected function onError (errText :String) :void
     {
-        _onLoadErr("SoundResource (" + _resourceName + "): " + errString);
+        _errorCallback(createLoadErrorString(errText));
     }
 
     protected var _sound :Sound;
@@ -139,8 +139,8 @@ public class SoundResource extends Resource
     protected var _volume :Number;
     protected var _pan :Number;
 
-    protected var _onLoaded :Function;
-    protected var _onLoadErr :Function;
+    protected var _completeCallback :Function;
+    protected var _errorCallback :Function;
 }
 
 }
