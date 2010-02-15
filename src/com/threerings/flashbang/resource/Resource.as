@@ -62,7 +62,6 @@ public class Resource
 
     protected function createLoadErrorString (errText :String) :String
     {
-        var asdf :StringUtil
         return Joiner.pairs(ClassUtil.tinyClassName(this) + " load error",
             "resourceName", _resourceName, "loadParams", StringUtil.simpleToString(_loadParams),
             "err", errText);
