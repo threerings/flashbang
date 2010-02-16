@@ -91,7 +91,7 @@ public class Profiler
     public static function displayStats () :void
     {
         if (ENABLED) {
-            Log.getLog(PerfTimer).debug(getStatsString());
+            log.debug(getStatsString());
         }
     }
 
