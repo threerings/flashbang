@@ -26,9 +26,9 @@ import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 
+import flash.display.DisplayObjectContainer;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
-import flash.display.DisplayObjectContainer;
 
 public class GameObject extends EventDispatcher
 {
@@ -162,15 +162,16 @@ public class GameObject extends EventDispatcher
     {
         if (_anonymousTasks.hasTasks()) {
             return true;
-        } else {
-            for each (var namedTaskContainer :* in _namedTasks) {
-                if ((namedTaskContainer as ParallelTask).hasTasks()) {
-                    return true;
-                }
-            }
-        }
 
-        return false;
+        } else {
+            var hasNamedTask :Boolean;
+            _namedTasks.forEach(
+                function (name :String, container :ParallelTask) :Boolean {
+                    hasNamedTask = container.hasTasks();
+                    return hasNamedTask;
+                });
+            return hasNamedTask;
+        }
     }
 
     /** Returns true if the GameObject has any tasks with the given name. */
