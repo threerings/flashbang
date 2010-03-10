@@ -44,8 +44,7 @@ public class PlayFramesTask extends InterpolatingTask
         super.update(dt, obj);
 
         var movieClip :MovieClip = _movie;
-
-        // if we don't have a default movie,
+        // if we don't have a default movie, use the SceneObject the task is being applied to
         if (null == movieClip) {
             var sc :SceneComponent = obj as SceneComponent;
             movieClip = (null != sc ? sc.displayObject as MovieClip : null);
@@ -57,7 +56,7 @@ public class PlayFramesTask extends InterpolatingTask
         }
 
         var curFrame :int = interpolate(_startFrame, _endFrame);
-        _movie.gotoAndStop(curFrame);
+        movieClip.gotoAndStop(curFrame);
 
         return _elapsedTime >= _totalTime;
     }
