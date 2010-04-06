@@ -144,6 +144,11 @@ public class SwfResource extends Resource
         return getSymbol(name) as Class;
     }
 
+    public function get applicationDomain () :ApplicationDomain
+    {
+        return _loader.contentLoaderInfo.applicationDomain;
+    }
+
     public function get displayRoot () :DisplayObject
     {
         return _loader.content;
