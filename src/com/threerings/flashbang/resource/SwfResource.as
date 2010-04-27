@@ -35,6 +35,8 @@ import flash.system.LoaderContext;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 
+import ru.etcs.utils.getDefinitionNames;
+
 public class SwfResource extends Resource
 {
     public static function instantiateMovieClip (rsrcs :ResourceManager, resourceName :String,
@@ -116,6 +118,17 @@ public class SwfResource extends Resource
             function (e :IOErrorEvent) :void {
                 onError(e.text);
             });
+    }
+
+    /**
+     * @return an array containing the names of each exported symbol from the swf
+     */
+    public function get symbolNames () :Array
+    {
+        if (_symbolNames == null) {
+            _symbolNames = getDefinitionNames(_loader.contentLoaderInfo);
+        }
+        return _symbolNames;
     }
 
     public function getSymbol (name :String) :Object
@@ -214,6 +227,7 @@ public class SwfResource extends Resource
         }
 
         _loaded = false;
+        _symbolNames = null;
     }
 
     protected function onInit (...ignored) :void
@@ -243,6 +257,7 @@ public class SwfResource extends Resource
     protected var _loader :Loader;
     protected var _completeCallback :Function;
     protected var _errorCallback :Function;
+    protected var _symbolNames :Array;
 
     protected static var _mcCache :Dictionary = new Dictionary();
 }
