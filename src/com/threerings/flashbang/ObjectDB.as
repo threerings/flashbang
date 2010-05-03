@@ -20,6 +20,7 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.tasks.*;
 import com.threerings.util.ArrayUtil;
 import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
@@ -28,8 +29,6 @@ import com.threerings.util.Maps;
 
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
-
-import com.threerings.flashbang.tasks.*;
 
 public class ObjectDB extends EventDispatcher
     implements Updatable
@@ -197,6 +196,7 @@ public class ObjectDB extends EventDispatcher
     {
         beginUpdate(dt);
         endUpdate(dt);
+        _runningTime += dt;
     }
 
     /** Sends a message to every object in the database. */
@@ -242,6 +242,15 @@ public class ObjectDB extends EventDispatcher
     public function get objectCount () :uint
     {
         return _objectCount;
+    }
+
+    /**
+     * Returns the number of seconds this ObjectDB has been running, as measured by calls to
+     * update().
+     */
+    public function get runningTime () :Number
+    {
+        return _runningTime;
     }
 
     /**
@@ -379,6 +388,8 @@ public class ObjectDB extends EventDispatcher
 
         _events.freeAllHandlers();
     }
+
+    protected var _runningTime :Number = 0;
 
     protected var _listHead :GameObjectRef;
     protected var _objectCount :uint;
