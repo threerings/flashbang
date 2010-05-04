@@ -124,7 +124,11 @@ public class XmlResource extends Resource
     {
         // the XML may be malformed, so catch errors thrown when it's instantiated
         try {
-            _xml = XmlUtil.newXML(data);
+            // override the default XML settings, so we get the full text content
+            var settings :Object = XML.defaultSettings();
+            settings["ignoreWhitespace"] = false;
+            settings["prettyPrint"] = false;
+            _xml = XmlUtil.newXML(data, settings);
         } catch (e :Error) {
             onError(e.message);
             return;
