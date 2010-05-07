@@ -55,8 +55,9 @@ public class ResourceManager
             throw new Error("No resources queued for loading");
         }
 
-        _pendingSet.load(onLoaded, onLoadErr);
+        var loadingSet :ResourceSet = _pendingSet;
         _pendingSet = null;
+        loadingSet.load(onLoaded, onLoadErr);
     }
 
     public function cancelLoad () :void
