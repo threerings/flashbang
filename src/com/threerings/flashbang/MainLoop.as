@@ -120,7 +120,7 @@ public class MainLoop extends EventDispatcher
         _keyDispatcher.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
         _keyDispatcher.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 
-        _lastTime = this.elapsedSeconds;
+        _lastTime = getAppTime();
 
         // Handle initial mode transitions made since MainLoop creation
         handleModeTransitions();
@@ -233,12 +233,6 @@ public class MainLoop extends EventDispatcher
         doModeTransition(ModeTransition.UNWIND, mode);
     }
 
-    /** Returns the number of seconds that have elapsed since the application started. */
-    public function get elapsedSeconds () :Number
-    {
-        return (flash.utils.getTimer() / 1000); // getTimer() returns a value in milliseconds
-    }
-
     /**
      * Returns the approximate frames-per-second that the application
      * is running at.
@@ -246,6 +240,19 @@ public class MainLoop extends EventDispatcher
     public function get fps () :Number
     {
         return _fps;
+    }
+
+    /**
+     * Returns the current "time" value, in seconds. This should only be used for the purposes
+     * of calculating time deltas, not absolute time, as the implementation may change.
+     *
+     * We use Date().time, instead of flash.utils.getTimer(), since the latter is susceptible to
+     * Cheat Engine speed hacks:
+     * http://www.gaminggutter.com/forum/f16/how-use-cheat-engine-speedhack-games-2785.html
+     */
+    public function getAppTime () :Number
+    {
+        return (new Date().time * 0.001); // convert millis to seconds
     }
 
     protected function handleModeTransitions () :void
@@ -371,7 +378,7 @@ public class MainLoop extends EventDispatcher
     protected function update (e :Event) :void
     {
         // how much time has elapsed since last frame?
-        var newTime :Number = this.elapsedSeconds;
+        var newTime :Number = getAppTime();
         var dt :Number = newTime - _lastTime;
 
         // If we have pending mode transitions, handle them, and discount
@@ -379,7 +386,7 @@ public class MainLoop extends EventDispatcher
         // modes doesn't result in stuttery behavior
         if (_pendingModeTransitionQueue.length > 0) {
             handleModeTransitions();
-            newTime = this.elapsedSeconds;
+            newTime = getAppTime();
             dt = 1 / 30; // Assume 30 fps is our target. Should this be configurable?
         }
 
