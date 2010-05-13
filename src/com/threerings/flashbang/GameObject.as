@@ -138,7 +138,9 @@ public class GameObject extends EventDispatcher
             // if we're updating tasks, invalidate all named task containers so that
             // they stop iterating their children
             for each (var taskContainer :TaskContainer in _namedTasks) {
-                taskContainer.removeAllTasks();
+                if (taskContainer != null) {// Could've been removed already
+                    taskContainer.removeAllTasks();
+                }
             }
         }
 
