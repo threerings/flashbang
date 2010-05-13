@@ -20,38 +20,17 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.*;
-import com.threerings.flashbang.components.*;
-import com.threerings.flashbang.objects.*;
-
-public class WaitOnPredicateTask implements ObjectTask
+/**
+ * Deprecated. FunctionTask can handle predicates.
+ */
+[Deprecated(replacement="com.threerings.flashbang.tasks.FunctionTask")]
+public class WaitOnPredicateTask extends FunctionTask
 {
     public function WaitOnPredicateTask (pred :Function, ...args)
     {
-        _pred = pred;
+        super(pred);
         _args = args;
     }
-
-    public function update (dt :Number, obj :GameObject) :Boolean
-    {
-        return _pred.apply(null, _args);
-    }
-
-    public function clone () :ObjectTask
-    {
-        var task :WaitOnPredicateTask = new WaitOnPredicateTask(_pred);
-        // Work around for the pain associated with passing a normal Array as a varargs Array
-        task._args = _args;
-        return task;
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
-    protected var _pred :Function;
-    protected var _args :Array;
 }
 
 }

@@ -39,8 +39,9 @@ public class FunctionTask
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        _fn.apply(null, _args);
-        return true;
+        // If Function returns "false", the FunctionTask will not complete.
+        // Any other return value (including void) will cause it to complete immediately.
+        return (_fn.apply(null, _args) !== false);
     }
 
     public function clone () :ObjectTask

@@ -115,12 +115,17 @@ public class GameObject extends EventDispatcher
             throw new ArgumentError("name must be at least 1 character long");
         }
 
-        var namedTaskContainer :ParallelTask = (_namedTasks.get(name) as ParallelTask);
-        if (null == namedTaskContainer) {
+        var idx :int = _taskNames.indexOf(name);
+        var namedTaskContainer :TaskContainer;
+        if (idx == -1) {
             namedTaskContainer = new ParallelTask();
-            _namedTasks.put(name, namedTaskContainer);
-        } else if (removeExistingTasks) {
-            namedTaskContainer.removeAllTasks();
+            _taskNames.push(name);
+            _namedTasks.push(namedTaskContainer);
+        } else {
+            namedTaskContainer = _namedTasks[idx];
+            if (removeExistingTasks) {
+                namedTaskContainer.removeAllTasks();
+            }
         }
 
         namedTaskContainer.addTask(task);
@@ -132,13 +137,14 @@ public class GameObject extends EventDispatcher
         if (_updatingTasks) {
             // if we're updating tasks, invalidate all named task containers so that
             // they stop iterating their children
-            for each (var taskContainer :TaskContainer in _namedTasks.values()) {
+            for each (var taskContainer :TaskContainer in _namedTasks) {
                 taskContainer.removeAllTasks();
             }
         }
 
         _anonymousTasks.removeAllTasks();
-        _namedTasks.clear();
+        _namedTasks = [];
+        _taskNames = [];
     }
 
     /** Removes all tasks with the given name from the GameObject. */
@@ -148,12 +154,20 @@ public class GameObject extends EventDispatcher
             throw new ArgumentError("name must be at least 1 character long");
         }
 
-        var taskContainer :TaskContainer = _namedTasks.remove(name);
-
-        // if we're updating tasks, invalidate this task container so that
-        // it stops iterating its children
-        if (null != taskContainer && _updatingTasks) {
-            taskContainer.removeAllTasks();
+        var idx :int = _taskNames.indexOf(name);
+        if (idx != -1) {
+            // if we're updating tasks, invalidate this task container so that it stops iterating
+            // its children.  Instead of removing it from the array immediately, null it out so
+            // the order of iteration isn't disturbed.
+            if (_updatingTasks) {
+                _namedTasks[idx].removeAllTasks();
+                _namedTasks[idx] = null;
+                _taskNames[idx] = null;
+                _collapseRemovedTasks = true;
+            } else {
+                _namedTasks.splice(idx, 1);
+                _taskNames.splice(idx, 1);
+            }
         }
     }
 
@@ -164,21 +178,17 @@ public class GameObject extends EventDispatcher
             return true;
 
         } else {
-            var hasNamedTask :Boolean;
-            _namedTasks.forEach(
-                function (name :String, container :ParallelTask) :Boolean {
-                    hasNamedTask = container.hasTasks();
-                    return hasNamedTask;
-                });
-            return hasNamedTask;
+            return _namedTasks.some(function (container :ParallelTask, ..._) :Boolean {
+                return container.hasTasks();
+            });
         }
     }
 
     /** Returns true if the GameObject has any tasks with the given name. */
     public function hasTasksNamed (name :String) :Boolean
     {
-        var namedTaskContainer :ParallelTask = (_namedTasks.get(name) as ParallelTask);
-        return (null == namedTaskContainer ? false : namedTaskContainer.hasTasks());
+        var idx :int = _taskNames.indexOf(name);
+        return idx != -1 && ParallelTask(_namedTasks[idx]).hasTasks();
     }
 
     /**
@@ -342,42 +352,46 @@ public class GameObject extends EventDispatcher
     {
         _updatingTasks = true;
         _anonymousTasks.update(dt, this);
-        if (!_namedTasks.isEmpty()) {
-            var thisGameObject :GameObject = this;
-            _namedTasks.forEach(updateNamedTaskContainer);
+        for each (var namedTask :ParallelTask in _namedTasks) {
+            if (namedTask != null) {// Can be nulled out by being removed during the update
+                namedTask.update(dt, this);
+            }
+        }
+        if (_collapseRemovedTasks) {
+           // Only iterate over the _namedTasks array if there are removed tasks in there
+            _collapseRemovedTasks = false;
+            for (var ii :int = 0; ii < _namedTasks.length; ii++) {
+                if (_namedTasks[ii] === null) {
+                    _namedTasks.splice(ii, 1);
+                    _taskNames.splice(ii--, 1);
+                }
+            }
         }
         _updatingTasks = false;
 
         update(dt);
-
-        function updateNamedTaskContainer (name :*, tasks :*) :void {
-            // Tasks may be removed from the object during the _namedTasks.forEach() loop.
-            // When this happens, we'll get undefined 'tasks' objects.
-            if (undefined !== tasks) {
-                (tasks as ParallelTask).update(dt, thisGameObject);
-            }
-        }
     }
 
     internal function receiveMessageInternal (msg :ObjectMessage) :void
     {
         _anonymousTasks.receiveMessage(msg);
 
-        if (!_namedTasks.isEmpty()) {
-            _namedTasks.forEach(
-                function (name :*, tasks:*) :void {
-                    if (undefined !== tasks) {
-                        (tasks as ParallelTask).receiveMessage(msg);
-                    }
-                });
+        for each (var namedTask :ParallelTask in _namedTasks) {
+            (namedTask as ParallelTask).receiveMessage(msg);
         }
 
         receiveMessage(msg);
     }
 
     protected var _anonymousTasks :ParallelTask = new ParallelTask();
-    protected var _namedTasks :Map = Maps.newSortedMapOf(String); // Map<String, ParallelTask>
+    // The names of the tasks in _namedTasks in the same order as _namedTasks.  These arrays
+    // function as a Map, but they're maintained as parallel arrays to speed up iterating over
+    // the tasks in updateInternal while maintaining a deterministic task iteration order.
+    protected var _taskNames :Array = [];//<String>
+    protected var _namedTasks :Array = [];//<ParallelTask>
     protected var _updatingTasks :Boolean;
+    // True if tasks were removed while an update was in progress
+    protected var _collapseRemovedTasks :Boolean;
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
 

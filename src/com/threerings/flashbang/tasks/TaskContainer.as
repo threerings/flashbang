@@ -77,12 +77,16 @@ public class TaskContainer
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var result :Boolean = applyFunction(
-            function (task :ObjectTask) :Boolean {
-                return task.update(dt, obj);
-            });
+        // Store the object and delta on the container to avoid the expense of creating a closure
+        // in an oft-called method
+        _updateDelta = dt;
+        _updateObj = obj;
+        return applyFunction(updateTask);
+    }
 
-        return result;
+    protected function updateTask(task :ObjectTask) :Boolean
+    {
+        return task.update(_updateDelta, _updateObj);
     }
 
     /** Returns a clone of the TaskContainer. */
@@ -182,6 +186,11 @@ public class TaskContainer
         // once we have no more active tasks, we're complete
         return (0 == _activeTaskCount);
     }
+
+    // The most recent delta and object values from update.  Only valid while update is being
+    // called
+    protected var _updateDelta :Number;
+    protected var _updateObj :GameObject;
 
     protected var _type :int;
     protected var _tasks :Array = new Array();
