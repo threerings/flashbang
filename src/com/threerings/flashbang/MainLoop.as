@@ -271,8 +271,7 @@ public class MainLoop extends EventDispatcher
             _modeStack.push(newMode);
             _hostSprite.addChild(newMode.modeSprite);
 
-            newMode._ctx = _ctx;
-            newMode.setupInternal();
+            newMode.setupInternal(_ctx);
         }
 
         function doInsertMode (newMode :AppMode, index :int) :void {
@@ -289,8 +288,7 @@ public class MainLoop extends EventDispatcher
             _modeStack.splice(index, 0, newMode);
             _hostSprite.addChildAt(newMode.modeSprite, index);
 
-            newMode._ctx = _ctx;
-            newMode.setupInternal();
+            newMode.setupInternal(_ctx);
         }
 
         function doRemoveMode (index :int) :void {
@@ -313,7 +311,6 @@ public class MainLoop extends EventDispatcher
             }
 
             mode.destroyInternal();
-            mode._ctx = null;
 
             _modeStack.splice(index, 1);
             _hostSprite.removeChild(mode.modeSprite);

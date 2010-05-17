@@ -20,11 +20,11 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.components.SceneComponent;
+
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
-
-import com.threerings.flashbang.components.SceneComponent;
 
 public class AppMode extends ObjectDB
 {
@@ -34,7 +34,7 @@ public class AppMode extends ObjectDB
         _modeSprite.mouseChildren = false;
     }
 
-    public function get modeSprite () :Sprite
+    public final function get modeSprite () :Sprite
     {
         return _modeSprite;
     }
@@ -134,8 +134,9 @@ public class AppMode extends ObjectDB
     {
     }
 
-    internal function setupInternal () :void
+    internal function setupInternal (ctx :Context) :void
     {
+        _ctx = ctx;
         setup();
     }
 
@@ -143,28 +144,27 @@ public class AppMode extends ObjectDB
     {
         destroy();
         shutdown();
+        _ctx = null;
     }
 
     internal function enterInternal () :void
     {
-        this.modeSprite.mouseEnabled = true;
-        this.modeSprite.mouseChildren = true;
+        _modeSprite.mouseEnabled = true;
+        _modeSprite.mouseChildren = true;
 
         enter();
     }
 
     internal function exitInternal () :void
     {
-        this.modeSprite.mouseEnabled = false;
-        this.modeSprite.mouseChildren = false;
+        _modeSprite.mouseEnabled = false;
+        _modeSprite.mouseChildren = false;
 
         exit();
     }
 
     protected var _modeSprite :Sprite = new Sprite();
-
-    // Managed by MainLoop
-    internal var _ctx :Context;
+    protected var _ctx :Context;
 }
 
 }
