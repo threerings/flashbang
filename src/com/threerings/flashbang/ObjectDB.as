@@ -386,7 +386,7 @@ public class ObjectDB extends EventDispatcher
         _namedObjects = null;
         _groupedObjects = null;
 
-        _events.freeAllHandlers();
+        _events.shutdown();
     }
 
     protected var _runningTime :Number = 0;

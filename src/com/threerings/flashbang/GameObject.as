@@ -347,7 +347,7 @@ public class GameObject extends EventDispatcher
     internal function destroyedInternal () :void
     {
         destroyed();
-        _events.freeAllHandlers();
+        _events.shutdown();
     }
 
     internal function updateInternal (dt :Number) :void
