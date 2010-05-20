@@ -24,13 +24,14 @@ import com.threerings.flashbang.objects.SceneObject;
 import com.threerings.util.Framerate;
 
 import flash.display.DisplayObject;
+import flash.filters.GlowFilter;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
 public class FramerateView extends SceneObject
 {
     public function FramerateView (normalColor :uint = 0x00ff00, slowColor :uint = 0xff0000,
-        slowFps :Number = 15)
+        outlineColor :uint = 0xffffff, slowFps :Number = 15)
     {
         _normalColor = normalColor;
         _slowColor = slowColor;
@@ -38,6 +39,8 @@ public class FramerateView extends SceneObject
 
         _tf = new TextField();
         _tf.autoSize = TextFieldAutoSize.LEFT;
+        _tf.filters = [ new GlowFilter(outlineColor, 1, 5, 5, 10) ];
+
         _framerate = new Framerate(_tf, 1000);
     }
 

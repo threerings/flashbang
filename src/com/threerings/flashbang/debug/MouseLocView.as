@@ -23,17 +23,19 @@ package com.threerings.flashbang.debug {
 import com.threerings.flashbang.objects.SceneObject;
 
 import flash.display.DisplayObject;
+import flash.filters.GlowFilter;
 import flash.geom.Point;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
 public class MouseLocView extends SceneObject
 {
-    public function MouseLocView (color :uint = 0x00ff00)
+    public function MouseLocView (color :uint = 0x00ff00, outlineColor :uint = 0xffffff)
     {
         _tf = new TextField();
         _tf.autoSize = TextFieldAutoSize.LEFT;
         _tf.textColor = color;
+        _tf.filters = [ new GlowFilter(outlineColor, 1, 5, 5, 10) ];
     }
 
     override protected function update (dt :Number) :void
