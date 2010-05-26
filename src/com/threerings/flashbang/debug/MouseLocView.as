@@ -30,12 +30,12 @@ import flash.text.TextFieldAutoSize;
 
 public class MouseLocView extends SceneObject
 {
-    public function MouseLocView (color :uint = 0x00ff00, outlineColor :uint = 0xffffff)
+    public function MouseLocView (color :uint = 0x0000ff, outlineColor :uint = 0xffffff)
     {
         _tf = new TextField();
         _tf.autoSize = TextFieldAutoSize.LEFT;
         _tf.textColor = color;
-        _tf.filters = [ new GlowFilter(outlineColor, 1, 5, 5, 10) ];
+        _tf.filters = [ new GlowFilter(outlineColor, 1, 3, 3, 10) ];
     }
 
     override protected function update (dt :Number) :void

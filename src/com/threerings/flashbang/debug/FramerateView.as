@@ -30,7 +30,7 @@ import flash.text.TextFieldAutoSize;
 
 public class FramerateView extends SceneObject
 {
-    public function FramerateView (normalColor :uint = 0x00ff00, slowColor :uint = 0xff0000,
+    public function FramerateView (normalColor :uint = 0x0000ff, slowColor :uint = 0xff0000,
         outlineColor :uint = 0xffffff, slowFps :Number = 15)
     {
         _normalColor = normalColor;
@@ -39,7 +39,7 @@ public class FramerateView extends SceneObject
 
         _tf = new TextField();
         _tf.autoSize = TextFieldAutoSize.LEFT;
-        _tf.filters = [ new GlowFilter(outlineColor, 1, 5, 5, 10) ];
+        _tf.filters = [ new GlowFilter(outlineColor, 1, 3, 3, 10) ];
 
         _framerate = new Framerate(_tf, 1000);
     }
