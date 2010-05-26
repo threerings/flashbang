@@ -35,7 +35,7 @@ public class MouseLocView extends SceneObject
         _tf = new TextField();
         _tf.autoSize = TextFieldAutoSize.LEFT;
         _tf.textColor = color;
-        _tf.filters = [ new GlowFilter(outlineColor, 1, 3, 3, 10) ];
+        _tf.filters = [ new GlowFilter(outlineColor, 1, 4, 4, 10) ];
     }
 
     override protected function update (dt :Number) :void

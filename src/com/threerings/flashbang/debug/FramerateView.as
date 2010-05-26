@@ -39,7 +39,7 @@ public class FramerateView extends SceneObject
 
         _tf = new TextField();
         _tf.autoSize = TextFieldAutoSize.LEFT;
-        _tf.filters = [ new GlowFilter(outlineColor, 1, 3, 3, 10) ];
+        _tf.filters = [ new GlowFilter(outlineColor, 1, 4, 4, 10) ];
 
         _framerate = new Framerate(_tf, 1000);
     }
