@@ -24,7 +24,7 @@ public class GameObjectRef
 {
     public static function Null () :GameObjectRef
     {
-        return g_null;
+        return NULL;
     }
 
     public function destroyObject () :void
@@ -49,12 +49,13 @@ public class GameObjectRef
         return (null == _obj);
     }
 
-    protected static var g_null :GameObjectRef = new GameObjectRef();
-
     // managed by ObjectDB
     internal var _obj :GameObject;
     internal var _next :GameObjectRef;
     internal var _prev :GameObjectRef;
+
+    // singleton null ref
+    protected static const NULL :GameObjectRef = new GameObjectRef();
 }
 
 }
