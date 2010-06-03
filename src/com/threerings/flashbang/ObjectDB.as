@@ -238,6 +238,34 @@ public class ObjectDB extends EventDispatcher
         }
     }
 
+    /**
+     * Guarantees that the "second" GameObject will have its update logic run after "first"
+     * during the update loop.
+     */
+    public function setUpdateOrder (first :GameObject, second :GameObject) :void
+    {
+        if (second.db != this || first.db != this) {
+            throw new Error("GameObject doesn't belong to this ObjectDB");
+        } else if (!second.isLiveObject || !first.isLiveObject) {
+            throw new Error("GameObject is not live");
+        }
+
+        // unlink second from the list
+        unlink(second);
+
+        // relink it directly after first
+        var firstRef :GameObjectRef = first._ref;
+        var secondRef :GameObjectRef = second._ref;
+        var nextRef :GameObjectRef = firstRef._next;
+
+        firstRef._next = secondRef;
+        secondRef._prev = firstRef;
+        secondRef._next = nextRef;
+        if (nextRef != null) {
+            nextRef._prev = secondRef;
+        }
+    }
+
     /** Returns the number of live GameObjects in this ObjectDB. */
     public function get objectCount () :uint
     {
@@ -322,28 +350,14 @@ public class ObjectDB extends EventDispatcher
         Assert.isTrue(null != obj._ref && null == obj._ref._obj);
 
         // unlink the object ref
-        var ref :GameObjectRef = obj._ref;
-
-        var prev :GameObjectRef = ref._prev;
-        var next :GameObjectRef = ref._next;
-
-        if (null != prev) {
-            prev._next = next;
-        } else {
-            // if prev is null, ref was the head of the list
-            Assert.isTrue(ref == _listHead);
-            _listHead = next;
-        }
-
-        if (null != next) {
-            next._prev = prev;
-        }
+        unlink(obj);
 
         // iterate over the object's groups
         // (we remove the object from its groups here, rather than in
         // destroyObject(), because client code might be iterating an
         // object group Array when destroyObject is called)
         var groupNum :int = 0;
+        var ref :GameObjectRef = obj._ref;
         do {
             var groupName :String = obj.getObjectGroup(groupNum++);
             if (null != groupName) {
@@ -362,6 +376,30 @@ public class ObjectDB extends EventDispatcher
         } while (null != groupName);
 
         obj._parentDB = null;
+    }
+
+    /**
+     * Unlinks the GameObject from the db's linked list of objects. This happens during
+     * object removal. It generally should not be called directly.
+     */
+    protected function unlink (obj :GameObject) :void
+    {
+        var ref :GameObjectRef = obj._ref;
+
+        var prev :GameObjectRef = ref._prev;
+        var next :GameObjectRef = ref._next;
+
+        if (null != prev) {
+            prev._next = next;
+        } else {
+            // if prev is null, ref was the head of the list
+            Assert.isTrue(ref == _listHead);
+            _listHead = next;
+        }
+
+        if (null != next) {
+            next._prev = prev;
+        }
     }
 
     /**
