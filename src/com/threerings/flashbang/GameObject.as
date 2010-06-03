@@ -310,16 +310,7 @@ public class GameObject extends EventDispatcher
 
     }
 
-    internal function addedToDBInternal () :void
-    {
-        for each (var dep :PendingDependentObject in _pendingDependentObjects) {
-            addDependentToDB(dep.obj, dep.isSceneObject, dep.displayParent, dep.displayIdx);
-        }
-        _pendingDependentObjects = null;
-        addedToDB();
-    }
-
-    internal function addDependentToDB (obj :GameObject, isSceneObject :Boolean,
+    protected function addDependentToDB (obj :GameObject, isSceneObject :Boolean,
         displayParent :DisplayObjectContainer, displayIdx :int) :void
     {
         var ref :GameObjectRef;
@@ -332,6 +323,15 @@ public class GameObject extends EventDispatcher
             ref = _parentDB.addObject(obj);
         }
         _dependentObjectRefs.push(ref);
+    }
+
+    internal function addedToDBInternal () :void
+    {
+        for each (var dep :PendingDependentObject in _pendingDependentObjects) {
+            addDependentToDB(dep.obj, dep.isSceneObject, dep.displayParent, dep.displayIdx);
+        }
+        _pendingDependentObjects = null;
+        addedToDB();
     }
 
     internal function removedFromDBInternal () :void
