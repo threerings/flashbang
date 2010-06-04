@@ -85,18 +85,15 @@ public class AppMode extends ObjectDB
 
     override public function destroyObject (ref :GameObjectRef) :void
     {
-        if (null != ref && null != ref.object) {
+        if (null != ref && ref.object is SceneComponent) {
             // if the object is attached to a DisplayObject, and if that
             // DisplayObject is in a display list, remove it from the display list
             // so that it will no longer be drawn to the screen
-            var sc :SceneComponent = (ref.object as SceneComponent);
-            if (null != sc) {
-                var displayObj :DisplayObject = sc.displayObject;
-                if (null != displayObj) {
-                    var parent :DisplayObjectContainer = displayObj.parent;
-                    if (null != parent) {
-                        parent.removeChild(displayObj);
-                    }
+            var disp :DisplayObject = SceneComponent(ref.object).displayObject;
+            if (null != disp) {
+                var parent :DisplayObjectContainer = disp.parent;
+                if (null != parent) {
+                    parent.removeChild(disp);
                 }
             }
         }
