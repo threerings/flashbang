@@ -20,6 +20,8 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.display.DisplayUtil;
+
 import com.threerings.flashbang.components.SceneComponent;
 
 import flash.display.DisplayObject;
@@ -91,10 +93,7 @@ public class AppMode extends ObjectDB
             // so that it will no longer be drawn to the screen
             var disp :DisplayObject = SceneComponent(ref.object).displayObject;
             if (null != disp) {
-                var parent :DisplayObjectContainer = disp.parent;
-                if (null != parent) {
-                    parent.removeChild(disp);
-                }
+                DisplayUtil.detach(disp);
             }
         }
 
