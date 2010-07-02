@@ -42,7 +42,7 @@ public class SimpleSceneObject extends SceneObject
 
     override public function getObjectGroup (groupNum :int) :String
     {
-        return (groupNum == 1 ? _group : null);
+        return (groupNum == 0 ? _group : null);
     }
 
     override public function get displayObject () :DisplayObject
