@@ -34,6 +34,26 @@ public class ObjectDB extends EventDispatcher
     implements Updatable
 {
     /**
+     * A convenience function that converts an Array of GameObjectRefs into an array of GameObjects.
+     * The resultant Array will not have any null objects, so it may be smaller than the Array
+     * that was passed in.
+     */
+    public static function getObjects (objectRefs :Array) :Array
+    {
+        // Array.map would be appropriate here, except that the resultant
+        // Array might contain fewer entries than the source.
+
+        var objs :Array = [];
+        for each (var ref :GameObjectRef in objectRefs) {
+            if (!ref.isNull) {
+                objs.push(ref.object);
+            }
+        }
+
+        return objs;
+    }
+
+    /**
      * Adds a GameObject to the ObjectDB. The GameObject must not be owned by another ObjectDB.
      */
     public function addObject (obj :GameObject) :GameObjectRef
@@ -176,19 +196,7 @@ public class ObjectDB extends EventDispatcher
      */
     public function getObjectsInGroup (groupName :String) :Array
     {
-        var refs :Array = getObjectRefsInGroup(groupName);
-
-        // Array.map would be appropriate here, except that the resultant
-        // Array might contain fewer entries than the source.
-
-        var objs :Array = new Array();
-        for each (var ref :GameObjectRef in refs) {
-            if (!ref.isNull) {
-                objs.push(ref.object);
-            }
-        }
-
-        return objs;
+        return getObjects(getObjectRefsInGroup(groupName));
     }
 
     /** Called once per update tick. Updates all objects in the mode. */
