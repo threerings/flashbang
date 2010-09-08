@@ -1,4 +1,8 @@
+//
+// $Id$
+//
 // Flashbang - a framework for creating Flash games
+// Copyright (C) 2008-2010 Three Rings Design, Inc., All Rights Reserved
 // http://code.google.com/p/flashbang/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -13,10 +17,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-//
-// Copyright 2008 Three Rings Design
-//
-// $Id$
 
 package com.threerings.flashbang.components {
 
