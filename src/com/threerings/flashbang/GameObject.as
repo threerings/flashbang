@@ -68,6 +68,15 @@ public class GameObject extends EventDispatcher
     }
 
     /**
+     * Returns the group that this object belongs to. If the object belongs
+     * to multiple groups, use the getObjectGroup() function.
+     */
+    public function get objectGroup () :String
+    {
+        return null;
+    }
+
+    /**
      * Iterates over the groups that this object is a member of.
      * If a subclass overrides this function, it should do something
      * along the lines of:
@@ -84,7 +93,7 @@ public class GameObject extends EventDispatcher
      */
     public function getObjectGroup (groupNum :int) :String
     {
-        return null;
+        return (this.objectGroup);
     }
 
     /** Removes the GameObject from its parent database. */
