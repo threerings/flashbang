@@ -93,11 +93,7 @@ public class GameObject extends EventDispatcher
      */
     public function getObjectGroup (groupNum :int) :String
     {
-        if (groupNum == 0) {
-            return this.objectGroup;
-        } else {
-            return null;
-        }
+        return (groupNum == 0 ? this.objectGroup : null);
     }
 
     /** Removes the GameObject from its parent database. */
