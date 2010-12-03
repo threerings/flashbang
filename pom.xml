@@ -6,7 +6,7 @@
   <packaging>swc</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>flashbang</name>
-  <description>Utilities for use in developing ActionScript applications.</description>
+  <description>Flashbang is a simple game framework written in ActionScript.</description>
   <url>http://code.google.com/p/flashbang/</url>
   <issueManagement>
     <url>http://code.google.com/p/flashbang/issues/list</url>
@@ -84,29 +84,7 @@
           <useNetwork>true</useNetwork>
           <flexConfig>target/aslib-config.xml</flexConfig>
           <optimize>true</optimize>
-          <source>src/as</source>
-          <extraParameters>
-            <parameter>
-              <name>include-libraries+=${basedir}/lib/zip.swc</name>
-            </parameter>
-          </extraParameters>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>RELEASE</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <keyname>mdb@samskivert.com</keyname>
+          <source>src</source>
         </configuration>
       </plugin>
       <plugin>
@@ -121,4 +99,34 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property><name>performRelease</name><value>true</value></property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <keyname>mdb@samskivert.com</keyname>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
