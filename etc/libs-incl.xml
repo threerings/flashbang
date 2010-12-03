@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<!-- declares the libraries needed to build flashbang -->
-<project name="library-dependencies">
-  <fileset dir="${libs.dir}" id="flashbang.libs">
-    <include name="aspirin.swc"/>
-  </fileset>
-</project>
