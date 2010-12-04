@@ -4,7 +4,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>flashbang</artifactId>
   <packaging>swc</packaging>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <name>flashbang</name>
   <description>Flashbang is a simple game framework written in ActionScript.</description>
   <url>http://code.google.com/p/flashbang/</url>
@@ -35,9 +35,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://flashbang.googlecode.com/svn/tags/flashbang-1.0</connection>
-    <developerConnection>scm:svn:https://flashbang.googlecode.com/svn/tags/flashbang-1.0</developerConnection>
-    <url>http://flashbang.googlecode.com/svn/tags/flashbang-1.0</url>
+    <connection>scm:svn:http://flashbang.googlecode.com/svn/trunk/</connection>
+    <developerConnection>scm:svn:https://flashbang.googlecode.com/svn/trunk/</developerConnection>
+    <url>http://flashbang.googlecode.com/svn/trunk/</url>
   </scm>
 
   <properties>
