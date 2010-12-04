@@ -20,8 +20,6 @@
 
 package com.threerings.flashbang.objects {
 
-import flash.display.DisplayObject;
-
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.AlphaComponent;
 import com.threerings.flashbang.components.BoundsComponent;
@@ -29,6 +27,9 @@ import com.threerings.flashbang.components.RotationComponent;
 import com.threerings.flashbang.components.ScaleComponent;
 import com.threerings.flashbang.components.SceneComponent;
 import com.threerings.flashbang.components.VisibleComponent;
+import com.threerings.geom.Vector2;
+
+import flash.display.DisplayObject;
 
 public class SceneObject extends GameObject
     implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,
@@ -69,6 +70,17 @@ public class SceneObject extends GameObject
         this.displayObject.y = val;
     }
 
+    public function get loc () :Vector2
+    {
+        return new Vector2(this.displayObject.x, this.displayObject.y);
+    }
+
+    public function set loc (loc :Vector2) :void
+    {
+        this.displayObject.x = loc.x;
+        this.displayObject.y = loc.y;
+    }
+
     public function get width () :Number
     {
         return this.displayObject.width;
@@ -107,6 +119,17 @@ public class SceneObject extends GameObject
     public function set scaleY (val :Number) :void
     {
         this.displayObject.scaleY = val;
+    }
+
+    public function get scale () :Vector2
+    {
+        return new Vector2(this.displayObject.scaleX, this.displayObject.scaleY);
+    }
+
+    public function set scale (val :Vector2) :void
+    {
+        this.displayObject.scaleX = val.x;
+        this.displayObject.scaleY = val.y;
     }
 
     public function get visible () :Boolean
