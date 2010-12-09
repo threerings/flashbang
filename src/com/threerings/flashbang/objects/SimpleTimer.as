@@ -20,9 +20,10 @@
 
 package com.threerings.flashbang.objects {
 
-import com.threerings.flashbang.MainLoop;
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.MainLoop;
 import com.threerings.flashbang.tasks.*;
+import com.threerings.flashbang.util.BoxedNumber;
 
 public class SimpleTimer extends GameObject
 {
@@ -36,7 +37,7 @@ public class SimpleTimer extends GameObject
         repeating :Boolean = false, timerName :String = null)
     {
         _name = timerName;
-        _timeLeft["value"] = delay;
+        _timeLeft.value = delay;
 
         if (repeating) {
             var repeatingTask :RepeatingTask = new RepeatingTask();
@@ -79,11 +80,11 @@ public class SimpleTimer extends GameObject
 
     public function get timeLeft () :Number
     {
-        return _timeLeft["value"];
+        return _timeLeft.value;
     }
 
     protected var _name :String;
-    protected var _timeLeft :Object = {};
+    protected var _timeLeft :BoxedNumber = new BoxedNumber();
 
 }
 
