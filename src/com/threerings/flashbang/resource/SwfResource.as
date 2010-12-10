@@ -21,6 +21,7 @@
 package com.threerings.flashbang.resource {
 
 import com.threerings.util.ClassUtil;
+import com.threerings.util.Log;
 
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
@@ -67,6 +68,7 @@ public class SwfResource extends Resource
             return movie;
         }
 
+        log.warning("No such MovieClip", "resourceName", resourceName, "className", className);
         return null;
     }
 
@@ -86,6 +88,9 @@ public class SwfResource extends Resource
         className :String) :SimpleButton
     {
         var theClass :Class = getClass(rsrcs, resourceName, className);
+        if (theClass == null) {
+            log.warning("No such SimpleButton", "resourceName", resourceName, "className", className);
+        }
         return (null != theClass ? new theClass() : null);
     }
 
@@ -93,6 +98,9 @@ public class SwfResource extends Resource
         className :String, width :int, height :int) :BitmapData
     {
         var theClass :Class = getClass(rsrcs, resourceName, className);
+        if (theClass == null) {
+            log.warning("No such BitmapData", "resourceName", resourceName, "className", className);
+        }
         return (null != theClass ? new theClass(width, height) : null);
     }
 
@@ -260,6 +268,8 @@ public class SwfResource extends Resource
     protected var _symbolNames :Array;
 
     protected static var _mcCache :Dictionary = new Dictionary();
+
+    protected static const log :Log = Log.getLog(SwfResource);
 }
 
 }
