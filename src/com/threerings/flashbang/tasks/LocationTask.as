@@ -29,7 +29,6 @@ import flash.display.DisplayObject;
 import mx.effects.easing.*;
 
 public class LocationTask extends InterpolatingTask
-    implements ObjectTask
 {
     public static function CreateLinear (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :LocationTask
