@@ -20,15 +20,144 @@
 
 package com.threerings.flashbang.util {
 
+import com.threerings.flashbang.*;
 import com.threerings.geom.Vector2;
 
 import flash.display.DisplayObject;
 import flash.geom.Point;
 
-import com.threerings.flashbang.*;
-
 public class Collision
 {
+    /**
+     * Calls the given callback for each integer grid coordinate that the given line passes through.
+     *
+     * @param callback the function to call for each coordinate.
+     * It should be of the form: <code>function (gridX :int, gridY :int) :Boolean</code>
+     * Return true from the callback to stop the intersection test, or false to continue.
+     */
+    public static function forEachLineGridIntersection (v1 :Vector2, v2 :Vector2,
+        callback :Function) :void
+    {
+        // "supercover line algorithm", described here:
+        // http://lifc.univ-fcomte.fr/~dedu/projects/bresenham/index.html
+
+        if (callback(int(v1.x), int(v1.y))) {
+            return;
+        }
+
+        var ii :int;            // loop counter
+        var ystep :int;
+        var xstep :int;         // the step on y and x axis
+        var error :int;         // the error accumulated during the increment
+        var errorprev :int;     // *vision the previous value of the error variable
+        var yy :int = v1.y;
+        var xx :int = v1.x;     // the line points
+        var ddy :int;
+        var ddx :int;           // compulsory variables: the double values of dy and dx
+        var dx :int = v2.x - v1.x;
+        var dy :int = v2.y - v1.y;
+
+        // NB the last point can't be here, because of its previous point (which has to be verified)
+        if (dy < 0) {
+            ystep = -1;
+            dy = -dy;
+        } else {
+            ystep = 1;
+        }
+
+        if (dx < 0) {
+            xstep = -1;
+            dx = -dx;
+        } else {
+            xstep = 1;
+        }
+
+        ddy = 2 * dy;  // work with double values for full precision
+        ddx = 2 * dx;
+
+        if (ddx >= ddy) {  // first octant (0 <= slope <= 1)
+            // compulsory initialization (even for errorprev, needed when dx==dy)
+            errorprev = error = dx;  // start in the middle of the square
+            for (ii = 0; ii < dx; ii++) {  // do not use the first point (already done)
+                xx += xstep;
+                error += ddy;
+                if (error > ddx) {  // increment y if AFTER the middle ( > )
+                    yy += ystep;
+                    error -= ddx;
+                    // three cases (octant == right->right-top for directions below):
+                    if (error + errorprev < ddx) {  // bottom square also
+                        if (callback(xx, yy - ystep)) {
+                            return;
+                        }
+                    } else if (error + errorprev > ddx) {  // left square also
+                        if (callback(xx - xstep, yy)) {
+                            return;
+                        }
+                    } else {  // corner: bottom and left squares also
+                        if (callback(xx, yy - ystep)) {
+                            return;
+                        }
+                        if (callback(xx - xstep, yy)) {
+                            return;
+                        }
+                    }
+                }
+
+                if (callback(xx, yy)) {
+                    return;
+                }
+                errorprev = error;
+            }
+
+        } else {  // the same as above
+            errorprev = error = dy;
+            for (ii = 0; ii < dy; ii++) {
+                yy += ystep;
+                error += ddx;
+                if (error > ddy) {
+                    xx += xstep;
+                    error -= ddy;
+                    if (error + errorprev < ddy) {
+                        if (callback(xx - xstep, yy)) {
+                            return;
+                        }
+                    } else if (error + errorprev > ddy) {
+                        if (callback(xx, yy - ystep)) {
+                            return;
+                        }
+                    } else {
+                        if (callback(xx - xstep, yy)) {
+                            return;
+                        }
+                        if (callback(xx, yy - ystep)) {
+                            return;
+                        }
+                    }
+                }
+                if (callback(xx, yy)) {
+                    return;
+                }
+                errorprev = error;
+            }
+        }
+        // the last point (y2,x2) has to be the same with the last point of the algorithm
+        // assert ((y == y2) && (x == x2));
+    }
+
+    /**
+     * Returns an Array<Vector2> containing grid coordinates for all grid spaces that the given
+     * line passes through. Useful for line-of-sight calculations on a 2D grid.
+     */
+    public static function getLineGridIntersections (v1 :Vector2, v2 :Vector2) :Array
+    {
+        var points :Array = [];
+        forEachLineGridIntersection(v1, v2, function (gridX :int, gridY :int) :Boolean {
+            points.push(new Vector2(gridX, gridY));
+            return false;
+        });
+        return points;
+    }
+
     /** Returns true if the two circular display objects intersect. */
     public static function circularDisplayObjectsIntersect (
         cA :Vector2,
