@@ -379,12 +379,6 @@ public class GameObject extends EventDispatcher
         receiveMessage(msg);
     }
 
-    // a helper function for implementing getObjectGroup()
-    protected static function selectGroup (groups :Array, groupNum :int) :String
-    {
-        return (groupNum < groups.length ? groups[groupNum] : null);
-    }
-
     protected var _anonymousTasks :ParallelTask = new ParallelTask();
     // The names of the tasks in _namedTasks in the same order as _namedTasks.  These arrays
     // function as a Map, but they're maintained as parallel arrays to speed up iterating over
