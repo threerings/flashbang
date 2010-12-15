@@ -90,20 +90,16 @@ public class ObjectDB extends EventDispatcher
             }
         }
 
-        // iterate over the object's groups
-        var groupNum :int = 0;
-        do {
-            var groupName :String = obj.getObjectGroup(groupNum++);
-            if (null != groupName) {
-                var groupArray :Array = (_groupedObjects.get(groupName) as Array);
-                if (null == groupArray) {
-                    groupArray = [];
-                    _groupedObjects.put(groupName, groupArray);
-                }
-
-                groupArray.push(ref);
+        // add this object to the groups it belongs to
+        for each (var groupName :String in obj.objectGroups) {
+            var groupArray :Array = (_groupedObjects.get(groupName) as Array);
+            if (null == groupArray) {
+                groupArray = [];
+                _groupedObjects.put(groupName, groupArray);
             }
-        } while (null != groupName);
+
+            groupArray.push(ref);
+        }
 
         obj.addedToDBInternal();
 
@@ -360,28 +356,24 @@ public class ObjectDB extends EventDispatcher
         // unlink the object ref
         unlink(obj);
 
-        // iterate over the object's groups
-        // (we remove the object from its groups here, rather than in
-        // destroyObject(), because client code might be iterating an
+        // remove the object from the groups it belongs to
+        // (we do this here, rather than in destroyObject(),
+        // because client code might be iterating an
         // object group Array when destroyObject is called)
-        var groupNum :int = 0;
         var ref :GameObjectRef = obj._ref;
-        do {
-            var groupName :String = obj.getObjectGroup(groupNum++);
-            if (null != groupName) {
-                var groupArray :Array = (_groupedObjects.get(groupName) as Array);
-                if (null == groupArray) {
-                    throw new Error("destroyed GameObject is returning different object groups " +
-                                    "than it did on creation");
-                }
-
-                var wasInArray :Boolean = ArrayUtil.removeFirst(groupArray, ref);
-                if (!wasInArray) {
-                    throw new Error("destroyed GameObject is returning different object groups " +
-                                    "than it did on creation");
-                }
+        for each (var groupName :String in obj.objectGroups) {
+            var groupArray :Array = (_groupedObjects.get(groupName) as Array);
+            if (null == groupArray) {
+                throw new Error("destroyed GameObject is returning different object groups " +
+                    "than it did on creation");
             }
-        } while (null != groupName);
+
+            var wasInArray :Boolean = ArrayUtil.removeFirst(groupArray, ref);
+            if (!wasInArray) {
+                throw new Error("destroyed GameObject is returning different object groups " +
+                    "than it did on creation");
+            }
+        }
 
         obj._parentDB = null;
     }

@@ -68,32 +68,17 @@ public class GameObject extends EventDispatcher
     }
 
     /**
-     * Returns the group that this object belongs to. If the object belongs
-     * to multiple groups, use the getObjectGroup() function.
-     */
-    public function get objectGroup () :String
-    {
-        return null;
-    }
-
-    /**
-     * Iterates over the groups that this object is a member of.
-     * If a subclass overrides this function, it should do something
-     * along the lines of:
-     *
-     * override public function getObjectGroup (groupNum :int) :String
+     * Override to returns the groups that this object belongs to. E.g.:
+     * <code>
+     * override public function get objectGroups () :Array
      * {
-     *     switch (groupNum) {
-     *     case 0: return "Group0";
-     *     case 1: return "Group1";
-     *     // 2 is the number of groups this class defines
-     *     default: return super.getObjectGroup(groupNum - 2);
-     *     }
+     *     return [ "Foo", "Bar" ].concat(super.objectGroups);
      * }
+     * </code>
      */
-    public function getObjectGroup (groupNum :int) :String
+    public function get objectGroups () :Array
     {
-        return (groupNum == 0 ? this.objectGroup : null);
+        return [];
     }
 
     /** Removes the GameObject from its parent database. */
@@ -392,6 +377,12 @@ public class GameObject extends EventDispatcher
         }
 
         receiveMessage(msg);
+    }
+
+    // a helper function for implementing getObjectGroup()
+    protected static function selectGroup (groups :Array, groupNum :int) :String
+    {
+        return (groupNum < groups.length ? groups[groupNum] : null);
     }
 
     protected var _anonymousTasks :ParallelTask = new ParallelTask();

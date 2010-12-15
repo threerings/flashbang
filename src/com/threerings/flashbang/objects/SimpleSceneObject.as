@@ -40,9 +40,9 @@ public class SimpleSceneObject extends SceneObject
         return _name;
     }
 
-    override public function getObjectGroup (groupNum :int) :String
+    override public function get objectGroups () :Array
     {
-        return (groupNum == 0 ? _group : null);
+        return [ _group ];
     }
 
     override public function get displayObject () :DisplayObject
