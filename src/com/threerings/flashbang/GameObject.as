@@ -195,7 +195,7 @@ public class GameObject extends EventDispatcher
     public function addDependentObject (obj :GameObject) :void
     {
         if (_parentDB != null) {
-            addDependentToDB(obj, false, null, 0);
+            manageDependentObject(obj, false, null, 0);
         } else {
             _pendingDependentObjects.push(new PendingDependentObject(obj, false, null, 0));
         }
@@ -210,7 +210,7 @@ public class GameObject extends EventDispatcher
         displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :void
     {
         if (_parentDB != null) {
-            addDependentToDB(obj, true, displayParent, displayIdx);
+            manageDependentObject(obj, true, displayParent, displayIdx);
         } else {
             _pendingDependentObjects.push(
                 new PendingDependentObject(obj, true, displayParent, displayIdx));
@@ -304,25 +304,37 @@ public class GameObject extends EventDispatcher
 
     }
 
-    protected function addDependentToDB (obj :GameObject, isSceneObject :Boolean,
+    protected function manageDependentObject (obj :GameObject, isSceneObject :Boolean,
         displayParent :DisplayObjectContainer, displayIdx :int) :void
     {
         var ref :GameObjectRef;
-        if (isSceneObject) {
-            if (!(_parentDB is AppMode)) {
-                throw new Error("can't add SceneObject to non-AppMode ObjectDB");
+
+        // the dependent object may already be in the DB
+        if (obj._parentDB != null) {
+            if (obj._parentDB == _parentDB) {
+                ref = obj.ref;
+            } else {
+                throw new Error("Dependent object belongs to another ObjectDB");
             }
-            ref = AppMode(_parentDB).addSceneObject(obj, displayParent, displayIdx);
+
         } else {
-            ref = _parentDB.addObject(obj);
+            if (isSceneObject) {
+                if (!(_parentDB is AppMode)) {
+                    throw new Error("can't add SceneObject to non-AppMode ObjectDB");
+                }
+                ref = AppMode(_parentDB).addSceneObject(obj, displayParent, displayIdx);
+            } else {
+                ref = _parentDB.addObject(obj);
+            }
         }
+
         _dependentObjectRefs.push(ref);
     }
 
     internal function addedToDBInternal () :void
     {
         for each (var dep :PendingDependentObject in _pendingDependentObjects) {
-            addDependentToDB(dep.obj, dep.isSceneObject, dep.displayParent, dep.displayIdx);
+            manageDependentObject(dep.obj, dep.isSceneObject, dep.displayParent, dep.displayIdx);
         }
         _pendingDependentObjects = null;
         addedToDB();
