@@ -52,15 +52,15 @@ public class GameObject extends EventDispatcher
      * Returns true if the object is in an ObjectDB and is "live"
      * (not pending removal from the database)
      */
-    public function get isLiveObject () :Boolean
+    public final function get isLiveObject () :Boolean
     {
         return (null != _ref && !_ref.isNull);
     }
 
     /**
      * Returns the name of this object.
-     * Two objects in the same mode cannot have the same name.
-     * Objects cannot change their names once added to a mode.
+     * Objects can have multiple names, via {@link #objectNames}
+     * TODO: deprecate/remove this?
      */
     public function get objectName () :String
     {
@@ -68,7 +68,23 @@ public class GameObject extends EventDispatcher
     }
 
     /**
-     * Override to returns the groups that this object belongs to. E.g.:
+     * Returns the names of this object. (Objects can have multiple names.)
+     * Two objects in the same mode cannot have the same name.
+     * Objects cannot change their names once added to a mode.
+     * <code>
+     * override public function get objectNames () :Array
+     * {
+     *     return [ "MyName", "MyOtherName" ].concat(super.objectNames);
+     * }
+     * </code>
+     */
+    public function get objectNames () :Array
+    {
+        return (this.objectName != null ? [ this.objectName ] : []);
+    }
+
+    /**
+     * Override to return the groups that this object belongs to. E.g.:
      * <code>
      * override public function get objectGroups () :Array
      * {

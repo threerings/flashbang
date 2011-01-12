@@ -80,13 +80,12 @@ public class ObjectDB extends EventDispatcher
         obj._parentDB = this;
         obj._ref = ref;
 
-        // does the object have a name?
-        var objectName :String = obj.objectName;
-        if (null != objectName) {
+        // does the object have names?
+        for each (var objectName :String in obj.objectNames) {
             var oldObj :* = _namedObjects.put(objectName, obj);
             if (undefined !== oldObj) {
                 throw new Error("two objects with the same name ('" + objectName + "') " +
-                                "added to the ObjectDB");
+                    "added to the ObjectDB");
             }
         }
 
@@ -144,10 +143,11 @@ public class ObjectDB extends EventDispatcher
         ref._obj = null;
 
         // does the object have a name?
-        var objectName :String = obj.objectName;
-        if (null != objectName) {
+        for each (var objectName :String in obj.objectNames) {
             _namedObjects.remove(objectName);
         }
+
+        // object group removal takes place in finalizeObjectRemoval()
 
         obj.removedFromDBInternal();
         obj.destroyedInternal();
