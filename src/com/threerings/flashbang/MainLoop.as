@@ -108,7 +108,7 @@ public class MainLoop extends EventDispatcher
         }
 
         _hostSprite = hostSprite;
-        _keyDispatcher = (null != keyDispatcher ? keyDispatcher : _hostSprite);
+        _keyDispatcher = (null != keyDispatcher ? keyDispatcher : _hostSprite.stage);
 
         // ensure that proper setup has completed
         setup();
