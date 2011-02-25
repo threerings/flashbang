@@ -20,11 +20,10 @@
 
 package com.threerings.flashbang.resource {
 
+import com.threerings.flashbang.util.LoadableBatch;
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
-
-import com.threerings.flashbang.util.LoadableBatch;
 
 public class ResourceSet extends LoadableBatch
 {
@@ -32,6 +31,15 @@ public class ResourceSet extends LoadableBatch
     {
         super(loadInSequence);
         _rm = rm;
+    }
+
+    /**
+     * @return true if this ResourceSet contains a resource of the given name, regardless of
+     * whether that resource has been loaded or not.
+     */
+    public function containsResource (resourceName :String) :Boolean
+    {
+        return _resources.containsKey(resourceName);
     }
 
     public function queueResourceLoad (resourceType :String, resourceName: String, loadParams :*)
