@@ -43,8 +43,20 @@
   <properties>
     <flex.home>${env.FLEX_SDK}</flex.home>
   </properties>
+  <repositories>
+    <repository>
+      <id>ooo-public</id>
+      <url>http://ooo-maven.googlecode.com/hg/repository</url>
+    </repository>
+  </repositories>
 
   <dependencies>
+    <dependency>
+      <groupId>nochump</groupId>
+      <artifactId>zip</artifactId>
+      <version>1.0</version>
+      <type>swc</type>
+    </dependency>
     <dependency>
       <groupId>com.threerings</groupId>
       <artifactId>aspirin</artifactId>
@@ -63,7 +75,7 @@
         <executions>
           <execution>
             <phase>generate-sources</phase>
-            <goals><goal>replace</goal></goals>                    
+            <goals><goal>replace</goal></goals>
           </execution>
         </executions>
         <configuration>
