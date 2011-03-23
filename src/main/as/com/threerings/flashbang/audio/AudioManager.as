@@ -68,6 +68,16 @@ public class AudioManager
         return _masterControls;
     }
 
+    public function get musicControls () :AudioControls
+    {
+        return getControlsForSoundType(SoundResource.TYPE_MUSIC);
+    }
+
+    public function get sfxControls () :AudioControls
+    {
+        return getControlsForSoundType(SoundResource.TYPE_SFX);
+    }
+
     public function getControlsForSoundType (type :int) :AudioControls
     {
         if (type >= 0 && type < _soundTypeControls.length) {
