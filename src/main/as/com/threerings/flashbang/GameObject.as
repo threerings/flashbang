@@ -27,11 +27,15 @@ import com.threerings.util.Map;
 import com.threerings.util.Maps;
 
 import flash.display.DisplayObjectContainer;
+import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
 public class GameObject extends EventDispatcher
 {
+    /** Event dispatched when the GameObject is removed from the ObjectDB */
+    public static const DESTROYED :String = "GameObject_Destroyed";
+
     /**
      * Returns the unique GameObjectRef that stores a reference to this GameObject.
      */
@@ -364,6 +368,7 @@ public class GameObject extends EventDispatcher
             }
         }
         removedFromDB();
+        dispatchEvent(new Event(DESTROYED));
     }
 
     internal function destroyedInternal () :void
