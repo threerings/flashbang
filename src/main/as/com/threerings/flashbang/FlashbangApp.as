@@ -40,13 +40,8 @@ public class FlashbangApp
 
         if (config.externalResourceManager == null) {
             _ctx.rsrcs = new ResourceManager();
+            _ctx.rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
             _ownsResourceManager = true;
-
-            // add resource factories
-            _ctx.rsrcs.registerResourceType("image", ImageResource);
-            _ctx.rsrcs.registerResourceType("swf", SwfResource);
-            _ctx.rsrcs.registerResourceType("xml", XmlResource);
-            _ctx.rsrcs.registerResourceType("sound", SoundResource);
 
         } else {
             _ctx.rsrcs = config.externalResourceManager;

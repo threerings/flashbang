@@ -33,6 +33,14 @@ public class ResourceManager
         unloadAll();
     }
 
+    public function registerDefaultResourceTypes () :void
+    {
+        registerResourceType("image", ImageResource);
+        registerResourceType("swf", SwfResource);
+        registerResourceType("xml", XmlResource);
+        registerResourceType("sound", SoundResource);
+    }
+
     public function registerResourceType (resourceType :String, theClass :Class) :void
     {
         _resourceClasses.put(resourceType, theClass);
