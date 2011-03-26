@@ -150,7 +150,7 @@ public class ObjectDB extends EventDispatcher
         // object group removal takes place in finalizeObjectRemoval()
 
         obj.removedFromDBInternal();
-        obj.destroyedInternal();
+        obj.cleanupInternal();
 
         if (null == _objectsPendingRemoval) {
             _objectsPendingRemoval = new Array();
@@ -412,7 +412,7 @@ public class ObjectDB extends EventDispatcher
         var ref :GameObjectRef = _listHead;
         while (null != ref) {
             if (!ref.isNull) {
-                ref.object.destroyedInternal();
+                ref.object.cleanupInternal();
             }
 
             ref = ref._next;

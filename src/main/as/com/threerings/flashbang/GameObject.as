@@ -371,7 +371,7 @@ public class GameObject extends EventDispatcher
         dispatchEvent(new Event(DESTROYED));
     }
 
-    internal function destroyedInternal () :void
+    internal function cleanupInternal () :void
     {
         cleanup();
         _events.shutdown();
