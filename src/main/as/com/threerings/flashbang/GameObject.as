@@ -291,7 +291,7 @@ public class GameObject extends EventDispatcher
      * Called immediately after the GameObject has been removed from an AppMode.
      *
      * removedFromDB is not called when the GameObject's AppMode is removed from the mode stack.
-     * For logic that must be run in this instance, see {@link #destroyed}.
+     * For logic that must be run in this instance, see {@link #cleanup}.
      *
      * (Subclasses can override this to do something useful.)
      */
@@ -306,12 +306,12 @@ public class GameObject extends EventDispatcher
      * If the GameObject is removed from the active AppMode, {@link #removedFromDB}
      * will be called before destroyed.
      *
-     * destroyed should be used for logic that must be always be run when the GameObject is
+     * {@link #cleanup} should be used for logic that must be always be run when the GameObject is
      * destroyed (disconnecting event listeners, releasing resources, etc).
      *
      * (Subclasses can override this to do something useful.)
      */
-    protected function destroyed () :void
+    protected function cleanup () :void
     {
     }
 
@@ -373,7 +373,7 @@ public class GameObject extends EventDispatcher
 
     internal function destroyedInternal () :void
     {
-        destroyed();
+        cleanup();
         _events.shutdown();
     }
 

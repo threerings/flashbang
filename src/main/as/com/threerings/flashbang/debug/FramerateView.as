@@ -44,10 +44,10 @@ public class FramerateView extends SceneObject
         _framerate = new Framerate(_tf, 1000);
     }
 
-    override protected function destroyed () :void
+    override protected function cleanup () :void
     {
         _framerate.shutdown();
-        super.destroyed();
+        super.cleanup();
     }
 
     override protected function update (dt :Number) :void
