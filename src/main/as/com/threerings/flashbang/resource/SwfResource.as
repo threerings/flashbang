@@ -40,6 +40,25 @@ import ru.etcs.utils.getDefinitionNames;
 
 public class SwfResource extends Resource
 {
+    /** Load params */
+
+    /** A String containing the URL to load the swf from.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const URL :String = "url";
+
+    /** The [Embed]'d class to load the swf from.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const EMBEDDED_CLASS :String = "embeddedClass";
+
+    /** A ByteArray containing the swf.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const BYTES :String = "bytes";
+
+    /** A Boolean specifying whether to load the swf's symbols into a new ApplicationDomain,
+     * rather than the main domain. This is a good idea, as it prevents symbol name clashes
+     * that occur when multiple swfs have identically-named symbols. Defaults to true. */
+    public static const USE_SUBDOMAIN :String = "useSubDomain";
+
     public static function instantiateMovieClip (rsrcs :ResourceManager, resourceName :String,
         className :String, disableMouseInteraction :Boolean = false, fromCache :Boolean = false)
         :MovieClip
@@ -189,24 +208,24 @@ public class SwfResource extends Resource
         } catch (e :Error) {}
 
         // parse loadParams
-        if (getLoadParam("useSubDomain", true)) {
+        if (getLoadParam(USE_SUBDOMAIN, true)) {
             // default to loading symbols into a subdomain
             context.applicationDomain = new ApplicationDomain(ApplicationDomain.currentDomain);
         } else {
             context.applicationDomain = ApplicationDomain.currentDomain;
         }
 
-        if (hasLoadParam("url")) {
-            _loader.load(new URLRequest(getLoadParam("url")), context);
-        } else if (hasLoadParam("bytes")) {
-            var bytes :ByteArray = getLoadParam("bytes");
+        if (hasLoadParam(URL)) {
+            _loader.load(new URLRequest(getLoadParam(URL)), context);
+        } else if (hasLoadParam(BYTES)) {
+            var bytes :ByteArray = getLoadParam(BYTES);
             if (bytes == null) {
                 onError("missing bytes!");
             } else {
                 _loader.loadBytes(bytes, context);
             }
-        } else if (hasLoadParam("embeddedClass")) {
-            var embeddedClass :Class = getLoadParam("embeddedClass");
+        } else if (hasLoadParam(EMBEDDED_CLASS)) {
+            var embeddedClass :Class = getLoadParam(EMBEDDED_CLASS);
             if (embeddedClass == null) {
                 onError("missing embedded class!");
             } else {

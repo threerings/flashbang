@@ -30,6 +30,20 @@ import flash.utils.ByteArray;
 
 public class ImageResource extends Resource
 {
+    /** Load params */
+
+    /** A String containing the URL to load the image from.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const URL :String = "url";
+
+    /** The [Embed]'d class to load the image from.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const EMBEDDED_CLASS :String = "embeddedClass";
+
+    /** A ByteArray containing the image.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const BYTES :String = "bytes";
+
     public static function instantiateBitmap (rsrcs :ResourceManager, resourceName :String) :Bitmap
     {
         var img :ImageResource = rsrcs.getResource(resourceName) as ImageResource;
@@ -69,17 +83,17 @@ public class ImageResource extends Resource
         _errorCallback = errorCallback;
 
         // parse loadParams
-        if (hasLoadParam("url")) {
-            _loader.load(new URLRequest(getLoadParam("url")));
-        } else if (hasLoadParam("bytes")) {
-            var bytes :ByteArray = getLoadParam("bytes");
+        if (hasLoadParam(URL)) {
+            _loader.load(new URLRequest(getLoadParam(URL)));
+        } else if (hasLoadParam(BYTES)) {
+            var bytes :ByteArray = getLoadParam(BYTES);
             if (bytes == null) {
                 onError("missing bytes!");
             } else {
                 _loader.loadBytes(bytes);
             }
-        } else if (hasLoadParam("embeddedClass")) {
-            var embeddedClass :Class = getLoadParam("embeddedClass");
+        } else if (hasLoadParam(EMBEDDED_CLASS)) {
+            var embeddedClass :Class = getLoadParam(EMBEDDED_CLASS);
             if (embeddedClass == null) {
                 onError("missing embedded class!");
             } else {

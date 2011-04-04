@@ -33,6 +33,24 @@ import flash.utils.ByteArray;
 
 public class XmlResource extends Resource
 {
+    /** Load params */
+
+    /** A String containing the URL to load the XML from.
+     * (URL, BYTES, EMBEDDED_CLASS or TEXT must be specified). */
+    public static const URL :String = "url";
+
+    /** A ByteArray containing the XML.
+     * (URL, BYTES, EMBEDDED_CLASS or TEXT must be specified). */
+    public static const BYTES :String = "bytes";
+
+    /** The [Embed]'d class to load the XML from.
+     * (URL, BYTES, EMBEDDED_CLASS or TEXT must be specified). */
+    public static const EMBEDDED_CLASS :String = "embeddedClass";
+
+    /** A String containing the XML.
+     * (URL, BYTES, EMBEDDED_CLASS or TEXT must be specified). */
+    public static const TEXT :String = "text";
+
     public function XmlResource (resourceName :String, loadParams :Object,
         objectGenerator :Function = null)
     {
@@ -55,19 +73,19 @@ public class XmlResource extends Resource
         _completeCallback = completeCallback;
         _errorCallback = errorCallback;
 
-        if (hasLoadParam("url")) {
-            loadFromURL(getLoadParam("url"));
-        } else if (hasLoadParam("embeddedClass")) {
-            loadFromEmbeddedClass(getLoadParam("embeddedClass"));
-        } else if (hasLoadParam("bytes")) {
-            var bytes :ByteArray = getLoadParam("bytes");
+        if (hasLoadParam(URL)) {
+            loadFromURL(getLoadParam(URL));
+        } else if (hasLoadParam(EMBEDDED_CLASS)) {
+            loadFromEmbeddedClass(getLoadParam(EMBEDDED_CLASS));
+        } else if (hasLoadParam(BYTES)) {
+            var bytes :ByteArray = getLoadParam(BYTES);
             if (bytes == null) {
                 onError("missing bytes!");
             } else {
                 instantiateXml(bytes.readUTFBytes(bytes.length));
             }
-        } else if (hasLoadParam("text")) {
-            loadFromText(getLoadParam("text"));
+        } else if (hasLoadParam(TEXT)) {
+            loadFromText(getLoadParam(TEXT));
         } else {
             throw new Error("'url', 'embeddedClass', 'bytes', or 'text' must be specified in " +
                 "loadParams");

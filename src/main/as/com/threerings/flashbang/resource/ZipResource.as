@@ -36,6 +36,20 @@ import nochump.util.zip.ZipFile;
 
 public class ZipResource extends Resource
 {
+    /** Load params */
+
+    /** A String containing the URL to load the zip from.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const URL :String = "url";
+
+    /** The [Embed]'d class to load the zip from.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const EMBEDDED_CLASS :String = "embeddedClass";
+
+    /** A ByteArray containing the zip.
+     * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
+    public static const BYTES :String = "bytes";
+
     public function ZipResource (resourceName :String, loadParams :Object)
     {
         super(resourceName, loadParams);
@@ -57,17 +71,17 @@ public class ZipResource extends Resource
         _completeCallback = completeCallback;
         _errorCallback = errorCallback;
 
-        if (hasLoadParam("url")) {
-            loadFromURL(getLoadParam("url"));
-        } else if (hasLoadParam("embeddedClass")) {
-            var embeddedClass :Class = getLoadParam("embeddedClass");
+        if (hasLoadParam(URL)) {
+            loadFromURL(getLoadParam(URL));
+        } else if (hasLoadParam(EMBEDDED_CLASS)) {
+            var embeddedClass :Class = getLoadParam(EMBEDDED_CLASS);
             if (embeddedClass == null) {
                 onError("missing embedded class!");
             } else {
                 createZip(ByteArray(new embeddedClass()));
             }
-        } else if (hasLoadParam("bytes")) {
-            var bytes :ByteArray = getLoadParam("bytes");
+        } else if (hasLoadParam(BYTES)) {
+            var bytes :ByteArray = getLoadParam(BYTES);
             if (bytes == null) {
                 onError("missing bytes!");
             } else {
