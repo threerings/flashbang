@@ -77,10 +77,14 @@ public class SoundResource extends Resource
         if (hasLoadParam("url")) {
             _sound = new Sound(new URLRequest(getLoadParam("url")));
 
-            // If the sound is to complete immediately, we don't wait for it to finish loading
-            // before we make it available. Sounds loaded in this manner can be played without
+            var stream :Boolean =
+                getLoadParam("stream", false) ||
+                getLoadParam("completeImmediately", false); // legacy param name
+
+            // If this is a streaming sound, we don't wait for it to finish loading before
+            // we make it available. Sounds loaded in this manner can be played without
             // issue as long as they download quickly enough.
-            if (getLoadParam("completeImmediately", false)) {
+            if (stream) {
                 onInit();
             } else {
                 _sound.addEventListener(Event.COMPLETE, onInit);
