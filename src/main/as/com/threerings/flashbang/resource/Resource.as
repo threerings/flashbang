@@ -60,6 +60,18 @@ public class Resource
         return (hasLoadParam(name) ? _loadParams[name] : defaultValue);
     }
 
+    protected function requireLoadParam (name :String, type :Class) :*
+    {
+        if (!hasLoadParam(name)) {
+            throw new Error("Missing required loadParam [name=" + name + "]");
+        }
+        var param :* = getLoadParam(name);
+        if (!(param is type)) {
+            throw new Error("Bad load param [name=" + name + " type=" + type + "]");
+        }
+        return param;
+    }
+
     protected function createLoadErrorString (errText :String) :String
     {
         return Joiner.pairs(ClassUtil.tinyClassName(this) + " load error",
