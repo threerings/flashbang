@@ -22,7 +22,10 @@ package com.threerings.flashbang {
 
 public class GameObjectRef
 {
-    public static const NULL :GameObjectRef = new GameObjectRef();
+    public static function Null () :GameObjectRef
+    {
+        return NULL;
+    }
 
     public function destroyObject () :void
     {
@@ -50,5 +53,9 @@ public class GameObjectRef
     internal var _obj :GameObject;
     internal var _next :GameObjectRef;
     internal var _prev :GameObjectRef;
+
+    // singleton null ref
+    protected static const NULL :GameObjectRef = new GameObjectRef();
 }
+
 }
