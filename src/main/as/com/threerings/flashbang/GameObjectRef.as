@@ -54,7 +54,10 @@ public class GameObjectRef
     internal var _next :GameObjectRef;
     internal var _prev :GameObjectRef;
 
-    // singleton null ref
+    // We expose this through a function (above), rather than directly, because
+    // member variable assignments of another class's static member don't work:
+    // class Foo { public var ref :GameObjectRef = GameObjectRef.NULL; }
+    // (ref will be initialized to null, rather than GameObjectRef.NULL).
     protected static const NULL :GameObjectRef = new GameObjectRef();
 }
 
