@@ -20,11 +20,20 @@
 
 package com.threerings.flashbang.audio {
 
+import flash.events.EventDispatcher;
 import flash.media.SoundChannel;
 
 import com.threerings.flashbang.resource.SoundResource;
 
-public class AudioChannel
+/**
+ * Dispatched when the AudioChannel has completed playing. If the channel loops, the event will
+ * fire after it has completed looping. The event will not fire if the channel is manually stopped.
+ *
+ * @eventType flash.events.Event.COMPLETE
+ */
+[Event(name="complete", type="flash.events.Event")]
+
+public class AudioChannel extends EventDispatcher
 {
     public function get isPlaying () :Boolean
     {
