@@ -24,6 +24,7 @@ import com.threerings.flashbang.util.LoadableBatch;
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
+import com.threerings.util.Preconditions;
 
 public class ResourceSet extends LoadableBatch
 {
@@ -45,14 +46,12 @@ public class ResourceSet extends LoadableBatch
     public function queueResourceLoad (resourceType :String, resourceName: String, loadParams :*)
         :void
     {
-        if (_resources.containsKey(resourceName)) {
-            throw new Error("A resource named '" + resourceName + "' already exists");
-        }
+        Preconditions.checkArgument(!_resources.containsKey(resourceName),
+            "A resource named '" + resourceName + "' already exists");
 
         var rsrc :Resource = _rm.createResource(resourceType, resourceName, loadParams);
-        if (null == rsrc) {
-            throw new Error("Unrecognized Resource type '" + resourceType + "'");
-        }
+        Preconditions.checkArgument(null != rsrc,
+            "Unrecognized Resource type '" + resourceType + "'");
 
         addLoadable(rsrc.loadable);
         _resources.put(resourceName, rsrc);

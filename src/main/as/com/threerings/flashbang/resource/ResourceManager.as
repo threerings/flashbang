@@ -24,6 +24,7 @@ import com.threerings.util.ArrayUtil;
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
+import com.threerings.util.Preconditions;
 
 public class ResourceManager
 {
@@ -59,9 +60,7 @@ public class ResourceManager
     public function loadQueuedResources (onLoaded :Function = null, onLoadErr :Function = null)
         :void
     {
-        if (_pendingSet == null) {
-            throw new Error("No resources queued for loading");
-        }
+        Preconditions.checkNotNull(_pendingSet, "No resources queued for loading");
 
         var loadingSet :ResourceSet = _pendingSet;
         _pendingSet = null;
@@ -138,9 +137,8 @@ public class ResourceManager
         var rsrc :Resource;
         // validate all resources before adding them
         for each (rsrc in resources) {
-            if (getResource(rsrc.resourceName) != null) {
-                throw new Error("A resource named '" + rsrc.resourceName + "' already exists");
-            }
+            Preconditions.checkArgument(getResource(rsrc.resourceName) == null,
+                "A resource named '" + rsrc.resourceName + "' already exists");
         }
         for each (rsrc in resources) {
             _resources.put(rsrc.resourceName, rsrc);

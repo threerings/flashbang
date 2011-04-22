@@ -21,6 +21,7 @@
 package com.threerings.flashbang.util {
 
 import com.threerings.util.Log;
+import com.threerings.util.Preconditions;
 
 public class LoadableBatch extends Loadable
 {
@@ -38,9 +39,8 @@ public class LoadableBatch extends Loadable
 
     public function addLoadable (loadable :Loadable) :void
     {
-        if (_loading || _loaded) {
-            throw new Error("Can't add new Loadables while a LoadableBatch is loading or loaded");
-        }
+        Preconditions.checkArgument(!_loading && !_loaded,
+            "Can't add new Loadables while a LoadableBatch is loading or loaded");
 
         _allObjects.push(loadable);
     }
