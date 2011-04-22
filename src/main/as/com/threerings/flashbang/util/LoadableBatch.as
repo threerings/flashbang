@@ -20,7 +20,6 @@
 
 package com.threerings.flashbang.util {
 
-import com.threerings.util.Log;
 import com.threerings.util.Preconditions;
 
 public class LoadableBatch extends Loadable

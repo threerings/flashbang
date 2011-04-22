@@ -20,13 +20,13 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.components.AlphaComponent;
-
 import flash.display.DisplayObject;
 
 import mx.effects.easing.*;
+
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
+import com.threerings.flashbang.components.AlphaComponent;
 
 public class AlphaTask extends InterpolatingTask
 {

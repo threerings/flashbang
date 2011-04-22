@@ -20,8 +20,6 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.ObjectTask;
-
 public class ParallelTask extends TaskContainer
 {
     public function ParallelTask (...subtasks)

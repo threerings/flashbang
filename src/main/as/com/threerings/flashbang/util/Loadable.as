@@ -20,10 +20,10 @@
 
 package com.threerings.flashbang.util {
 
-import com.threerings.util.Log;
-
 import flash.events.TimerEvent;
 import flash.utils.Timer;
+
+import com.threerings.util.Log;
 
 public class Loadable
 {

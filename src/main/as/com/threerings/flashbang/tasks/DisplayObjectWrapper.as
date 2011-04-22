@@ -20,14 +20,14 @@
 
 package com.threerings.flashbang.tasks {
 
+import flash.display.DisplayObject;
+
 import com.threerings.flashbang.components.AlphaComponent;
 import com.threerings.flashbang.components.BoundsComponent;
 import com.threerings.flashbang.components.RotationComponent;
 import com.threerings.flashbang.components.ScaleComponent;
 import com.threerings.flashbang.components.SceneComponent;
 import com.threerings.flashbang.components.VisibleComponent;
-
-import flash.display.DisplayObject;
 
 public class DisplayObjectWrapper
     implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,

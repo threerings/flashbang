@@ -20,13 +20,13 @@
 
 package com.threerings.flashbang.debug {
 
-import com.threerings.flashbang.objects.SceneObject;
-
 import flash.display.DisplayObject;
 import flash.filters.GlowFilter;
 import flash.geom.Point;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
+
+import com.threerings.flashbang.objects.SceneObject;
 
 public class MouseLocView extends SceneObject
 {

@@ -20,13 +20,11 @@
 
 package com.threerings.flashbang.tasks {
 
+import flash.display.MovieClip;
+
 import com.threerings.flashbang.*;
 import com.threerings.flashbang.components.*;
 import com.threerings.flashbang.objects.*;
-
-import flash.display.MovieClip;
-
-import mx.effects.easing.Linear;
 
 public class PlayFramesTask extends InterpolatingTask
 {

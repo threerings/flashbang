@@ -20,14 +20,15 @@
 
 package com.threerings.flashbang.audio {
 
-import com.threerings.flashbang.Context;
-import com.threerings.flashbang.Updatable;
-import com.threerings.flashbang.resource.*;
-import com.threerings.util.Log;
-
 import flash.events.Event;
 import flash.media.SoundTransform;
 import flash.utils.getTimer;
+
+import com.threerings.util.Log;
+
+import com.threerings.flashbang.Context;
+import com.threerings.flashbang.Updatable;
+import com.threerings.flashbang.resource.*;
 
 public class AudioManager
     implements Updatable

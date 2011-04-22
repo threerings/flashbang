@@ -20,17 +20,18 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.flashbang.audio.*;
-import com.threerings.flashbang.resource.*;
-import com.threerings.util.ArrayUtil;
-import com.threerings.util.Assert;
-
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 import flash.utils.getTimer;
+
+import com.threerings.util.ArrayUtil;
+import com.threerings.util.Assert;
+
+import com.threerings.flashbang.audio.*;
+import com.threerings.flashbang.resource.*;
 
 public class MainLoop extends EventDispatcher
 {

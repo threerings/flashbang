@@ -20,8 +20,6 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.util.XmlUtil;
-
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.IOErrorEvent;
@@ -30,6 +28,8 @@ import flash.net.URLLoader;
 import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
+
+import com.threerings.util.XmlUtil;
 
 public class XmlResource extends Resource
 {

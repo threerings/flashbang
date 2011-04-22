@@ -20,6 +20,10 @@
 
 package com.threerings.flashbang.objects {
 
+import flash.display.DisplayObject;
+
+import com.threerings.geom.Vector2;
+
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.components.AlphaComponent;
 import com.threerings.flashbang.components.BoundsComponent;
@@ -27,9 +31,6 @@ import com.threerings.flashbang.components.RotationComponent;
 import com.threerings.flashbang.components.ScaleComponent;
 import com.threerings.flashbang.components.SceneComponent;
 import com.threerings.flashbang.components.VisibleComponent;
-import com.threerings.geom.Vector2;
-
-import flash.display.DisplayObject;
 
 public class SceneObject extends GameObject
     implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,

@@ -20,11 +20,12 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.util.ArrayUtil;
+import com.threerings.util.Assert;
+
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.util.ArrayUtil;
-import com.threerings.util.Assert;
 
 public class TaskContainer
     implements ObjectTask

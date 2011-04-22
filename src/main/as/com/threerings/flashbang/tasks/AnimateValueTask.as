@@ -20,11 +20,11 @@
 
 package com.threerings.flashbang.tasks {
 
+import mx.effects.easing.*;
+
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.util.BoxedNumber;
-
-import mx.effects.easing.*;
 
 public class AnimateValueTask extends InterpolatingTask
 {

@@ -21,9 +21,9 @@
 package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.CuePoint;
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.GameObject;
 
 public class CuePointTask
     implements ObjectTask

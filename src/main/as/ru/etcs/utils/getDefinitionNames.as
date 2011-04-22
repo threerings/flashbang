@@ -49,10 +49,9 @@ package ru.etcs.utils {
     }
 }
 
+import flash.geom.Rectangle;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
-import flash.geom.Rectangle;
-import flash.system.ApplicationDomain;
 
 /**
  * @private

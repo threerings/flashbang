@@ -20,11 +20,12 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.flashbang.util.LoadableBatch;
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
+
+import com.threerings.flashbang.util.LoadableBatch;
 
 public class ResourceSet extends LoadableBatch
 {

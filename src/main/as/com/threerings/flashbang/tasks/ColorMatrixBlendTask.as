@@ -20,17 +20,18 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.display.ColorMatrix;
-import com.threerings.display.FilterUtil;
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.components.SceneComponent;
-
 import flash.display.DisplayObject;
 import flash.filters.ColorMatrixFilter;
 
 import mx.effects.easing.*;
+
+import com.threerings.display.ColorMatrix;
+import com.threerings.display.FilterUtil;
+
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectMessage;
+import com.threerings.flashbang.ObjectTask;
+import com.threerings.flashbang.components.SceneComponent;
 
 public class ColorMatrixBlendTask
     implements ObjectTask

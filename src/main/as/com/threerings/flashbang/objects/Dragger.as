@@ -20,13 +20,13 @@
 
 package com.threerings.flashbang.objects {
 
-import com.threerings.util.MathUtil;
-
 import flash.display.DisplayObject;
 import flash.display.InteractiveObject;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+
+import com.threerings.util.MathUtil;
 
 import com.threerings.flashbang.GameObject;
 

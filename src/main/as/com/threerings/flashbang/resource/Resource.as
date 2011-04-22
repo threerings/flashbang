@@ -20,10 +20,11 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.flashbang.util.Loadable;
 import com.threerings.util.ClassUtil;
 import com.threerings.util.Joiner;
 import com.threerings.util.StringUtil;
+
+import com.threerings.flashbang.util.Loadable;
 
 public class Resource
 {

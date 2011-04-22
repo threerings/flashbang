@@ -20,9 +20,9 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.GameObject;
 
 public class SelfDestructTask
     implements ObjectTask

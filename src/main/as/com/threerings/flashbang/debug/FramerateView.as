@@ -20,13 +20,14 @@
 
 package com.threerings.flashbang.debug {
 
-import com.threerings.flashbang.objects.SceneObject;
-import com.threerings.util.Framerate;
-
 import flash.display.DisplayObject;
 import flash.filters.GlowFilter;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
+
+import com.threerings.util.Framerate;
+
+import com.threerings.flashbang.objects.SceneObject;
 
 public class FramerateView extends SceneObject
 {

@@ -20,8 +20,6 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.flashbang.resource.Resource;
-
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.IOErrorEvent;
@@ -33,6 +31,8 @@ import flash.utils.ByteArray;
 
 import nochump.util.zip.ZipEntry;
 import nochump.util.zip.ZipFile;
+
+import com.threerings.flashbang.resource.Resource;
 
 public class ZipResource extends Resource
 {

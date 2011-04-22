@@ -20,14 +20,14 @@
 
 package com.threerings.flashbang.tasks {
 
+import flash.display.DisplayObject;
+
+import mx.effects.easing.*;
+
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.LocationComponent;
-
-import flash.display.DisplayObject;
-
-import mx.effects.easing.*;
 
 public class ComplexLocationTask
     implements ObjectTask

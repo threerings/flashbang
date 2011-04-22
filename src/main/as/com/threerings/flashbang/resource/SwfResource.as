@@ -20,9 +20,6 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.util.ClassUtil;
-import com.threerings.util.Log;
-
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.Loader;
@@ -37,6 +34,9 @@ import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 
 import ru.etcs.utils.getDefinitionNames;
+
+import com.threerings.util.ClassUtil;
+import com.threerings.util.Log;
 
 public class SwfResource extends Resource
 {

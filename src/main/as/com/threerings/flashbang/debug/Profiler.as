@@ -20,12 +20,12 @@
 
 package com.threerings.flashbang.debug {
 
+import flash.system.Capabilities;
+import flash.utils.getTimer;
+
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
-
-import flash.system.Capabilities;
-import flash.utils.getTimer;
 
 public class Profiler
 {

@@ -20,11 +20,12 @@
 
 package com.threerings.flashbang.util {
 
-import com.threerings.flashbang.*;
-import com.threerings.geom.Vector2;
-
 import flash.display.DisplayObject;
 import flash.geom.Point;
+
+import com.threerings.geom.Vector2;
+
+import com.threerings.flashbang.*;
 
 public class Collision
 {

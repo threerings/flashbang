@@ -20,13 +20,13 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.display.DisplayUtil;
-
-import com.threerings.flashbang.components.SceneComponent;
-
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
+
+import com.threerings.display.DisplayUtil;
+
+import com.threerings.flashbang.components.SceneComponent;
 
 public class AppMode extends ObjectDB
 {
