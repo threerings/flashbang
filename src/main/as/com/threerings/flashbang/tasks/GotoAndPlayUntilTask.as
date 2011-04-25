@@ -52,7 +52,7 @@ public class GotoAndPlayUntilTask
         }
 
         if (!_started) {
-            movieClip.gotoAndStop(_startFrame);
+            movieClip.gotoAndPlay(_startFrame);
             _started = true;
         }
 
