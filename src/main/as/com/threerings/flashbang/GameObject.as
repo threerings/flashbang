@@ -27,6 +27,7 @@ import flash.events.IEventDispatcher;
 
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
+import com.threerings.util.Preconditions;
 
 import com.threerings.flashbang.tasks.ParallelTask;
 import com.threerings.flashbang.tasks.TaskContainer;
@@ -214,6 +215,7 @@ public class GameObject extends EventDispatcher
      */
     public function addDependentObject (obj :GameObject) :void
     {
+        Preconditions.checkNotNull(obj);
         if (_parentDB != null) {
             manageDependentObject(obj, false, null, 0);
         } else {
@@ -229,6 +231,7 @@ public class GameObject extends EventDispatcher
     public function addDependentSceneObject (obj :GameObject,
         displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :void
     {
+        Preconditions.checkNotNull(obj);
         if (_parentDB != null) {
             manageDependentObject(obj, true, displayParent, displayIdx);
         } else {
