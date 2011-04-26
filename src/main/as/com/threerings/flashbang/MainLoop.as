@@ -427,7 +427,7 @@ public class MainLoop extends EventDispatcher
     {
         var topMode :AppMode = this.topMode;
         if (null != topMode) {
-            topMode.onKeyDown(e.keyCode);
+            topMode.onKeyDown(e);
         }
     }
 
@@ -435,7 +435,7 @@ public class MainLoop extends EventDispatcher
     {
         var topMode :AppMode = this.topMode;
         if (null != topMode) {
-            topMode.onKeyUp(e.keyCode);
+            topMode.onKeyUp(e);
         }
     }
 

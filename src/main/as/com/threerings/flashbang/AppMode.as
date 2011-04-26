@@ -23,6 +23,7 @@ package com.threerings.flashbang {
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
+import flash.events.KeyboardEvent;
 
 import com.threerings.display.DisplayUtil;
 
@@ -101,13 +102,15 @@ public class AppMode extends ObjectDB
     }
 
     /** Called when a key is pressed while this mode is active */
-    public function onKeyDown (keyCode :uint) :void
+    public function onKeyDown (keyEvent :KeyboardEvent) :void
     {
+        dispatchEvent(keyEvent);
     }
 
     /** Called when a key is released while this mode is active */
-    public function onKeyUp (keyCode :uint) :void
+    public function onKeyUp (keyEvent :KeyboardEvent) :void
     {
+        dispatchEvent(keyEvent);
     }
 
     /** Called when the mode is added to the mode stack */
