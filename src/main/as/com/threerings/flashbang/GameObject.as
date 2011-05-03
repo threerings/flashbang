@@ -401,7 +401,10 @@ public class GameObject extends EventDispatcher
         }
         _updatingTasks = false;
 
-        update(dt);
+        // Call update() if we're still alive (a task could've destroyed us)
+        if (this.isLiveObject) {
+            update(dt);
+        }
     }
 
     internal function receiveMessageInternal (msg :ObjectMessage) :void
