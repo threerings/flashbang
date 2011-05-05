@@ -20,15 +20,15 @@
 
 package com.threerings.flashbang.audio {
 
-import flash.events.Event;
-import flash.media.SoundTransform;
-import flash.utils.getTimer;
-
-import com.threerings.util.Log;
-
 import com.threerings.flashbang.Context;
 import com.threerings.flashbang.Updatable;
 import com.threerings.flashbang.resource.*;
+import com.threerings.util.F;
+import com.threerings.util.Log;
+
+import flash.events.Event;
+import flash.media.SoundTransform;
+import flash.utils.getTimer;
 
 public class AudioManager
     implements Updatable
@@ -38,26 +38,11 @@ public class AudioManager
     public function AudioManager (ctx :Context, maxChannels :int = 25)
     {
         _ctx = ctx;
-        _channels = new Array(maxChannels);
-        _freeChannelIds = new Array(maxChannels);
-        var ii :int;
-        for (ii = 0; ii < maxChannels; ++ii) {
-            // create a channel
-            var channel :AudioChannel = new AudioChannel();
-            channel.id = ii;
-            channel.completeHandler = createChannelCompleteHandler(channel);
-
-            // stick it in the channel list
-            _channels[ii] = channel;
-
-            // the channel is currently unused
-            _freeChannelIds[ii] = ii;
-        }
+        _maxChannels = maxChannels;
 
         _masterControls = new AudioControls();
-
         _soundTypeControls = new Array(SoundResource.TYPE__LIMIT);
-        for (ii = 0; ii < SoundResource.TYPE__LIMIT; ++ii) {
+        for (var ii :int = 0; ii < SoundResource.TYPE__LIMIT; ++ii) {
             var subControls :AudioControls = new AudioControls(_masterControls);
             subControls.retain(); // these subcontrols will never be cleaned up
             _soundTypeControls[ii] = subControls;
@@ -98,7 +83,8 @@ public class AudioManager
         _masterControls.update(dt, DEFAULT_AUDIO_STATE);
 
         // update all playing sound channels
-        for each (var channel :AudioChannel in _channels) {
+        var hasStoppedChannels :Boolean = false;
+        for each (var channel :AudioChannel in _activeChannels) {
             if (channel.isPlaying) {
                 var audioState :AudioState = channel.controls.state;
                 var channelPaused :Boolean = channel.isPaused;
@@ -119,6 +105,15 @@ public class AudioManager
                     }
                 }
             }
+
+            if (!channel.isPlaying) {
+                hasStoppedChannels = true;
+            }
+        }
+
+        // Remove inactive channels
+        if (hasStoppedChannels) {
+            _activeChannels = _activeChannels.filter(activeChannelFilter);
         }
     }
 
@@ -163,42 +158,49 @@ public class AudioManager
         // Iterate the active channels to determine if this sound has been played recently.
         // Also look for the lowest-priority active channel.
         var lowestPriorityChannel :AudioChannel;
-        var channel :AudioChannel;
-        for each (channel in _channels) {
-            if (channel.isPlaying) {
-                if (channel.sound == soundResource &&
-                    (timeNow - channel.startTime) < SOUND_PLAYED_RECENTLY_DELTA) {
+        var lowestPriorityChannelIdx :int = -1;
+        for (var ii :int = 0; ii < _activeChannels.length; ++ii) {
+            var activeChannel :AudioChannel = _activeChannels[ii];
+            if (activeChannel.isPlaying) {
+                if (activeChannel.sound == soundResource &&
+                    (timeNow - activeChannel.startTime) < SOUND_PLAYED_RECENTLY_DELTA) {
                     /*log.info("Discarding sound '" + soundResource.resourceName +
                                "' (recently played)");*/
                     return new AudioChannel();
                 }
+            }
 
-                if (null == lowestPriorityChannel ||
-                    channel.sound.priority < lowestPriorityChannel.sound.priority) {
-                    lowestPriorityChannel = channel;
-                }
+            if (null == lowestPriorityChannel ||
+                activeChannel.priority < lowestPriorityChannel.priority) {
+
+                lowestPriorityChannel = activeChannel;
+                lowestPriorityChannelIdx = ii;
             }
         }
 
-        if (_freeChannelIds.length > 0) {
-            channel = _channels[int(_freeChannelIds.pop())];
-
-        } else if (null != lowestPriorityChannel &&
-            soundResource.priority > lowestPriorityChannel.sound.priority) {
-            // Steal another channel from a lower-priority sound
-            log.info("Interrupting sound '" + lowestPriorityChannel.sound.resourceName +
-                "' for higher-priority sound '" + soundResource.resourceName + "'");
-            stop(lowestPriorityChannel);
-            channel = _channels[int(_freeChannelIds.pop())];
-
-        } else {
-            // we're out of luck.
-            log.info("Discarding sound '" + soundResource.resourceName +
-                "' (no free AudioChannels)");
-            return new AudioChannel();
+        // Are we out of channels?
+        if (_activeChannels.length >= _maxChannels) {
+            // Can we shut down a playing channel?
+            if (null != lowestPriorityChannel &&
+                soundResource.priority > lowestPriorityChannel.priority) {
+                // steal the channel from a lower-priority sound
+                if (lowestPriorityChannel.sound != null) {
+                    log.info("Interrupting sound '" + lowestPriorityChannel.sound.resourceName +
+                        "' for higher-priority sound '" + soundResource.resourceName + "'");
+                }
+                stop(lowestPriorityChannel);
+                _activeChannels.splice(lowestPriorityChannelIdx, 1);
+            } else {
+                // We're out of luck
+                log.info("Discarding sound '" + soundResource.resourceName +
+                    "' (no free AudioChannels)");
+                return new AudioChannel();
+            }
         }
 
-        // finish initialization of channel
+        // Create the channel
+        var channel :AudioChannel = new AudioChannel();
+        channel.completeHandler = F.callback(handleComplete, channel);
         channel.controls = new AudioControls(parentControls);
         channel.controls.retain();
         channel.sound = soundResource;
@@ -214,27 +216,27 @@ public class AudioManager
             if (null == channel.channel) {
                 log.info("Discarding sound '" + soundResource.resourceName +
                     "' (Flash is out of channels)");
+                channel.controls.release();
                 return new AudioChannel();
             }
         }
 
+        _activeChannels.push(channel);
         return channel;
     }
 
     public function stopAllSounds () :void
     {
         // shutdown all sounds
-        for each (var channel :AudioChannel in _channels) {
-            if (channel.isPlaying) {
-                stop(channel);
-            }
+        for each (var channel :AudioChannel in _activeChannels) {
+            stop(channel);
         }
+        _activeChannels = [];
     }
 
     public function stop (channel :AudioChannel) :void
     {
         if (channel.isPlaying) {
-
             if (null != channel.channel) {
                 channel.channel.removeEventListener(Event.SOUND_COMPLETE, channel.completeHandler);
                 channel.channel.stop();
@@ -245,8 +247,6 @@ public class AudioManager
             channel.controls = null;
 
             channel.sound = null;
-
-            _freeChannelIds.push(channel.id);
         }
     }
 
@@ -267,13 +267,6 @@ public class AudioManager
     {
         if (channel.isPlaying && channel.isPaused) {
             playChannel(channel, channel.controls.state, channel.playPosition);
-        }
-    }
-
-    protected function createChannelCompleteHandler (channel :AudioChannel) :Function
-    {
-        return function (...ignored) :void {
-            handleComplete(channel);
         }
     }
 
@@ -307,13 +300,18 @@ public class AudioManager
         }
     }
 
+    protected static function activeChannelFilter (channel :AudioChannel, ..._) :Boolean
+    {
+        return channel.isPlaying;
+    }
+
     protected var _ctx :Context;
-    protected var _channels :Array; // of AudioChannels
-    protected var _freeChannelIds :Array; // of ints
+    protected var _maxChannels :int;
+    protected var _activeChannels :Array = [];
     protected var _masterControls :AudioControls;
     protected var _soundTypeControls :Array; // of AudioControls
 
-    protected static var log :Log = Log.getLog(AudioManager);
+    protected static const log :Log = Log.getLog(AudioManager);
 
     protected static const DEFAULT_AUDIO_STATE :AudioState = AudioState.defaultState();
 

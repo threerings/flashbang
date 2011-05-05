@@ -40,6 +40,11 @@ public class AudioChannel extends EventDispatcher
         return (null != sound);
     }
 
+    public function get priority () :int
+    {
+        return (null != sound ? sound.priority : int.MIN_VALUE);
+    }
+
     public function get isPaused () :Boolean
     {
         return (null != sound && null == channel);
@@ -50,14 +55,8 @@ public class AudioChannel extends EventDispatcher
         return (null != controls ? controls : DUMMY_CONTROLS);
     }
 
-    public function get debugDescription () :String
-    {
-        return "sound: '" + sound.resourceName + "' id: " + id;
-    }
-
     // managed by AudioManager
 
-    internal var id :int = -1;
     internal var completeHandler :Function;
     internal var controls :AudioControls;
     internal var sound :SoundResource;
