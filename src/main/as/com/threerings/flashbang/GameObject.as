@@ -246,7 +246,7 @@ public class GameObject extends EventDispatcher
      * Listeners registered in this way will be automatically unregistered when the GameObject is
      * destroyed.
      */
-    protected function registerListener (dispatcher :IEventDispatcher, event :String,
+    public function registerListener (dispatcher :IEventDispatcher, event :String,
         listener :Function, useCapture :Boolean = false, priority :int = 0) :void
     {
         _events.registerListener(dispatcher, event, listener, useCapture, priority);
@@ -255,7 +255,7 @@ public class GameObject extends EventDispatcher
     /**
      * Removes the specified listener from the specified dispatcher for the specified event.
      */
-    protected function unregisterListener (dispatcher :IEventDispatcher, event :String,
+    public function unregisterListener (dispatcher :IEventDispatcher, event :String,
         listener :Function, useCapture :Boolean = false) :void
     {
         _events.unregisterListener(dispatcher, event, listener, useCapture);
@@ -267,7 +267,7 @@ public class GameObject extends EventDispatcher
      * Listeners registered in this way will be automatically unregistered when the GameObject is
      * destroyed.
      */
-    protected function registerOneShotCallback (dispatcher :IEventDispatcher, event :String,
+    public function registerOneShotCallback (dispatcher :IEventDispatcher, event :String,
         callback :Function, useCapture :Boolean = false, priority :int = 0) :void
     {
         _events.registerOneShotCallback(dispatcher, event, callback, useCapture, priority);
