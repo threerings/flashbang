@@ -143,10 +143,10 @@ public class GameObject extends EventDispatcher
     /** Removes all tasks from the GameObject. */
     public function removeAllTasks () :void
     {
-        if (_updatingTasks) {
+        if (_updatingTasks && _lazyNamedTasks != null) {
             // if we're updating tasks, invalidate all named task containers so that
             // they stop iterating their children
-            for each (var taskContainer :TaskContainer in _namedTasks) {
+            for each (var taskContainer :TaskContainer in _lazyNamedTasks) {
                 if (taskContainer != null) {// Could've been removed already
                     taskContainer.removeAllTasks();
                 }
@@ -156,7 +156,7 @@ public class GameObject extends EventDispatcher
         if (_lazyAnonymousTasks != null) {
             _lazyAnonymousTasks.removeAllTasks();
         }
-        _namedTasks = [];
+        _lazyNamedTasks = null;
     }
 
     /** Removes all tasks with the given name from the GameObject. */
@@ -168,16 +168,19 @@ public class GameObject extends EventDispatcher
 
         var namedTask :TaskContainer = findNamedTask(name);
         if (namedTask != null) {
-            var idx :int = _namedTasks.indexOf(namedTask);
+            var idx :int = _lazyNamedTasks.indexOf(namedTask);
             // if we're updating tasks, invalidate this task container so that it stops iterating
             // its children.  Instead of removing it from the array immediately, null it out so
             // the order of iteration isn't disturbed.
             if (_updatingTasks) {
                 namedTask.removeAllTasks();
-                _namedTasks[idx] = null;
+                _lazyNamedTasks[idx] = null;
                 _collapseRemovedTasks = true;
             } else {
-                _namedTasks.splice(idx, 1);
+                _lazyNamedTasks.splice(idx, 1);
+                if (_lazyNamedTasks.length == 0) {
+                    _lazyNamedTasks = null;
+                }
             }
         }
     }
@@ -188,10 +191,12 @@ public class GameObject extends EventDispatcher
         if (_lazyAnonymousTasks != null && _lazyAnonymousTasks.hasTasks()) {
             return true;
 
-        } else {
-            return _namedTasks.some(function (container :ParallelTask, ..._) :Boolean {
+        } else if (_lazyNamedTasks != null) {
+            return _lazyNamedTasks.some(function (container :ParallelTask, ..._) :Boolean {
                 return container.hasTasks();
             });
+        } else {
+            return false;
         }
     }
 
@@ -350,14 +355,20 @@ public class GameObject extends EventDispatcher
 
     protected function findNamedTask (name :String, create :Boolean = false) :ParallelTask
     {
+        if (_lazyNamedTasks == null) {
+            if (!create) {
+                return null;
+            }
+            _lazyNamedTasks = [];
+        }
         var tc :NamedParellelTask;
-        for (var idx :int = _namedTasks.length - 1; idx >= 0; --idx) {
-            if ((tc = NamedParellelTask(_namedTasks[idx])).name === name) {
+        for (var idx :int = _lazyNamedTasks.length - 1; idx >= 0; --idx) {
+            if ((tc = NamedParellelTask(_lazyNamedTasks[idx])).name === name) {
                 return tc;
             }
         }
         if (create) {
-            _namedTasks.push(tc = new NamedParellelTask(name));
+            _lazyNamedTasks.push(tc = new NamedParellelTask(name));
             return tc;
         }
         return null;
@@ -391,25 +402,31 @@ public class GameObject extends EventDispatcher
 
     internal function updateInternal (dt :Number) :void
     {
-        _updatingTasks = true;
-        if (_lazyAnonymousTasks != null) {
-            _lazyAnonymousTasks.update(dt, this);
-        }
-        for each (var namedTask :ParallelTask in _namedTasks) {
-            if (namedTask != null) {// Can be nulled out by being removed during the update
-                namedTask.update(dt, this);
+        if (_updatingTasks = _lazyAnonymousTasks != null || _lazyNamedTasks != null) {
+            if (_lazyAnonymousTasks != null) {
+                _lazyAnonymousTasks.update(dt, this);
             }
-        }
-        if (_collapseRemovedTasks) {
-           // Only iterate over the _namedTasks array if there are removed tasks in there
-            _collapseRemovedTasks = false;
-            for (var ii :int = 0; ii < _namedTasks.length; ii++) {
-                if (_namedTasks[ii] === null) {
-                    _namedTasks.splice(ii, 1);
+            if (_lazyNamedTasks != null) {
+                for each (var namedTask :ParallelTask in _lazyNamedTasks) {
+                    if (namedTask != null) {// Can be nulled out by being removed during the update
+                        namedTask.update(dt, this);
+                    }
                 }
             }
+            if (_collapseRemovedTasks) {
+               // Only iterate over the _lazyNamedTasks array if there are removed tasks in there
+                _collapseRemovedTasks = false;
+                for (var ii :int = 0; ii < _lazyNamedTasks.length; ii++) {
+                    if (_lazyNamedTasks[ii] === null) {
+                        _lazyNamedTasks.splice(ii, 1);
+                    }
+                }
+                if (_lazyNamedTasks.length == 0) {
+                    _lazyNamedTasks = null;
+                }
+            }
+            _updatingTasks = false;
         }
-        _updatingTasks = false;
 
         // Call update() if we're still alive (a task could've destroyed us)
         if (this.isLiveObject) {
@@ -423,8 +440,10 @@ public class GameObject extends EventDispatcher
             _lazyAnonymousTasks.receiveMessage(msg);
         }
 
-        for each (var namedTask :ParallelTask in _namedTasks) {
-            (namedTask as ParallelTask).receiveMessage(msg);
+        if (_lazyNamedTasks != null) {
+            for each (var namedTask :ParallelTask in _lazyNamedTasks) {
+                namedTask.receiveMessage(msg);
+            }
         }
 
         receiveMessage(msg);
@@ -433,8 +452,9 @@ public class GameObject extends EventDispatcher
     // Note: this is null until needed. Subclassers beware
     protected var _lazyAnonymousTasks :ParallelTask;
     // This is really a linked map : String -> ParallelTask. We use an array though and take the
-    // hit in lookup time to gain in iteration time.
-    protected var _namedTasks :Array = [];//<NamedParallelTask>
+    // hit in lookup time to gain in iteration time. Also, it is null until needed. Subclassers
+    // beware.
+    protected var _lazyNamedTasks :Array = null;//<NamedParallelTask>
     protected var _updatingTasks :Boolean;
     // True if tasks were removed while an update was in progress
     protected var _collapseRemovedTasks :Boolean;
