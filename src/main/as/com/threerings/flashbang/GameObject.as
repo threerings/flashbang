@@ -133,20 +133,11 @@ public class GameObject extends EventDispatcher
             throw new ArgumentError("name must be at least 1 character long");
         }
 
-        var idx :int = _taskNames.indexOf(name);
-        var namedTaskContainer :TaskContainer;
-        if (idx == -1) {
-            namedTaskContainer = new ParallelTask();
-            _taskNames.push(name);
-            _namedTasks.push(namedTaskContainer);
-        } else {
-            namedTaskContainer = _namedTasks[idx];
-            if (removeExistingTasks) {
-                namedTaskContainer.removeAllTasks();
-            }
+        var namedTask :TaskContainer = findNamedTask(name, true);
+        if (removeExistingTasks) {
+            namedTask.removeAllTasks();
         }
-
-        namedTaskContainer.addTask(task);
+        namedTask.addTask(task);
     }
 
     /** Removes all tasks from the GameObject. */
@@ -166,7 +157,6 @@ public class GameObject extends EventDispatcher
             _lazyAnonymousTasks.removeAllTasks();
         }
         _namedTasks = [];
-        _taskNames = [];
     }
 
     /** Removes all tasks with the given name from the GameObject. */
@@ -176,19 +166,18 @@ public class GameObject extends EventDispatcher
             throw new ArgumentError("name must be at least 1 character long");
         }
 
-        var idx :int = _taskNames.indexOf(name);
-        if (idx != -1) {
+        var namedTask :TaskContainer = findNamedTask(name);
+        if (namedTask != null) {
+            var idx :int = _namedTasks.indexOf(namedTask);
             // if we're updating tasks, invalidate this task container so that it stops iterating
             // its children.  Instead of removing it from the array immediately, null it out so
             // the order of iteration isn't disturbed.
             if (_updatingTasks) {
-                _namedTasks[idx].removeAllTasks();
+                namedTask.removeAllTasks();
                 _namedTasks[idx] = null;
-                _taskNames[idx] = null;
                 _collapseRemovedTasks = true;
             } else {
                 _namedTasks.splice(idx, 1);
-                _taskNames.splice(idx, 1);
             }
         }
     }
@@ -209,8 +198,8 @@ public class GameObject extends EventDispatcher
     /** Returns true if the GameObject has any tasks with the given name. */
     public function hasTasksNamed (name :String) :Boolean
     {
-        var idx :int = _taskNames.indexOf(name);
-        return idx != -1 && ParallelTask(_namedTasks[idx]).hasTasks();
+        var namedTask :TaskContainer = findNamedTask(name);
+        return namedTask != null && namedTask.hasTasks();
     }
 
     /**
@@ -359,6 +348,21 @@ public class GameObject extends EventDispatcher
         _dependentObjectRefs.push(ref);
     }
 
+    protected function findNamedTask (name :String, create :Boolean = false) :ParallelTask
+    {
+        var tc :NamedParellelTask;
+        for (var idx :int = _namedTasks.length - 1; idx >= 0; --idx) {
+            if ((tc = NamedParellelTask(_namedTasks[idx])).name === name) {
+                return tc;
+            }
+        }
+        if (create) {
+            _namedTasks.push(tc = new NamedParellelTask(name));
+            return tc;
+        }
+        return null;
+    }
+
     internal function addedToDBInternal () :void
     {
         for each (var dep :PendingDependentObject in _pendingDependentObjects) {
@@ -402,7 +406,6 @@ public class GameObject extends EventDispatcher
             for (var ii :int = 0; ii < _namedTasks.length; ii++) {
                 if (_namedTasks[ii] === null) {
                     _namedTasks.splice(ii, 1);
-                    _taskNames.splice(ii--, 1);
                 }
             }
         }
@@ -429,11 +432,9 @@ public class GameObject extends EventDispatcher
 
     // Note: this is null until needed. Subclassers beware
     protected var _lazyAnonymousTasks :ParallelTask;
-    // The names of the tasks in _namedTasks in the same order as _namedTasks.  These arrays
-    // function as a Map, but they're maintained as parallel arrays to speed up iterating over
-    // the tasks in updateInternal while maintaining a deterministic task iteration order.
-    protected var _taskNames :Array = [];//<String>
-    protected var _namedTasks :Array = [];//<ParallelTask>
+    // This is really a linked map : String -> ParallelTask. We use an array though and take the
+    // hit in lookup time to gain in iteration time.
+    protected var _namedTasks :Array = [];//<NamedParallelTask>
     protected var _updatingTasks :Boolean;
     // True if tasks were removed while an update was in progress
     protected var _collapseRemovedTasks :Boolean;
@@ -453,6 +454,7 @@ public class GameObject extends EventDispatcher
 import flash.display.DisplayObjectContainer;
 
 import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.tasks.ParallelTask;
 
 class PendingDependentObject
 {
@@ -468,5 +470,15 @@ class PendingDependentObject
         this.isSceneObject = isSceneObject;
         this.displayParent = displayParent;
         this.displayIdx = displayIdx;
+    }
+}
+
+class NamedParellelTask extends ParallelTask
+{
+    public var name :String;
+
+    public function NamedParellelTask (name :String)
+    {
+        this.name = name;
     }
 }
