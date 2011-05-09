@@ -115,7 +115,10 @@ public class GameObject extends EventDispatcher
             throw new ArgumentError("task must be non-null");
         }
 
-        _anonymousTasks.addTask(task);
+        if (_lazyAnonymousTasks == null) {
+            _lazyAnonymousTasks = new ParallelTask();
+        }
+        _lazyAnonymousTasks.addTask(task);
     }
 
     /** Adds a named task to this GameObject. */
@@ -159,7 +162,9 @@ public class GameObject extends EventDispatcher
             }
         }
 
-        _anonymousTasks.removeAllTasks();
+        if (_lazyAnonymousTasks != null) {
+            _lazyAnonymousTasks.removeAllTasks();
+        }
         _namedTasks = [];
         _taskNames = [];
     }
@@ -191,7 +196,7 @@ public class GameObject extends EventDispatcher
     /** Returns true if the GameObject has any tasks. */
     public function hasTasks () :Boolean
     {
-        if (_anonymousTasks.hasTasks()) {
+        if (_lazyAnonymousTasks != null && _lazyAnonymousTasks.hasTasks()) {
             return true;
 
         } else {
@@ -383,7 +388,9 @@ public class GameObject extends EventDispatcher
     internal function updateInternal (dt :Number) :void
     {
         _updatingTasks = true;
-        _anonymousTasks.update(dt, this);
+        if (_lazyAnonymousTasks != null) {
+            _lazyAnonymousTasks.update(dt, this);
+        }
         for each (var namedTask :ParallelTask in _namedTasks) {
             if (namedTask != null) {// Can be nulled out by being removed during the update
                 namedTask.update(dt, this);
@@ -409,7 +416,9 @@ public class GameObject extends EventDispatcher
 
     internal function receiveMessageInternal (msg :ObjectMessage) :void
     {
-        _anonymousTasks.receiveMessage(msg);
+        if (_lazyAnonymousTasks != null) {
+            _lazyAnonymousTasks.receiveMessage(msg);
+        }
 
         for each (var namedTask :ParallelTask in _namedTasks) {
             (namedTask as ParallelTask).receiveMessage(msg);
@@ -418,7 +427,8 @@ public class GameObject extends EventDispatcher
         receiveMessage(msg);
     }
 
-    protected var _anonymousTasks :ParallelTask = new ParallelTask();
+    // Note: this is null until needed. Subclassers beware
+    protected var _lazyAnonymousTasks :ParallelTask;
     // The names of the tasks in _namedTasks in the same order as _namedTasks.  These arrays
     // function as a Map, but they're maintained as parallel arrays to speed up iterating over
     // the tasks in updateInternal while maintaining a deterministic task iteration order.
