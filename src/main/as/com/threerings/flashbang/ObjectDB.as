@@ -23,7 +23,7 @@ package com.threerings.flashbang {
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
-import com.threerings.util.ArrayUtil;
+import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
@@ -369,7 +369,7 @@ public class ObjectDB extends EventDispatcher
                     "than it did on creation");
             }
 
-            var wasInArray :Boolean = ArrayUtil.removeFirst(groupArray, ref);
+            var wasInArray :Boolean = Arrays.removeFirst(groupArray, ref);
             if (!wasInArray) {
                 throw new Error("destroyed GameObject is returning different object groups " +
                     "than it did on creation");

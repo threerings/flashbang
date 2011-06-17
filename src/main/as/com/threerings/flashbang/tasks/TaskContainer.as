@@ -20,7 +20,7 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.util.ArrayUtil;
+import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 
 import com.threerings.flashbang.GameObject;
@@ -97,7 +97,7 @@ public class TaskContainer
 
         var theClone :TaskContainer = new TaskContainer(_type);
         theClone._tasks = clonedSubtasks;
-        theClone._completedTasks = ArrayUtil.create(clonedSubtasks.length, null);
+        theClone._completedTasks = Arrays.create(clonedSubtasks.length, null);
         theClone._activeTaskCount = clonedSubtasks.length;
 
         return theClone;

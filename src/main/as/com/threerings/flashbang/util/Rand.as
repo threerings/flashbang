@@ -20,7 +20,7 @@
 
 package com.threerings.flashbang.util {
 
-import com.threerings.util.ArrayUtil;
+import com.threerings.util.Arrays;
 import com.threerings.util.Random;
 
 public class Rand
@@ -113,7 +113,7 @@ public class Rand
     /** Randomizes the order of the elements in the given Array, in place. */
     public static function shuffleArray (arr :Array, streamId :uint = STREAM_UNSPECIFIED) :void
     {
-        ArrayUtil.shuffle(arr, getStream(streamId));
+        Arrays.shuffle(arr, getStream(streamId));
     }
 
     // We always have the STREAM_GAME and STREAM_COSMETIC streams

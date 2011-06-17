@@ -20,7 +20,7 @@
 
 package com.threerings.flashbang.resource {
 
-import com.threerings.util.ArrayUtil;
+import com.threerings.util.Arrays;
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
@@ -128,7 +128,7 @@ public class ResourceManager
         if (loading) {
             _loadingSets.push(resourceSet);
         } else {
-            ArrayUtil.removeFirst(_loadingSets, resourceSet);
+            Arrays.removeFirst(_loadingSets, resourceSet);
         }
     }
 
