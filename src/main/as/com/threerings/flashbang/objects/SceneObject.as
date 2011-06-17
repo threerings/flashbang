@@ -38,7 +38,7 @@ public class SceneObject extends GameObject
 {
     public function get displayObject () :DisplayObject
     {
-        return null;
+        throw new Error("abstract");
     }
 
     public function get alpha () :Number
