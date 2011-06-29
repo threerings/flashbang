@@ -20,16 +20,15 @@
 
 package com.threerings.flashbang {
 
-import flash.events.EventDispatcher;
-import flash.events.IEventDispatcher;
-
+import com.threerings.flashbang.tasks.*;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 
-import com.threerings.flashbang.tasks.*;
+import flash.events.EventDispatcher;
+import flash.events.IEventDispatcher;
 
 public class ObjectDB extends EventDispatcher
     implements Updatable
@@ -410,6 +409,11 @@ public class ObjectDB extends EventDispatcher
      */
     protected function shutdown () :void
     {
+        if (!_hasShutdown) {
+            throw new Error("ObjectDB has already been shut down");
+        }
+        _hasShutdown = true;
+
         var ref :GameObjectRef = _listHead;
         while (null != ref) {
             if (!ref.isNull) {
@@ -426,6 +430,7 @@ public class ObjectDB extends EventDispatcher
         _groupedObjects = null;
 
         _events.shutdown();
+        _events = null;
     }
 
     protected var _runningTime :Number = 0;
@@ -443,6 +448,8 @@ public class ObjectDB extends EventDispatcher
     protected var _groupedObjects :Map = Maps.newMapOf(String);
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
+
+    protected var _hasShutdown :Boolean;
 }
 
 }
