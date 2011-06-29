@@ -35,11 +35,10 @@ import com.threerings.util.Assert;
 import com.threerings.flashbang.audio.*;
 import com.threerings.flashbang.resource.*;
 
-public class MainLoop extends EventDispatcher
+public class MainLoop
 {
-    public static const HAS_STOPPED :String = "HasStopped";
-    public static const HAS_SHUTDOWN :String = "HasShutdown";
-
+    public const stopped :Signal = new Signal();
+    public const didShutdown :Signal = new Signal();
     public const topModeChanged :Signal = new Signal();
 
     public function MainLoop (ctx :Context, minFrameRate :Number)
@@ -418,7 +417,7 @@ public class MainLoop extends EventDispatcher
             _keyDispatcher.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
             clearModeStackNow();
             _running = false;
-            dispatchEvent(new Event(HAS_STOPPED));
+            stopped.dispatch();
 
             if (_shutdownPending) {
                 shutdownNow();
@@ -464,7 +463,7 @@ public class MainLoop extends EventDispatcher
         _pendingModeTransitionQueue = null;
         _updatables = null;
 
-        dispatchEvent(new Event(HAS_SHUTDOWN));
+        didShutdown.dispatch();
     }
 
     protected var _ctx :Context;
