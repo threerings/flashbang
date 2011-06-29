@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties version="1">
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
   <includeClasses>
     <classEntry path="com.threerings.flashbang.AppMode"/>
     <classEntry path="com.threerings.flashbang.Config"/>
@@ -51,6 +51,7 @@
     <classEntry path="com.threerings.flashbang.tasks.DisplayObjectWrapper"/>
     <classEntry path="com.threerings.flashbang.tasks.FunctionTask"/>
     <classEntry path="com.threerings.flashbang.tasks.GoToFrameTask"/>
+    <classEntry path="com.threerings.flashbang.tasks.GotoAndPlayUntilTask"/>
     <classEntry path="com.threerings.flashbang.tasks.InterpolatingTask"/>
     <classEntry path="com.threerings.flashbang.tasks.LocationTask"/>
     <classEntry path="com.threerings.flashbang.tasks.MeterValueTask"/>
@@ -69,6 +70,7 @@
     <classEntry path="com.threerings.flashbang.tasks.WaitForFrameTask"/>
     <classEntry path="com.threerings.flashbang.tasks.WaitOnPredicateTask"/>
     <classEntry path="com.threerings.flashbang.tasks.When"/>
+    <classEntry path="com.threerings.flashbang.util.BoxedNumber"/>
     <classEntry path="com.threerings.flashbang.util.Collision"/>
     <classEntry path="com.threerings.flashbang.util.IntRange"/>
     <classEntry path="com.threerings.flashbang.util.Loadable"/>
@@ -76,14 +78,8 @@
     <classEntry path="com.threerings.flashbang.util.NumRange"/>
     <classEntry path="com.threerings.flashbang.util.Rand"/>
     <classEntry path="com.threerings.flashbang.util.WeightedArray"/>
-    <classEntry path="nochump.util.zip.CRC32"/>
-    <classEntry path="nochump.util.zip.Deflater"/>
-    <classEntry path="nochump.util.zip.Inflater"/>
-    <classEntry path="nochump.util.zip.ZipConstants"/>
-    <classEntry path="nochump.util.zip.ZipEntry"/>
-    <classEntry path="nochump.util.zip.ZipError"/>
-    <classEntry path="nochump.util.zip.ZipFile"/>
-    <classEntry path="nochump.util.zip.ZipOutput"/>
+    <classEntry path="ru.etcs.utils.getDefinitionNames"/>
+    <classEntry path="com.threerings.flashbang.util.SignalListenerManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
