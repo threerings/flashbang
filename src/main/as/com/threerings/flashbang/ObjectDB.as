@@ -21,6 +21,7 @@
 package com.threerings.flashbang {
 
 import com.threerings.flashbang.tasks.*;
+import com.threerings.flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
@@ -29,6 +30,8 @@ import com.threerings.util.Maps;
 
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
+
+import org.osflash.signals.ISignal;
 
 public class ObjectDB extends EventDispatcher
     implements Updatable
@@ -318,6 +321,22 @@ public class ObjectDB extends EventDispatcher
         _events.registerOneShotCallback(dispatcher, event, callback, useCapture, priority);
     }
 
+    /**
+     * Adds the specified listener to the specified signal.
+     */
+    protected function addSignalListener (signal :ISignal, listener :Function) :void
+    {
+        _signals.addSignalListener(signal, listener);
+    }
+
+    /**
+     * Removes the specified listener from the specified signal.
+     */
+    protected function removeSignalListener (signal :ISignal, listener :Function) :void
+    {
+        _signals.removeSignalListener(signal, listener);
+    }
+
     /** Updates all objects in the mode. */
     protected function beginUpdate (dt :Number) :void
     {
@@ -409,7 +428,7 @@ public class ObjectDB extends EventDispatcher
      */
     protected function shutdown () :void
     {
-        if (!_hasShutdown) {
+        if (_hasShutdown) {
             throw new Error("ObjectDB has already been shut down");
         }
         _hasShutdown = true;
@@ -431,6 +450,8 @@ public class ObjectDB extends EventDispatcher
 
         _events.shutdown();
         _events = null;
+        _signals.shutdown();
+        _signals = null;
     }
 
     protected var _runningTime :Number = 0;
@@ -448,6 +469,8 @@ public class ObjectDB extends EventDispatcher
     protected var _groupedObjects :Map = Maps.newMapOf(String);
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
+
+    protected var _signals :SignalListenerManager = new SignalListenerManager();
 
     protected var _hasShutdown :Boolean;
 }

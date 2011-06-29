@@ -20,16 +20,18 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.tasks.ParallelTask;
+import com.threerings.flashbang.tasks.TaskContainer;
+import com.threerings.flashbang.util.SignalListenerManager;
+import com.threerings.util.EventHandlerManager;
+import com.threerings.util.Preconditions;
+
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.Preconditions;
-
-import com.threerings.flashbang.tasks.ParallelTask;
-import com.threerings.flashbang.tasks.TaskContainer;
+import org.osflash.signals.ISignal;
 
 public class GameObject extends EventDispatcher
 {
@@ -272,6 +274,25 @@ public class GameObject extends EventDispatcher
     }
 
     /**
+     * Adds the specified listener to the specified signal.
+     *
+     * Listeners registered in this way will be automatically unregistered when the GameObject is
+     * destroyed.
+     */
+    public function addSignalListener (signal :ISignal, listener :Function) :void
+    {
+        _signals.addSignalListener(signal, listener);
+    }
+
+    /**
+     * Removes the specified listener from the specified signal.
+     */
+    public function removeSignalListener (signal :ISignal, listener :Function) :void
+    {
+        _signals.removeSignalListener(signal, listener);
+    }
+
+    /**
      * Called once per update tick. (Subclasses can override this to do something useful.)
      *
      * @param dt the number of seconds that have elapsed since the last update.
@@ -397,6 +418,9 @@ public class GameObject extends EventDispatcher
     {
         cleanup();
         _events.shutdown();
+        _events = null;
+        _signals.shutdown();
+        _signals = null;
     }
 
     internal function updateInternal (dt :Number) :void
@@ -459,6 +483,7 @@ public class GameObject extends EventDispatcher
     protected var _collapseRemovedTasks :Boolean;
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
+    protected var _signals :SignalListenerManager = new SignalListenerManager();
 
     protected var _dependentObjectRefs :Array = [];
     protected var _pendingDependentObjects :Array = [];
