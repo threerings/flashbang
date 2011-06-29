@@ -104,5 +104,4 @@ public class LoadableBatch extends Loadable
     protected var _allObjects :Array = []; // Array<Loadable>
     protected var _loadedObjects :Array = []; // Array<Loadable>
 }
-
 }

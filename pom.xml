@@ -64,6 +64,12 @@
       <scope>compile</scope>
       <type>swc</type>
     </dependency>
+    <dependency>
+      <groupId>org.osflash</groupId>
+      <artifactId>signals</artifactId>
+      <version>0.8.1-varargs</version>
+      <type>swc</type>
+    </dependency>
   </dependencies>
 
   <build>

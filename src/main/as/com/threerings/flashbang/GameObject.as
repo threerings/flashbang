@@ -26,7 +26,6 @@ import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
 import com.threerings.util.EventHandlerManager;
-import com.threerings.util.Map;
 import com.threerings.util.Preconditions;
 
 import com.threerings.flashbang.tasks.ParallelTask;

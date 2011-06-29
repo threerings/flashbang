@@ -27,6 +27,8 @@ import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 import flash.utils.getTimer;
 
+import org.osflash.signals.Signal;
+
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 
@@ -37,6 +39,8 @@ public class MainLoop extends EventDispatcher
 {
     public static const HAS_STOPPED :String = "HasStopped";
     public static const HAS_SHUTDOWN :String = "HasShutdown";
+
+    public const topModeChanged :Signal = new Signal();
 
     public function MainLoop (ctx :Context, minFrameRate :Number)
     {
@@ -370,6 +374,7 @@ public class MainLoop extends EventDispatcher
             if (null != topMode) {
                 topMode.enterInternal();
             }
+            topModeChanged.dispatch();
         }
     }
 
