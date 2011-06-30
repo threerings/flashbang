@@ -32,11 +32,11 @@ import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
 import org.osflash.signals.ISignal;
+import org.osflash.signals.Signal;
 
 public class GameObject extends EventDispatcher
 {
-    /** Event dispatched when the GameObject is removed from the ObjectDB */
-    public static const DESTROYED :String = "GameObject_Destroyed";
+    public const destroyed :Signal = new Signal();
 
     /**
      * Returns the unique GameObjectRef that stores a reference to this GameObject.
@@ -381,14 +381,14 @@ public class GameObject extends EventDispatcher
             }
             _lazyNamedTasks = [];
         }
-        var tc :NamedParellelTask;
+        var tc :NamedParallelTask;
         for (var idx :int = _lazyNamedTasks.length - 1; idx >= 0; --idx) {
-            if ((tc = NamedParellelTask(_lazyNamedTasks[idx])).name === name) {
+            if ((tc = NamedParallelTask(_lazyNamedTasks[idx])).name === name) {
                 return tc;
             }
         }
         if (create) {
-            _lazyNamedTasks.push(tc = new NamedParellelTask(name));
+            _lazyNamedTasks.push(tc = new NamedParallelTask(name));
             return tc;
         }
         return null;
@@ -411,7 +411,7 @@ public class GameObject extends EventDispatcher
             }
         }
         removedFromDB();
-        dispatchEvent(new Event(DESTROYED));
+        this.destroyed.dispatch();
     }
 
     internal function cleanupInternal () :void
@@ -517,11 +517,11 @@ class PendingDependentObject
     }
 }
 
-class NamedParellelTask extends ParallelTask
+class NamedParallelTask extends ParallelTask
 {
     public var name :String;
 
-    public function NamedParellelTask (name :String)
+    public function NamedParallelTask (name :String)
     {
         this.name = name;
     }
