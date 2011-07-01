@@ -76,16 +76,52 @@ public class TaskContainer
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        // Store the object and delta on the container to avoid the expense of creating a closure
-        // in an oft-called method
-        _updateDelta = dt;
-        _updateObj = obj;
-        return applyFunction(updateTask);
-    }
+        _invalidated = false;
 
-    protected function updateTask(task :ObjectTask) :Boolean
-    {
-        return task.update(_updateDelta, _updateObj);
+        var n :int = _tasks.length;
+        for (var ii :int = 0; ii < n; ++ii) {
+
+            var task :ObjectTask = (_tasks[ii] as ObjectTask);
+
+            // we can have holes in the array
+            if (null == task) {
+                continue;
+            }
+
+            var complete :Boolean = task.update(dt, obj);
+
+            if (_invalidated) {
+                // The TaskContainer was destroyed by its containing
+                // GameObject during task iteration. Stop processing immediately.
+                return false;
+            }
+
+            if (!complete && TYPE_PARALLEL != _type) {
+                // Serial and Repeating tasks proceed one task at a time
+                break;
+
+            } else if (complete) {
+                // the task is complete - move it the completed tasks array
+                _completedTasks[ii] = _tasks[ii];
+                _tasks[ii] = null;
+                _activeTaskCount -= 1;
+            }
+        }
+
+        // if this is a repeating task and all its tasks have been completed, start over again
+        if (_type == TYPE_REPEATING && 0 == _activeTaskCount && _completedTasks.length > 0) {
+            var completedTasks :Array = _completedTasks;
+
+            _tasks = [];
+            _completedTasks = [];
+
+            for each (var completedTask :ObjectTask in completedTasks) {
+                addTask(completedTask.clone());
+            }
+        }
+
+        // once we have no more active tasks, we're complete
+        return (0 == _activeTaskCount);
     }
 
     /** Returns a clone of the TaskContainer. */
@@ -118,69 +154,6 @@ public class TaskContainer
 
         return out;
     }
-
-    /**
-     * Helper function that applies the function f to each object in the container
-     * (for parallel tasks) or the first object in the container (for serial and repeating tasks)
-     * and returns true if there are no more active tasks in the container.
-     * f must be of the form:
-     * function f (task :ObjectTask) :Boolean
-     * it must return true if the task is complete after f is applied.
-     */
-    protected function applyFunction (f :Function) :Boolean
-    {
-        _invalidated = false;
-
-        var n :int = _tasks.length;
-        for (var ii :int = 0; ii < n; ++ii) {
-
-            var task :ObjectTask = (_tasks[ii] as ObjectTask);
-
-            // we can have holes in the array
-            if (null == task) {
-                continue;
-            }
-
-            var complete :Boolean = f(task);
-
-            if (_invalidated) {
-                // The TaskContainer was destroyed by its containing
-                // GameObject during task iteration. Stop processing immediately.
-                return false;
-            }
-
-            if (!complete && TYPE_PARALLEL != _type) {
-                // Serial and Repeating tasks proceed one task at a time
-                break;
-
-            } else if (complete) {
-                // the task is complete - move it the completed tasks array
-                _completedTasks[ii] = _tasks[ii];
-                _tasks[ii] = null;
-                _activeTaskCount -= 1;
-            }
-        }
-
-        // if this is a repeating task and all its tasks have been completed, start over again
-        if (_type == TYPE_REPEATING && 0 == _activeTaskCount && _completedTasks.length > 0) {
-            var completedTasks :Array = _completedTasks;
-
-            _tasks = new Array();
-            _completedTasks = new Array();
-
-            for each (var completedTask :ObjectTask in completedTasks) {
-                addTask(completedTask.clone());
-            }
-        }
-
-        // once we have no more active tasks, we're complete
-        return (0 == _activeTaskCount);
-    }
-
-    // The most recent delta and object values from update.  Only valid while update is being
-    // called
-    protected var _updateDelta :Number;
-    protected var _updateObj :GameObject;
 
     protected var _type :int;
     protected var _tasks :Array = new Array();
