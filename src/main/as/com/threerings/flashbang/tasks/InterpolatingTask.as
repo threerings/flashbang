@@ -20,13 +20,11 @@
 
 package com.threerings.flashbang.tasks {
 
-import mx.effects.easing.Linear;
-
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.util.MathUtil;
 
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
+import mx.effects.easing.Linear;
 
 public class InterpolatingTask
     implements ObjectTask
@@ -47,11 +45,6 @@ public class InterpolatingTask
     public function clone () :ObjectTask
     {
         return new InterpolatingTask(_totalTime, _easingFn);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected function interpolate (a :Number, b :Number) :Number

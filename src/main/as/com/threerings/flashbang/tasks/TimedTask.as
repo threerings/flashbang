@@ -21,7 +21,6 @@
 package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
 
 public class TimedTask
@@ -42,11 +41,6 @@ public class TimedTask
     public function clone () :ObjectTask
     {
         return new TimedTask(_time);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _time :Number = 0;

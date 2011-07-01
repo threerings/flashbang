@@ -22,7 +22,6 @@ package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.CuePoint;
 import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
 
 public class CuePointTask
@@ -56,11 +55,6 @@ public class CuePointTask
     public function clone () :ObjectTask
     {
         return new CuePointTask(_cuePoint.name);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _cuePoint :CuePoint;

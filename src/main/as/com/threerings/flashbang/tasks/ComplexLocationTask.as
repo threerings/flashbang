@@ -20,14 +20,13 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
+import com.threerings.flashbang.components.LocationComponent;
+
 import flash.display.DisplayObject;
 
 import mx.effects.easing.*;
-
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.components.LocationComponent;
 
 public class ComplexLocationTask
     implements ObjectTask
@@ -71,11 +70,6 @@ public class ComplexLocationTask
     {
         return new ComplexLocationTask(_toX, _toY, _totalTime, _xEasingFn, _yEasingFn,
             _dispOverride.displayObject);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _xEasingFn :Function;

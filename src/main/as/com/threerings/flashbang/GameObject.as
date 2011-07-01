@@ -27,7 +27,6 @@ import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Preconditions;
 
 import flash.display.DisplayObjectContainer;
-import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
@@ -337,15 +336,6 @@ public class GameObject extends EventDispatcher
     {
     }
 
-    /**
-     * Called to deliver a message to the object.
-     * (Subclasses can override this to do something useful.)
-     */
-    protected function receiveMessage (msg :ObjectMessage) :void
-    {
-
-    }
-
     protected function manageDependentObject (obj :GameObject, isSceneObject :Boolean,
         displayParent :DisplayObjectContainer, displayIdx :int) :void
     {
@@ -457,21 +447,6 @@ public class GameObject extends EventDispatcher
         }
     }
 
-    internal function receiveMessageInternal (msg :ObjectMessage) :void
-    {
-        if (_lazyAnonymousTasks != null) {
-            _lazyAnonymousTasks.receiveMessage(msg);
-        }
-
-        if (_lazyNamedTasks != null) {
-            for each (var namedTask :ParallelTask in _lazyNamedTasks) {
-                namedTask.receiveMessage(msg);
-            }
-        }
-
-        receiveMessage(msg);
-    }
-
     // Note: this is null until needed. Subclassers beware
     protected var _lazyAnonymousTasks :ParallelTask;
     // This is really a linked map : String -> ParallelTask. We use an array though and take the
@@ -495,10 +470,10 @@ public class GameObject extends EventDispatcher
 
 }
 
-import flash.display.DisplayObjectContainer;
-
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.tasks.ParallelTask;
+
+import flash.display.DisplayObjectContainer;
 
 class PendingDependentObject
 {

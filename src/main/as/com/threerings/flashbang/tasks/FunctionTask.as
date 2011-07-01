@@ -21,7 +21,6 @@
 package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
 
 public class FunctionTask
@@ -50,11 +49,6 @@ public class FunctionTask
         // Work around for the pain associated with passing a normal Array as a varargs Array
         task._args = _args;
         return task;
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _fn :Function;

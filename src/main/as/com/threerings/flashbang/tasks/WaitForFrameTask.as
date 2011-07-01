@@ -20,11 +20,11 @@
 
 package com.threerings.flashbang.tasks {
 
-import flash.display.MovieClip;
-
 import com.threerings.flashbang.*;
 import com.threerings.flashbang.components.*;
 import com.threerings.flashbang.objects.*;
+
+import flash.display.MovieClip;
 
 public class WaitForFrameTask implements ObjectTask
 {
@@ -63,11 +63,6 @@ public class WaitForFrameTask implements ObjectTask
     public function clone () :ObjectTask
     {
         return new WaitForFrameTask(null != _frameLabel ? _frameLabel : _frameNumber, _movie);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _frameLabel :String;

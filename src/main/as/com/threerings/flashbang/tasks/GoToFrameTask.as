@@ -20,11 +20,11 @@
 
 package com.threerings.flashbang.tasks {
 
-import flash.display.MovieClip;
-
 import com.threerings.flashbang.*;
 import com.threerings.flashbang.components.*;
 import com.threerings.flashbang.objects.*;
+
+import flash.display.MovieClip;
 
 public class GoToFrameTask
     implements ObjectTask
@@ -65,11 +65,6 @@ public class GoToFrameTask
     public function clone () :ObjectTask
     {
         return new GoToFrameTask(_frame, _scene, _gotoAndPlay, _movie);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _frame :Object;

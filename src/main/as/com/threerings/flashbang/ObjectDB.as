@@ -206,45 +206,6 @@ public class ObjectDB extends EventDispatcher
         _runningTime += dt;
     }
 
-    /** Sends a message to every object in the database. */
-    public function broadcastMessage (msg :ObjectMessage) :void
-    {
-        var ref :GameObjectRef = _listHead;
-        while (null != ref) {
-            if (!ref.isNull) {
-                ref.object.receiveMessageInternal(msg);
-            }
-
-            ref = ref._next;
-        }
-    }
-
-    /** Sends a message to a specific object. */
-    public function sendMessageTo (msg :ObjectMessage, targetRef :GameObjectRef) :void
-    {
-        if (!targetRef.isNull) {
-            targetRef.object.receiveMessageInternal(msg);
-        }
-    }
-
-    /** Sends a message to the object with the given name. */
-    public function sendMessageToNamedObject (msg :ObjectMessage, objectName :String) :void
-    {
-        var target :GameObject = getObjectNamed(objectName);
-        if (null != target) {
-            target.receiveMessageInternal(msg);
-        }
-    }
-
-    /** Sends a message to each object in the given group. */
-    public function sendMessageToGroup (msg :ObjectMessage, groupName :String) :void
-    {
-        var refs :Array = getObjectRefsInGroup(groupName);
-        for each (var ref :GameObjectRef in refs) {
-            sendMessageTo(msg, ref);
-        }
-    }
-
     /**
      * Guarantees that the "second" GameObject will have its update logic run after "first"
      * during the update loop.

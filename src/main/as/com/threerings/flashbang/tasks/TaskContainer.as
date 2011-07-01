@@ -20,12 +20,10 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
-
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
 
 public class TaskContainer
     implements ObjectTask
@@ -101,15 +99,6 @@ public class TaskContainer
         theClone._activeTaskCount = clonedSubtasks.length;
 
         return theClone;
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return applyFunction(
-            function (task :ObjectTask) :Boolean {
-                return task.receiveMessage(msg);
-            }
-        );
     }
 
     protected function cloneSubtasks () :Array

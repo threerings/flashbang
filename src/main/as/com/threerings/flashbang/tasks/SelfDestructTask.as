@@ -21,7 +21,6 @@
 package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
 
 public class SelfDestructTask
@@ -36,11 +35,6 @@ public class SelfDestructTask
     public function clone () :ObjectTask
     {
         return new SelfDestructTask();
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 }
 

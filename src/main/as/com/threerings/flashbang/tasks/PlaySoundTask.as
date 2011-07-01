@@ -48,11 +48,6 @@ public class PlaySoundTask
         return new PlaySoundTask(_soundName, _waitForComplete, _parentControls);
     }
 
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
-    }
-
     protected var _soundName :String;
     protected var _waitForComplete :Boolean;
     protected var _parentControls :AudioControls;

@@ -20,18 +20,16 @@
 
 package com.threerings.flashbang.tasks {
 
+import com.threerings.display.ColorMatrix;
+import com.threerings.display.FilterUtil;
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
+import com.threerings.flashbang.components.SceneComponent;
+
 import flash.display.DisplayObject;
 import flash.filters.ColorMatrixFilter;
 
 import mx.effects.easing.*;
-
-import com.threerings.display.ColorMatrix;
-import com.threerings.display.FilterUtil;
-
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
-import com.threerings.flashbang.ObjectTask;
-import com.threerings.flashbang.components.SceneComponent;
 
 public class ColorMatrixBlendTask
     implements ObjectTask
@@ -131,11 +129,6 @@ public class ColorMatrixBlendTask
     {
         return new ColorMatrixBlendTask(_from, _to, _totalTime, _dispOverride.displayObject,
             _easingFn, _preserveFilters);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _dispOverride :DisplayObjectWrapper;

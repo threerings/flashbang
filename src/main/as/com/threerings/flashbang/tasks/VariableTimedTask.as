@@ -21,7 +21,6 @@
 package com.threerings.flashbang.tasks {
 
 import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectMessage;
 import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.util.Rand;
 
@@ -48,11 +47,6 @@ public class VariableTimedTask
     public function clone () :ObjectTask
     {
         return new VariableTimedTask(_timeLo, _timeHi, _randStreamId);
-    }
-
-    public function receiveMessage (msg :ObjectMessage) :Boolean
-    {
-        return false;
     }
 
     protected var _timeLo :Number;
