@@ -25,6 +25,7 @@ import com.threerings.flashbang.tasks.TaskContainer;
 import com.threerings.flashbang.util.SignalListenerManager;
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Preconditions;
+import com.threerings.util.StringUtil;
 
 import flash.display.DisplayObjectContainer;
 import flash.events.EventDispatcher;
@@ -36,6 +37,11 @@ import org.osflash.signals.Signal;
 public class GameObject extends EventDispatcher
 {
     public const destroyed :Signal = new Signal();
+
+    override public function toString () :String
+    {
+        return StringUtil.simpleToString(this, [ "isLiveObject", "objectNames", "objectGroups" ]);
+    }
 
     /**
      * Returns the unique GameObjectRef that stores a reference to this GameObject.

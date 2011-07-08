@@ -25,6 +25,7 @@ import com.threerings.flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
+import com.threerings.util.Joiner;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 
@@ -344,14 +345,14 @@ public class ObjectDB extends EventDispatcher
         for each (var groupName :String in obj.objectGroups) {
             var groupArray :Array = (_groupedObjects.get(groupName) as Array);
             if (null == groupArray) {
-                throw new Error("destroyed GameObject is returning different object groups " +
-                    "than it did on creation");
+                throw new Error(Joiner.pairs("destroyed GameObject is returning different object " +
+                    "groups than it did on creation", "obj", obj));
             }
 
             var wasInArray :Boolean = Arrays.removeFirst(groupArray, ref);
             if (!wasInArray) {
-                throw new Error("destroyed GameObject is returning different object groups " +
-                    "than it did on creation");
+                throw new Error(Joiner.pairs("destroyed GameObject is returning different object " +
+                    "groups than it did on creation", "obj", obj));
             }
         }
 
