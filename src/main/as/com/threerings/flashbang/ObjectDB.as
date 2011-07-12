@@ -86,10 +86,10 @@ public class ObjectDB extends EventDispatcher
 
         // does the object have names?
         for each (var objectName :String in obj.objectNames) {
-            var oldObj :* = _namedObjects.put(objectName, obj);
-            if (undefined !== oldObj) {
-                throw new Error("two objects with the same name ('" + objectName + "') " +
-                    "added to the ObjectDB");
+            var existing :GameObject = _namedObjects.put(objectName, obj);
+            if (null != existing) {
+                throw new Error(Joiner.pairs("two objects with the same name added to the ObjectDB",
+                    "name", objectName, "new", obj, "existing", existing));
             }
         }
 
