@@ -20,16 +20,22 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.*;
-import com.threerings.flashbang.components.*;
-import com.threerings.flashbang.objects.*;
-
 import flash.display.MovieClip;
+
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
+import com.threerings.flashbang.components.SceneComponent;
 
 public class GotoAndPlayUntilTask
     implements ObjectTask
 {
-    public function GotoAndPlayUntilTask (frame :Object, stopFrame :Object, movie :MovieClip = null)
+    /**
+     * Plays movie starting at frame until stopFrame. If the start frame isn't given, it defaults
+     * to 1. If the stopFrame isn't given, it defaults to the movie's totalFrames. If movie isn't
+     * given, it defaults to the displayObject of the SceneComponent this task is on.
+     */
+    public function GotoAndPlayUntilTask (frame :Object = null, stopFrame :Object = null,
+        movie :MovieClip = null)
     {
         _startFrame = frame;
         _stopFrame = stopFrame;
@@ -52,6 +58,12 @@ public class GotoAndPlayUntilTask
         }
 
         if (!_started) {
+            if (_startFrame == null) {
+                _startFrame = 1;
+            }
+            if (_stopFrame == null) {
+                _stopFrame = movieClip.totalFrames;
+            }
             movieClip.gotoAndPlay(_startFrame);
             _started = true;
         }
