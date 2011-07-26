@@ -55,6 +55,14 @@ public class AudioChannel extends EventDispatcher
         return (null != controls ? controls : DUMMY_CONTROLS);
     }
 
+    /**
+     * Returns the length of the sound in milliseconds, or 0 if the sound doesn't exist.
+     */
+    public function get length () :Number
+    {
+        return null == sound ? 0 : sound.sound.length;
+    }
+
     // managed by AudioManager
 
     internal var completeHandler :Function;
