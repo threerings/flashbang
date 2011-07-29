@@ -25,12 +25,6 @@ import com.threerings.flashbang.util.BoxedNumber;
 
 public class SimpleTimer extends GameObject
 {
-    public static function getTimeLeft (mainLoop :MainLoop, timerName :String) :Number
-    {
-        var timer :SimpleTimer = mainLoop.topMode.getObjectNamed(timerName) as SimpleTimer;
-        return (timer != null ? timer.timeLeft : 0);
-    }
-
     public function SimpleTimer (delay :Number, callback :Function = null,
         repeating :Boolean = false, timerName :String = null)
     {

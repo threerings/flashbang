@@ -18,14 +18,13 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.display.DisplayUtil;
+import com.threerings.flashbang.components.SceneComponent;
+
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
-
-import com.threerings.display.DisplayUtil;
-
-import com.threerings.flashbang.components.SceneComponent;
 
 public class AppMode extends ObjectDB
 {
@@ -44,6 +43,12 @@ public class AppMode extends ObjectDB
     public final function get ctx () :Context
     {
         return _ctx;
+    }
+
+    /** Returns the Viewport that this AppMode lives in */
+    public final function get viewport () :Viewport
+    {
+        return _viewport;
     }
 
     /**
@@ -131,9 +136,10 @@ public class AppMode extends ObjectDB
     {
     }
 
-    internal function setupInternal (ctx :Context) :void
+    internal function setupInternal (ctx :Context, viewport :Viewport) :void
     {
         _ctx = ctx;
+        _viewport = viewport;
         setup();
     }
 
@@ -142,6 +148,7 @@ public class AppMode extends ObjectDB
         destroy();
         shutdown();
         _ctx = null;
+        _viewport = null;
     }
 
     internal function enterInternal () :void
@@ -162,6 +169,7 @@ public class AppMode extends ObjectDB
 
     protected var _modeSprite :Sprite = new Sprite();
     protected var _ctx :Context;
+    protected var _viewport :Viewport;
 }
 
 }

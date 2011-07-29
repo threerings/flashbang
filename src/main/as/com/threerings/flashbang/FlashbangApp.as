@@ -49,7 +49,6 @@ public class FlashbangApp
 
     public function run (hostSprite :Sprite, keyDispatcher :IEventDispatcher = null) :void
     {
-        _ctx.mainLoop.setup();
         _ctx.mainLoop.run(hostSprite, keyDispatcher);
     }
 
