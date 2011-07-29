@@ -22,6 +22,7 @@ import com.threerings.flashbang.audio.*;
 import com.threerings.flashbang.resource.*;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
+import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
@@ -81,9 +82,9 @@ public class FlashbangApp
 
         _running = true;
 
-        _hostSprite.addEventListener(Event.ENTER_FRAME, update);
-        _keyDispatcher.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-        _keyDispatcher.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+        _events.registerListener(_hostSprite, Event.ENTER_FRAME, update);
+        _events.registerListener(_keyDispatcher, KeyboardEvent.KEY_DOWN, onKeyDown);
+        _events.registerListener(_keyDispatcher, KeyboardEvent.KEY_UP, onKeyUp);
 
         _lastTime = getAppTime();
 
@@ -229,11 +230,8 @@ public class FlashbangApp
 
         // should the MainLoop be stopped?
         if (_shutdownPending) {
-            _hostSprite.removeEventListener(Event.ENTER_FRAME, update);
-            _keyDispatcher.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-            _keyDispatcher.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
             _running = false;
-
+            _events.freeAllHandlers();
             shutdownNow();
         }
 
@@ -250,6 +248,9 @@ public class FlashbangApp
         _hostSprite = null;
         _keyDispatcher = null;
         _updatables = null;
+
+        _events.shutdown();
+        _events = null;
 
         _audio.shutdown();
 
@@ -285,6 +286,7 @@ public class FlashbangApp
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;
     protected var _keyDispatcher :IEventDispatcher;
+    protected var _events :EventHandlerManager = new EventHandlerManager();
 
     protected var _running :Boolean;
     protected var _shutdownPending :Boolean;
