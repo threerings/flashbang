@@ -22,6 +22,9 @@ import com.threerings.flashbang.audio.*;
 import com.threerings.flashbang.resource.*;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
+import com.threerings.util.Map;
+import com.threerings.util.Maps;
+import com.threerings.util.Preconditions;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -42,7 +45,7 @@ public class MainLoop
         _minFrameRate = minFrameRate;
 
         // Create our default viewport
-        createViewport();
+        createViewport(Viewport.DEFAULT);
     }
 
     /**
@@ -68,17 +71,38 @@ public class MainLoop
     /**
      * Creates and registers a new Viewport. (Flashbang automatically creates a Viewport on
      * initialization, so this is only necessary for creating additional ones.)
+     *
+     * Viewports must be uniquely named.
      */
-    public function createViewport (sprite :Sprite = null) :Viewport
+    public function createViewport (name :String, sprite :Sprite = null) :Viewport
     {
         if (sprite == null) {
             sprite = new Sprite();
             _hostSprite.addChild(sprite);
         }
 
-        var viewport :Viewport = new Viewport(_ctx, sprite);
-        _viewports.push(viewport);
+        var viewport :Viewport = new Viewport(name, _ctx, sprite);
+        var existing :Object = _viewports.put(name, viewport);
+        if (existing != null) {
+            throw new Error("A viewport named '" + name + "' already exists");
+        }
         return viewport;
+    }
+
+    /**
+     * Returns the Viewport with the given name, if it exists.
+     */
+    public function getViewport (name :String) :Viewport
+    {
+        return _viewports.get(name);
+    }
+
+    /**
+     * Returns the default Viewport that was created when Flashbang was initialized
+     */
+    public function get defaultViewport () :Viewport
+    {
+        return getViewport(Viewport.DEFAULT);
     }
 
     public function addUpdatable (obj :Updatable) :void
@@ -116,9 +140,9 @@ public class MainLoop
 
         _lastTime = getAppTime();
 
-        for each (var viewport :Viewport in _viewports) {
+        _viewports.forEach(function (name :String, viewport :Viewport) :void {
             viewport.handleModeTransitions();
-        }
+        });
     }
 
     /**
@@ -162,21 +186,15 @@ public class MainLoop
         }
 
         // update our viewports
-        var viewportsDestroyed :Boolean;
-        for each (var viewport :Viewport in _viewports) {
+        // we iterate the values Array so that we can safely removed destroyed Viewports
+        for each (var viewport :Viewport in _viewports.values()) {
             if (!viewport.destroyed) {
                 viewport.update(dt);
             }
             if (viewport.destroyed) {
+                _viewports.remove(viewport.name);
                 viewport.shutdown();
-                viewportsDestroyed = true;
             }
-        }
-
-        if (viewportsDestroyed) {
-            _viewports = _viewports.filter(function (viewport :Viewport, ..._) :Boolean {
-                return !viewport.destroyed;
-            });
         }
 
         // should the MainLoop be stopped?
@@ -194,23 +212,27 @@ public class MainLoop
 
     protected function onKeyDown (e :KeyboardEvent) :void
     {
-        for each (var viewport :Viewport in _viewports) {
-            viewport.onKeyDown(e);
-        }
+        _viewports.forEach(function (name :String, viewport :Viewport) :void {
+            if (!viewport.destroyed) {
+                viewport.onKeyDown(e);
+            }
+        });
     }
 
     protected function onKeyUp (e :KeyboardEvent) :void
     {
-        for each (var viewport :Viewport in _viewports) {
-            viewport.onKeyUp(e);
-        }
+        _viewports.forEach(function (name :String, viewport :Viewport) :void {
+            if (!viewport.destroyed) {
+                viewport.onKeyUp(e);
+            }
+        });
     }
 
     protected function shutdownNow () :void
     {
-        for each (var viewport :Viewport in _viewports) {
+        _viewports.forEach(function (name :String, viewport :Viewport) :void {
             viewport.shutdown();
-        }
+        });
         _viewports = null;
 
         _ctx = null;
@@ -231,7 +253,7 @@ public class MainLoop
     protected var _shutdownPending :Boolean;
     protected var _lastTime :Number;
     protected var _updatables :Array = [];
-    protected var _viewports :Array = [];
+    protected var _viewports :Map = Maps.newMapOf(String); // <String, Viewport>
     protected var _fps :Number = 0;
 }
 

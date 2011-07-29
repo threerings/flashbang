@@ -20,6 +20,7 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.display.DisplayUtil;
 import com.threerings.flashbang.audio.*;
 import com.threerings.flashbang.resource.*;
 import com.threerings.util.Arrays;
@@ -40,12 +41,20 @@ import org.osflash.signals.Signal;
  */
 public class Viewport
 {
+    public static const DEFAULT :String = "Default";
+
     public const topModeChanged :Signal = new Signal();
 
-    public function Viewport (ctx :Context, sprite :Sprite)
+    public function Viewport (name :String, ctx :Context, sprite :Sprite)
     {
+        _name = name;
         _ctx = ctx;
         _topSprite = sprite;
+    }
+
+    public final function get name () :String
+    {
+        return _name;
     }
 
     /**
@@ -330,9 +339,11 @@ public class Viewport
         clearModeStackNow();
         _modeStack = null;
         _pendingModeTransitionQueue = null;
+        DisplayUtil.detach(_topSprite);
         _topSprite = null;
     }
 
+    protected var _name :String;
     protected var _ctx :Context;
     protected var _topSprite :Sprite;
     protected var _modeStack :Array = [];
