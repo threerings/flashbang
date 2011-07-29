@@ -39,10 +39,10 @@ public class AppMode extends ObjectDB
         return _modeSprite;
     }
 
-    /** Returns the Context associated with this AppMode. */
-    public final function get ctx () :FlashbangContext
+    /** Returns the AppMode's FlashbangApp */
+    public final function get app () :FlashbangApp
     {
-        return _ctx;
+        return _app;
     }
 
     /** Returns the Viewport that this AppMode lives in */
@@ -136,9 +136,9 @@ public class AppMode extends ObjectDB
     {
     }
 
-    internal function setupInternal (ctx :FlashbangContext, viewport :Viewport) :void
+    internal function setupInternal (app :FlashbangApp, viewport :Viewport) :void
     {
-        _ctx = ctx;
+        _app = app;
         _viewport = viewport;
         setup();
     }
@@ -147,7 +147,7 @@ public class AppMode extends ObjectDB
     {
         destroy();
         shutdown();
-        _ctx = null;
+        _app = null;
         _viewport = null;
     }
 
@@ -168,7 +168,7 @@ public class AppMode extends ObjectDB
     }
 
     protected var _modeSprite :Sprite = new Sprite();
-    protected var _ctx :FlashbangContext;
+    protected var _app :FlashbangApp;
     protected var _viewport :Viewport;
 }
 

@@ -40,9 +40,9 @@ public class MainLoop
 {
     public const didShutdown :Signal = new Signal();
 
-    public function MainLoop (ctx :FlashbangContext, hostSprite :Sprite, minFrameRate :Number)
+    public function MainLoop (app :FlashbangApp, hostSprite :Sprite, minFrameRate :Number)
     {
-        _ctx = ctx;
+        _app = app;
         _minFrameRate = minFrameRate;
         _hostSprite = hostSprite;
 
@@ -63,7 +63,7 @@ public class MainLoop
             _hostSprite.addChild(sprite);
         }
 
-        var viewport :Viewport = new Viewport(name, _ctx, sprite);
+        var viewport :Viewport = new Viewport(_app, name, sprite);
         var existing :Object = _viewports.put(name, viewport);
         if (existing != null) {
             throw new Error("A viewport named '" + name + "' already exists");
@@ -234,7 +234,7 @@ public class MainLoop
         });
         _viewports = null;
 
-        _ctx = null;
+        _app = null;
         _hostSprite = null;
         _keyDispatcher = null;
         _updatables = null;
@@ -242,7 +242,7 @@ public class MainLoop
         didShutdown.dispatch();
     }
 
-    protected var _ctx :FlashbangContext;
+    protected var _app :FlashbangApp;
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;
     protected var _keyDispatcher :IEventDispatcher;

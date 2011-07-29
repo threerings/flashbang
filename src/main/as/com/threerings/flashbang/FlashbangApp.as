@@ -32,42 +32,54 @@ public class FlashbangApp
             config = new Config();
         }
 
-        _ctx._mainLoop = new MainLoop(_ctx, hostSprite, config.minFrameRate);
-        _ctx._audio = new AudioManager(_ctx, config.maxAudioChannels);
-        _ctx._mainLoop.addUpdatable(_ctx.audio);
+        _mainLoop = new MainLoop(this, hostSprite, config.minFrameRate);
+        _audio = new AudioManager(this, config.maxAudioChannels);
+        _mainLoop.addUpdatable(_audio);
 
         if (config.externalResourceManager == null) {
-            _ctx._rsrcs = new ResourceManager();
-            _ctx.rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
+            _rsrcs = new ResourceManager();
+            rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
             _ownsResourceManager = true;
 
         } else {
-            _ctx._rsrcs = config.externalResourceManager;
+            _rsrcs = config.externalResourceManager;
             _ownsResourceManager = false;
         }
     }
 
     public function run () :void
     {
-        _ctx.mainLoop.run();
+        _mainLoop.run();
     }
 
     public function shutdown () :void
     {
-        _ctx.mainLoop.shutdown();
-        _ctx.audio.shutdown();
+        _mainLoop.shutdown();
+        _audio.shutdown();
 
         if (_ownsResourceManager) {
-            _ctx.rsrcs.shutdown();
+            _rsrcs.shutdown();
         }
     }
 
-    public function get ctx () :FlashbangContext
+    public function get mainLoop () :MainLoop
     {
-        return _ctx;
+        return _mainLoop;
     }
 
-    protected var _ctx :FlashbangContext = new FlashbangContext();
+    public function get rsrcs () :ResourceManager
+    {
+        return _rsrcs;
+    }
+
+    public function get audio () :AudioManager
+    {
+        return _audio;
+    }
+
+    protected var _mainLoop :MainLoop;
+    protected var _rsrcs :ResourceManager;
+    protected var _audio :AudioManager;
     protected var _ownsResourceManager :Boolean;
 }
 

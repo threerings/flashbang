@@ -45,10 +45,10 @@ public class Viewport
 
     public const topModeChanged :Signal = new Signal();
 
-    public function Viewport (name :String, ctx :FlashbangContext, sprite :Sprite)
+    public function Viewport (app :FlashbangApp, name :String, sprite :Sprite)
     {
+        _app = app;
         _name = name;
-        _ctx = ctx;
         _topSprite = sprite;
     }
 
@@ -218,7 +218,7 @@ public class Viewport
             _modeStack.push(newMode);
             _topSprite.addChild(newMode.modeSprite);
 
-            newMode.setupInternal(_ctx, self);
+            newMode.setupInternal(_app, self);
         }
 
         function doInsertMode (newMode :AppMode, index :int) :void {
@@ -235,7 +235,7 @@ public class Viewport
             _modeStack.splice(index, 0, newMode);
             _topSprite.addChildAt(newMode.modeSprite, index);
 
-            newMode.setupInternal(_ctx, self);
+            newMode.setupInternal(_app, self);
         }
 
         function doRemoveMode (index :int) :void {
@@ -343,8 +343,9 @@ public class Viewport
         _topSprite = null;
     }
 
+
+    protected var _app :FlashbangApp;
     protected var _name :String;
-    protected var _ctx :FlashbangContext;
     protected var _topSprite :Sprite;
     protected var _modeStack :Array = [];
     protected var _pendingModeTransitionQueue :Array = [];

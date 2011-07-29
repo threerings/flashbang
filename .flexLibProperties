@@ -3,7 +3,6 @@
   <includeClasses>
     <classEntry path="com.threerings.flashbang.AppMode"/>
     <classEntry path="com.threerings.flashbang.Config"/>
-    <classEntry path="com.threerings.flashbang.FlashbangContext"/>
     <classEntry path="com.threerings.flashbang.CuePoint"/>
     <classEntry path="com.threerings.flashbang.FlashbangApp"/>
     <classEntry path="com.threerings.flashbang.GameObject"/>
