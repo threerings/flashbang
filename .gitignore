@@ -1,4 +1,5 @@
 .classpath
 .settings
 bin/
+dist/
 target/
