@@ -62,12 +62,12 @@ public class FlashbangApp
         }
     }
 
-    public function get ctx () :Context
+    public function get ctx () :FlashbangContext
     {
         return _ctx;
     }
 
-    protected var _ctx :Context = new Context();
+    protected var _ctx :FlashbangContext = new FlashbangContext();
     protected var _ownsResourceManager :Boolean;
 }
 

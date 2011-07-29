@@ -39,7 +39,7 @@ public class MainLoop
 {
     public const didShutdown :Signal = new Signal();
 
-    public function MainLoop (ctx :Context, minFrameRate :Number)
+    public function MainLoop (ctx :FlashbangContext, minFrameRate :Number)
     {
         _ctx = ctx;
         _minFrameRate = minFrameRate;
@@ -243,7 +243,7 @@ public class MainLoop
         didShutdown.dispatch();
     }
 
-    protected var _ctx :Context;
+    protected var _ctx :FlashbangContext;
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;
     protected var _keyDispatcher :IEventDispatcher;

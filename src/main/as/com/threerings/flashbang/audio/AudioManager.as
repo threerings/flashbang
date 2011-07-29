@@ -25,7 +25,7 @@ import flash.utils.getTimer;
 import com.threerings.util.F;
 import com.threerings.util.Log;
 
-import com.threerings.flashbang.Context;
+import com.threerings.flashbang.FlashbangContext;
 import com.threerings.flashbang.Updatable;
 import com.threerings.flashbang.resource.*;
 
@@ -34,7 +34,7 @@ public class AudioManager
 {
     public static const LOOP_FOREVER :int = -1;
 
-    public function AudioManager (ctx :Context, maxChannels :int = 25)
+    public function AudioManager (ctx :FlashbangContext, maxChannels :int = 25)
     {
         _ctx = ctx;
         _maxChannels = maxChannels;
@@ -304,7 +304,7 @@ public class AudioManager
         return channel.isPlaying;
     }
 
-    protected var _ctx :Context;
+    protected var _ctx :FlashbangContext;
     protected var _maxChannels :int;
     protected var _activeChannels :Array = [];
     protected var _masterControls :AudioControls;

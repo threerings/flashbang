@@ -21,7 +21,7 @@ package com.threerings.flashbang {
 import com.threerings.flashbang.audio.AudioManager;
 import com.threerings.flashbang.resource.ResourceManager;
 
-public class Context
+public class FlashbangContext
 {
     public var mainLoop :MainLoop;
     public var rsrcs :ResourceManager;

@@ -45,7 +45,7 @@ public class Viewport
 
     public const topModeChanged :Signal = new Signal();
 
-    public function Viewport (name :String, ctx :Context, sprite :Sprite)
+    public function Viewport (name :String, ctx :FlashbangContext, sprite :Sprite)
     {
         _name = name;
         _ctx = ctx;
@@ -344,7 +344,7 @@ public class Viewport
     }
 
     protected var _name :String;
-    protected var _ctx :Context;
+    protected var _ctx :FlashbangContext;
     protected var _topSprite :Sprite;
     protected var _modeStack :Array = [];
     protected var _pendingModeTransitionQueue :Array = [];
