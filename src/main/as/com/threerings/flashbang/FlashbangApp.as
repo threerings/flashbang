@@ -119,14 +119,13 @@ public class FlashbangApp
      *
      * Viewports must be uniquely named.
      */
-    public function createViewport (name :String, sprite :Sprite = null) :Viewport
+    public function createViewport (name :String, parentSprite :Sprite = null) :Viewport
     {
-        if (sprite == null) {
-            sprite = new Sprite();
-            _hostSprite.addChild(sprite);
+        if (parentSprite == null) {
+            parentSprite = _hostSprite;
         }
 
-        var viewport :Viewport = new Viewport(this, name, sprite);
+        var viewport :Viewport = new Viewport(this, name, parentSprite);
         var existing :Object = _viewports.put(name, viewport);
         if (existing != null) {
             throw new Error("A viewport named '" + name + "' already exists");
@@ -219,10 +218,10 @@ public class FlashbangApp
         // update our viewports
         // we iterate the values Array so that we can safely removed destroyed Viewports
         for each (var viewport :Viewport in _viewports.values()) {
-            if (!viewport.destroyed) {
+            if (!viewport.isDestroyed) {
                 viewport.update(dt);
             }
-            if (viewport.destroyed) {
+            if (viewport.isDestroyed) {
                 _viewports.remove(viewport.name);
                 viewport.shutdown();
             }
@@ -264,7 +263,7 @@ public class FlashbangApp
     protected function onKeyDown (e :KeyboardEvent) :void
     {
         _viewports.forEach(function (name :String, viewport :Viewport) :void {
-            if (!viewport.destroyed) {
+            if (!viewport.isDestroyed) {
                 viewport.onKeyDown(e);
             }
         });
@@ -273,7 +272,7 @@ public class FlashbangApp
     protected function onKeyUp (e :KeyboardEvent) :void
     {
         _viewports.forEach(function (name :String, viewport :Viewport) :void {
-            if (!viewport.destroyed) {
+            if (!viewport.isDestroyed) {
                 viewport.onKeyUp(e);
             }
         });

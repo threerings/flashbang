@@ -44,12 +44,13 @@ public class Viewport
     public static const DEFAULT :String = "Default";
 
     public const topModeChanged :Signal = new Signal();
+    public const destroyed :Signal = new Signal();
 
-    public function Viewport (app :FlashbangApp, name :String, sprite :Sprite)
+    public function Viewport (app :FlashbangApp, name :String, parentSprite :Sprite)
     {
         _app = app;
         _name = name;
-        _topSprite = sprite;
+        parentSprite.addChild(_topSprite);
     }
 
     public final function get name () :String
@@ -329,7 +330,7 @@ public class Viewport
         }
     }
 
-    internal function get destroyed () :Boolean
+    internal function get isDestroyed () :Boolean
     {
         return _destroyed;
     }
@@ -341,12 +342,13 @@ public class Viewport
         _pendingModeTransitionQueue = null;
         DisplayUtil.detach(_topSprite);
         _topSprite = null;
+        this.destroyed.dispatch();
     }
 
 
     protected var _app :FlashbangApp;
     protected var _name :String;
-    protected var _topSprite :Sprite;
+    protected var _topSprite :Sprite = new Sprite();
     protected var _modeStack :Array = [];
     protected var _pendingModeTransitionQueue :Array = [];
     protected var _destroyed :Boolean;
