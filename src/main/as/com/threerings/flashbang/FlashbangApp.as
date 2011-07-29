@@ -32,17 +32,17 @@ public class FlashbangApp
             config = new Config();
         }
 
-        _ctx.mainLoop = new MainLoop(_ctx, config.minFrameRate);
-        _ctx.audio = new AudioManager(_ctx, config.maxAudioChannels);
-        _ctx.mainLoop.addUpdatable(_ctx.audio);
+        _ctx._mainLoop = new MainLoop(_ctx, config.minFrameRate);
+        _ctx._audio = new AudioManager(_ctx, config.maxAudioChannels);
+        _ctx._mainLoop.addUpdatable(_ctx.audio);
 
         if (config.externalResourceManager == null) {
-            _ctx.rsrcs = new ResourceManager();
+            _ctx._rsrcs = new ResourceManager();
             _ctx.rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
             _ownsResourceManager = true;
 
         } else {
-            _ctx.rsrcs = config.externalResourceManager;
+            _ctx._rsrcs = config.externalResourceManager;
             _ownsResourceManager = false;
         }
     }

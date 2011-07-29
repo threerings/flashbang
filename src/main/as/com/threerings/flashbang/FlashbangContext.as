@@ -23,9 +23,24 @@ import com.threerings.flashbang.resource.ResourceManager;
 
 public class FlashbangContext
 {
-    public var mainLoop :MainLoop;
-    public var rsrcs :ResourceManager;
-    public var audio :AudioManager;
+    public function get mainLoop () :MainLoop
+    {
+        return _mainLoop;
+    }
+
+    public function get rsrcs () :ResourceManager
+    {
+        return _rsrcs;
+    }
+
+    public function get audio () :AudioManager
+    {
+        return _audio;
+    }
+
+    internal var _mainLoop :MainLoop;
+    internal var _rsrcs :ResourceManager;
+    internal var _audio :AudioManager;
 }
 
 }
