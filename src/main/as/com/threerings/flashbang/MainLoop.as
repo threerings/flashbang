@@ -27,6 +27,7 @@ import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
 
 import flash.display.Sprite;
+import flash.display.Stage;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
@@ -44,7 +45,6 @@ public class MainLoop
         _ctx = ctx;
         _minFrameRate = minFrameRate;
         _hostSprite = hostSprite;
-        _keyDispatcher = _hostSprite.stage;
 
         // Create our default viewport
         createViewport(Viewport.DEFAULT);
@@ -128,6 +128,10 @@ public class MainLoop
         if (_running) {
             throw new Error("already running");
         }
+
+        var stage :Stage = _hostSprite.stage;
+        Preconditions.checkNotNull(stage, "The Flashbang host Sprite must be on the stage");
+        _keyDispatcher = stage;
 
         _running = true;
 
