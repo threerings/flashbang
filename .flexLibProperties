@@ -7,7 +7,6 @@
     <classEntry path="com.threerings.flashbang.FlashbangApp"/>
     <classEntry path="com.threerings.flashbang.GameObject"/>
     <classEntry path="com.threerings.flashbang.GameObjectRef"/>
-    <classEntry path="com.threerings.flashbang.MainLoop"/>
     <classEntry path="com.threerings.flashbang.ModeTransition"/>
     <classEntry path="com.threerings.flashbang.ObjectDB"/>
     <classEntry path="com.threerings.flashbang.ObjectTask"/>

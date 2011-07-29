@@ -19,7 +19,6 @@
 package com.threerings.flashbang.objects {
 
 import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.MainLoop;
 import com.threerings.flashbang.tasks.*;
 import com.threerings.flashbang.util.BoxedNumber;
 
