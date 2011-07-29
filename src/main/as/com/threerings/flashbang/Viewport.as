@@ -41,7 +41,7 @@ import org.osflash.signals.Signal;
  */
 public class Viewport
 {
-    public static const DEFAULT :String = "Default";
+    public static const DEFAULT :String = "DefaultViewport";
 
     public const topModeChanged :Signal = new Signal();
     public const destroyed :Signal = new Signal();
