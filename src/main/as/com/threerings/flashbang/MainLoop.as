@@ -39,33 +39,15 @@ public class MainLoop
 {
     public const didShutdown :Signal = new Signal();
 
-    public function MainLoop (ctx :FlashbangContext, minFrameRate :Number)
+    public function MainLoop (ctx :FlashbangContext, hostSprite :Sprite, minFrameRate :Number)
     {
         _ctx = ctx;
         _minFrameRate = minFrameRate;
+        _hostSprite = hostSprite;
+        _keyDispatcher = _hostSprite.stage;
 
         // Create our default viewport
         createViewport(Viewport.DEFAULT);
-    }
-
-    /**
-     * Call this function before the application shuts down to release
-     * memory and disconnect event handlers. The MainLoop may not shut down
-     * immediately when this function is called - if it is running, it will be
-     * shut down at the end of the current update.
-     *
-     * It's an error to continue to use a MainLoop that has been shut down.
-     *
-     * Most applications will want to install an Event.REMOVED_FROM_STAGE
-     * handler on the main sprite, and call shutdown from there.
-     */
-    public function shutdown () :void
-    {
-        if (_running) {
-            _shutdownPending = true;
-        } else {
-            shutdownNow();
-        }
     }
 
     /**
@@ -116,36 +98,6 @@ public class MainLoop
     }
 
     /**
-     * Kicks off the MainLoop. Game updates will start happening after this
-     * function is called.
-     */
-    public function run (hostSprite :Sprite, keyDispatcher :IEventDispatcher = null) :void
-    {
-        if (_running) {
-            throw new Error("already running");
-        }
-
-        if (null == hostSprite) {
-            throw new ArgumentError("hostSprite must not be null");
-        }
-
-        _hostSprite = hostSprite;
-        _keyDispatcher = (null != keyDispatcher ? keyDispatcher : _hostSprite.stage);
-
-        _running = true;
-
-        _hostSprite.addEventListener(Event.ENTER_FRAME, update);
-        _keyDispatcher.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-        _keyDispatcher.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-
-        _lastTime = getAppTime();
-
-        _viewports.forEach(function (name :String, viewport :Viewport) :void {
-            viewport.handleModeTransitions();
-        });
-    }
-
-    /**
      * Returns the approximate frames-per-second that the application
      * is running at.
      */
@@ -165,6 +117,49 @@ public class MainLoop
     public function getAppTime () :Number
     {
         return (new Date().time * 0.001); // convert millis to seconds
+    }
+
+    /**
+     * Kicks off the MainLoop. Game updates will start happening after this
+     * function is called.
+     */
+    internal function run () :void
+    {
+        if (_running) {
+            throw new Error("already running");
+        }
+
+        _running = true;
+
+        _hostSprite.addEventListener(Event.ENTER_FRAME, update);
+        _keyDispatcher.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        _keyDispatcher.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+
+        _lastTime = getAppTime();
+
+        _viewports.forEach(function (name :String, viewport :Viewport) :void {
+            viewport.handleModeTransitions();
+        });
+    }
+
+    /**
+     * Call this function before the application shuts down to release
+     * memory and disconnect event handlers. The MainLoop may not shut down
+     * immediately when this function is called - if it is running, it will be
+     * shut down at the end of the current update.
+     *
+     * It's an error to continue to use a MainLoop that has been shut down.
+     *
+     * Most applications will want to install an Event.REMOVED_FROM_STAGE
+     * handler on the main sprite, and call shutdown from there.
+     */
+    internal function shutdown () :void
+    {
+        if (_running) {
+            _shutdownPending = true;
+        } else {
+            shutdownNow();
+        }
     }
 
     protected function update (e :Event) :void

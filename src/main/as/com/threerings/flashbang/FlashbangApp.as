@@ -18,21 +18,21 @@
 
 package com.threerings.flashbang {
 
-import flash.display.Sprite;
-import flash.events.IEventDispatcher;
-
 import com.threerings.flashbang.audio.*;
 import com.threerings.flashbang.resource.*;
 
+import flash.display.Sprite;
+import flash.events.IEventDispatcher;
+
 public class FlashbangApp
 {
-    public function FlashbangApp (config :Config = null)
+    public function FlashbangApp (hostSprite :Sprite, config :Config = null)
     {
         if (config == null) {
             config = new Config();
         }
 
-        _ctx._mainLoop = new MainLoop(_ctx, config.minFrameRate);
+        _ctx._mainLoop = new MainLoop(_ctx, hostSprite, config.minFrameRate);
         _ctx._audio = new AudioManager(_ctx, config.maxAudioChannels);
         _ctx._mainLoop.addUpdatable(_ctx.audio);
 
@@ -47,9 +47,9 @@ public class FlashbangApp
         }
     }
 
-    public function run (hostSprite :Sprite, keyDispatcher :IEventDispatcher = null) :void
+    public function run () :void
     {
-        _ctx.mainLoop.run(hostSprite, keyDispatcher);
+        _ctx.mainLoop.run();
     }
 
     public function shutdown () :void
