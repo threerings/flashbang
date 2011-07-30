@@ -18,19 +18,10 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.flashbang.resource.ResourceManager;
-
 public class Config
 {
     /** The number of audio channels the AudioManager will use. Optional. Defaults to 25. */
     public var maxAudioChannels :int = 25;
-
-    /**
-     * If not null, externalResourceManager will be used in place of a new ResourceManager.
-     * externalResourceManager will not be shut down when the FlashbangApp is.
-     * Defaults to null.
-     */
-    public var externalResourceManager :ResourceManager;
 
     /**
      * If the framerate drops below this value, the MainLoop will artificially reduce the

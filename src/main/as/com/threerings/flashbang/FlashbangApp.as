@@ -53,15 +53,8 @@ public class FlashbangApp
         _audio = new AudioManager(this, config.maxAudioChannels);
         addUpdatable(_audio);
 
-        if (config.externalResourceManager == null) {
-            _rsrcs = new ResourceManager();
-            rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
-            _ownsResourceManager = true;
-
-        } else {
-            _rsrcs = config.externalResourceManager;
-            _ownsResourceManager = false;
-        }
+        _rsrcs = new ResourceManager();
+        rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
 
         // Create our default viewport
         createViewport(Viewport.DEFAULT);
@@ -252,10 +245,7 @@ public class FlashbangApp
         _events = null;
 
         _audio.shutdown();
-
-        if (_ownsResourceManager) {
-            _rsrcs.shutdown();
-        }
+        _rsrcs.shutdown();
 
         didShutdown.dispatch();
     }
@@ -280,7 +270,6 @@ public class FlashbangApp
 
     protected var _rsrcs :ResourceManager;
     protected var _audio :AudioManager;
-    protected var _ownsResourceManager :Boolean;
 
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;
