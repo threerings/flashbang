@@ -37,7 +37,7 @@ import org.osflash.signals.Signal;
 
 /**
  * Viewport contains the AppMode stack. The topmost AppMode in the stack gets ticked on every
- * update. Don't create a Viewport directly - call MainLoop.createViewport.
+ * update. Don't create a Viewport directly - call FlashbangApp.createViewport.
  */
 public class Viewport
 {
