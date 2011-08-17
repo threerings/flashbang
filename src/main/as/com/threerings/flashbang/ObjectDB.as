@@ -18,8 +18,11 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.flashbang.tasks.*;
-import com.threerings.flashbang.util.SignalListenerManager;
+import flash.events.EventDispatcher;
+import flash.events.IEventDispatcher;
+
+import org.osflash.signals.ISignal;
+
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
@@ -27,10 +30,8 @@ import com.threerings.util.Joiner;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 
-import flash.events.EventDispatcher;
-import flash.events.IEventDispatcher;
-
-import org.osflash.signals.ISignal;
+import com.threerings.flashbang.tasks.*;
+import com.threerings.flashbang.util.SignalListenerManager;
 
 public class ObjectDB extends EventDispatcher
     implements Updatable

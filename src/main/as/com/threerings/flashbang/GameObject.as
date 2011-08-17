@@ -18,19 +18,20 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.flashbang.tasks.ParallelTask;
-import com.threerings.flashbang.tasks.TaskContainer;
-import com.threerings.flashbang.util.SignalListenerManager;
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.Preconditions;
-import com.threerings.util.StringUtil;
-
 import flash.display.DisplayObjectContainer;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
 import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
+
+import com.threerings.util.EventHandlerManager;
+import com.threerings.util.Preconditions;
+import com.threerings.util.StringUtil;
+
+import com.threerings.flashbang.tasks.ParallelTask;
+import com.threerings.flashbang.tasks.TaskContainer;
+import com.threerings.flashbang.util.SignalListenerManager;
 
 public class GameObject extends EventDispatcher
 {
@@ -474,10 +475,10 @@ public class GameObject extends EventDispatcher
 
 }
 
+import flash.display.DisplayObjectContainer;
+
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.tasks.ParallelTask;
-
-import flash.display.DisplayObjectContainer;
 
 class PendingDependentObject
 {

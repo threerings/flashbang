@@ -18,15 +18,6 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.flashbang.audio.*;
-import com.threerings.flashbang.resource.*;
-import com.threerings.util.Arrays;
-import com.threerings.util.Assert;
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.Map;
-import com.threerings.util.Maps;
-import com.threerings.util.Preconditions;
-
 import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.Event;
@@ -36,6 +27,15 @@ import flash.events.KeyboardEvent;
 import flash.utils.getTimer;
 
 import org.osflash.signals.Signal;
+
+import com.threerings.util.Arrays;
+import com.threerings.util.EventHandlerManager;
+import com.threerings.util.Map;
+import com.threerings.util.Maps;
+import com.threerings.util.Preconditions;
+
+import com.threerings.flashbang.audio.*;
+import com.threerings.flashbang.resource.*;
 
 public class FlashbangApp
 {

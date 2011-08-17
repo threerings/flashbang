@@ -18,11 +18,11 @@
 
 package com.threerings.flashbang.audio {
 
-import com.threerings.flashbang.resource.SoundResource;
-
 import flash.media.SoundChannel;
 
 import org.osflash.signals.Signal;
+
+import com.threerings.flashbang.resource.SoundResource;
 
 public class AudioChannel
 {

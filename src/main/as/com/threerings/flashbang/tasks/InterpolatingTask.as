@@ -18,11 +18,12 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectTask;
+import mx.effects.easing.Linear;
+
 import com.threerings.util.MathUtil;
 
-import mx.effects.easing.Linear;
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 
 public class InterpolatingTask
     implements ObjectTask

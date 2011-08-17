@@ -20,20 +20,18 @@
 
 package com.threerings.flashbang {
 
-import com.threerings.display.DisplayUtil;
-import com.threerings.flashbang.audio.*;
-import com.threerings.flashbang.resource.*;
-import com.threerings.util.Arrays;
-import com.threerings.util.Assert;
-
 import flash.display.Sprite;
 import flash.events.Event;
-import flash.events.EventDispatcher;
-import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
-import flash.utils.getTimer;
 
 import org.osflash.signals.Signal;
+
+import com.threerings.util.Assert;
+
+import com.threerings.display.DisplayUtil;
+
+import com.threerings.flashbang.audio.*;
+import com.threerings.flashbang.resource.*;
 
 /**
  * Viewport contains the AppMode stack. The topmost AppMode in the stack gets ticked on every

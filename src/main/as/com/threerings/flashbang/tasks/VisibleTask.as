@@ -18,11 +18,11 @@
 
 package com.threerings.flashbang.tasks {
 
+import flash.display.DisplayObject;
+
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.ObjectTask;
 import com.threerings.flashbang.components.VisibleComponent;
-
-import flash.display.DisplayObject;
 
 public class VisibleTask
     implements ObjectTask

@@ -18,10 +18,11 @@
 
 package com.threerings.flashbang.tasks {
 
-import com.threerings.flashbang.GameObject;
-import com.threerings.flashbang.ObjectTask;
 import com.threerings.util.Arrays;
 import com.threerings.util.Assert;
+
+import com.threerings.flashbang.GameObject;
+import com.threerings.flashbang.ObjectTask;
 
 public class TaskContainer
     implements ObjectTask
