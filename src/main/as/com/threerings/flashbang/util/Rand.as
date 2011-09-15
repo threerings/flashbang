@@ -115,7 +115,7 @@ public class Rand
     }
 
     // We always have the STREAM_GAME and STREAM_COSMETIC streams
-    protected static var _randStreams :Array = [ new Random(), new Random() ];
+    protected static var _randStreams :Array = [ Random.createRandom(), Random.createRandom() ];
 }
 
 }
