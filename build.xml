@@ -4,7 +4,7 @@
   <property name="deploy.dir" location="dist"/>
 
   <property name="ooo-build.vers" value="2.5"/>
-  <ant antfile="bootstrap.xml"/>
+  <ant antfile="etc/bootstrap.xml"/>
   <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 
   <target name="-prepare" depends="-init-ooo">
