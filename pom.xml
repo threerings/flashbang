@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.threerings</groupId>
-  <artifactId>flashbang</artifactId>
-  <packaging>swc</packaging>
-  <version>1.2-SNAPSHOT</version>
-  <name>flashbang</name>
-  <description>Flashbang is a simple game framework written in ActionScript.</description>
-  <url>http://github.com/threerings/flashbang/</url>
-  <issueManagement>
-    <url>http://github.com/threerings/flashbang/issues/list</url>
-  </issueManagement>
-
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
     <version>5</version>
   </parent>
 
+  <groupId>com.threerings</groupId>
+  <artifactId>flashbang</artifactId>
+  <packaging>swc</packaging>
+  <version>1.2-SNAPSHOT</version>
+
+  <name>Flashbang</name>
+  <description>A simple game framework written in ActionScript.</description>
+  <url>http://github.com/threerings/flashbang/</url>
+  <issueManagement>
+    <url>http://github.com/threerings/flashbang/issues/list</url>
+  </issueManagement>
+
   <licenses>
     <license>
-      <name>GNU Lesser General Public License (LGPL), Version 2.1</name>
+      <name>GNU Lesser General Public License (LGPL), Version 3</name>
       <url>http://www.fsf.org/licensing/licenses/lgpl.txt</url>
       <distribution>repo</distribution>
     </license>
@@ -64,16 +67,16 @@
 
   <dependencies>
     <dependency>
-      <groupId>nochump</groupId>
-      <artifactId>zip</artifactId>
-      <version>1.0</version>
+      <groupId>com.threerings</groupId>
+      <artifactId>aspirin</artifactId>
+      <version>1.10</version>
+      <scope>compile</scope>
       <type>swc</type>
     </dependency>
     <dependency>
-      <groupId>com.threerings</groupId>
-      <artifactId>aspirin</artifactId>
-      <version>1.10-SNAPSHOT</version>
-      <scope>compile</scope>
+      <groupId>nochump</groupId>
+      <artifactId>zip</artifactId>
+      <version>1.0</version>
       <type>swc</type>
     </dependency>
     <dependency>
