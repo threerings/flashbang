@@ -68,20 +68,22 @@
       <groupId>com.threerings</groupId>
       <artifactId>aspirin</artifactId>
       <version>1.10</version>
-      <scope>compile</scope>
       <type>swc</type>
+      <scope>external</scope>
     </dependency>
     <dependency>
       <groupId>nochump</groupId>
       <artifactId>zip</artifactId>
       <version>1.0</version>
       <type>swc</type>
+      <scope>external</scope>
     </dependency>
     <dependency>
       <groupId>org.osflash</groupId>
       <artifactId>signals</artifactId>
       <version>0.8.1-varargs</version>
       <type>swc</type>
+      <scope>external</scope>
     </dependency>
     <dependency>
       <groupId>com.adobe.flex.framework</groupId>
