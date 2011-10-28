@@ -18,39 +18,19 @@
 
 package com.threerings.flashbang.objects {
 
-import flash.display.DisplayObject;
+import flash.display.Sprite;
 
 /**
- * This is just a convenience class that extends SceneObject to manage a displayObject directly.
+ * A SceneObject that creates and manages a Sprite as its displayObject.
  */
-public class SimpleSceneObject extends SceneObject
+public class SpriteObject extends SimpleSceneObject
 {
-    public function SimpleSceneObject (displayObject :DisplayObject, name :String = null,
-        group :String = null)
+    public function SpriteObject (name :String = null, group :String = null)
     {
-        _displayObject = displayObject;
-        _name = name;
-        _group = group;
+        super(new Sprite(), name, group);
+        _sprite = Sprite(_displayObject);
     }
 
-    override public function get objectName () :String
-    {
-        return _name;
-    }
-
-    override public function get objectGroups () :Array
-    {
-        return _group == null ? [] : [ _group ];
-    }
-
-    override public function get displayObject () :DisplayObject
-    {
-        return _displayObject;
-    }
-
-    protected var _displayObject :DisplayObject;
-    protected var _name :String;
-    protected var _group :String;
+    protected var _sprite :Sprite;
 }
-
 }
