@@ -397,7 +397,9 @@ public class ObjectDB extends EventDispatcher
         var ref :GameObjectRef = _listHead;
         while (null != ref) {
             if (!ref.isNull) {
-                ref.object.cleanupInternal();
+                var obj :GameObject = ref._obj;
+                ref._obj = null;
+                obj.cleanupInternal();
             }
 
             ref = ref._next;
