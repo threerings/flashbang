@@ -107,8 +107,12 @@ public class GameObject extends EventDispatcher
         return [];
     }
 
-    /** Removes the GameObject from its parent database. */
-    public function destroySelf () :void
+    /**
+     * Removes the GameObject from its parent database.
+     * If a subclass needs to cleanup after itself after being destroyed, it should do
+     * so either in removedFromDb or cleanup.
+     */
+    public final function destroySelf () :void
     {
         _parentDB.destroyObject(_ref);
     }
