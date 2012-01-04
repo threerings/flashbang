@@ -104,7 +104,13 @@ public class SoundResource extends Resource
         _pan = getLoadParam(PAN, 0);
 
         if (hasLoadParam(URL)) {
-            _sound = new Sound(new URLRequest(getLoadParam(URL)));
+            _sound = new Sound();
+
+            // Immediately set up the error listener to protect against blowing up
+            _sound.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
+
+            // And THEN start it loading
+            _sound.load(new URLRequest(getLoadParam(URL)));
 
             var stream :Boolean =
                 getLoadParam(STREAM, false) ||
@@ -117,7 +123,6 @@ public class SoundResource extends Resource
                 onInit();
             } else {
                 _sound.addEventListener(Event.COMPLETE, onInit);
-                _sound.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
             }
 
         } else if (hasLoadParam(EMBEDDED_CLASS)) {
