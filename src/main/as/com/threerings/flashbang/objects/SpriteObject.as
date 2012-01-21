@@ -31,6 +31,11 @@ public class SpriteObject extends SimpleSceneObject
         _sprite = Sprite(_displayObject);
     }
 
+    public function get sprite () :Sprite
+    {
+        return _sprite;
+    }
+
     protected var _sprite :Sprite;
 }
 }
