@@ -10,7 +10,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>flashbang</artifactId>
   <packaging>swc</packaging>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.4.1</version>
 
   <name>Flashbang</name>
   <description>A simple game framework written in ActionScript.</description>
