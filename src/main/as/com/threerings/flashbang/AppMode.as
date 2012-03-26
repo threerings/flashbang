@@ -23,7 +23,6 @@ import com.threerings.flashbang.components.SceneComponent;
 import com.threerings.flashbang.tasks.*;
 import com.threerings.flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
-import com.threerings.util.Assert;
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Joiner;
 import com.threerings.util.Map;
@@ -90,10 +89,8 @@ public class AppMode extends EventDispatcher
      */
     public function addObject (obj :GameObject) :GameObjectRef
     {
-        if (null == obj || null != obj._ref) {
-            throw new ArgumentError("obj must be non-null, and must never have belonged to " +
-                "another ObjectDB");
-        }
+        Preconditions.checkArgument(obj._ref == null,
+            "obj must never have belonged to another AppMode");
 
         // create a new GameObjectRef
         var ref :GameObjectRef = new GameObjectRef();
@@ -115,10 +112,9 @@ public class AppMode extends EventDispatcher
         // does the object have names?
         for each (var objectName :String in obj.objectNames) {
             var existing :GameObject = _namedObjects.put(objectName, obj);
-            if (null != existing) {
-                throw new Error(Joiner.pairs("two objects with the same name added to the ObjectDB",
-                    "name", objectName, "new", obj, "existing", existing));
-            }
+            Preconditions.checkState(null == existing,
+                "two objects with the same name added to the AppMode",
+                "name", objectName, "new", obj, "existing", existing);
         }
 
         // add this object to the groups it belongs to
@@ -251,11 +247,10 @@ public class AppMode extends EventDispatcher
      */
     public function setUpdateOrder (first :GameObject, second :GameObject) :void
     {
-        if (second.mode != this || first.mode != this) {
-            throw new Error("GameObject doesn't belong to this ObjectDB");
-        } else if (!second.isLiveObject || !first.isLiveObject) {
-            throw new Error("GameObject is not live");
-        }
+        Preconditions.checkArgument(second.mode == this && first.mode == this,
+            "GameObject doesn't belong to this AppMode");
+        Preconditions.checkArgument(second.isLiveObject && first.isLiveObject,
+            "GameObject is not live");
 
         // unlink second from the list
         unlink(second);
@@ -301,17 +296,13 @@ public class AppMode extends EventDispatcher
     public function addSceneObject (obj :GameObject, displayParent :DisplayObjectContainer = null,
         displayIdx :int = -1) :GameObjectRef
     {
-        if (!(obj is SceneComponent)) {
-            throw new Error("obj must implement SceneComponent");
-        }
+        Preconditions.checkArgument(obj is SceneComponent, "obj must implement SceneComponent");
 
         // Attach the object to a display parent.
         // (This is purely a convenience - the client is free to do the attaching themselves)
         var disp :DisplayObject = (obj as SceneComponent).displayObject;
-        if (null == disp) {
-            throw new Error("obj must return a non-null displayObject to be attached " +
-                            "to a display parent");
-        }
+        Preconditions.checkState(null != disp,
+            "obj must return a non-null displayObject to be attached to a display parent");
 
         if (displayParent == null) {
             displayParent = _modeSprite;
@@ -422,7 +413,7 @@ public class AppMode extends EventDispatcher
     /** Removes a single dead object from the object list. */
     protected function finalizeObjectRemoval (obj :GameObject) :void
     {
-        Assert.isTrue(null != obj._ref && null == obj._ref._obj);
+        Preconditions.checkState(null != obj._ref && null == obj._ref._obj);
 
         // unlink the object ref
         unlink(obj);
@@ -434,16 +425,14 @@ public class AppMode extends EventDispatcher
         var ref :GameObjectRef = obj._ref;
         for each (var groupName :String in obj.objectGroups) {
             var groupArray :Array = (_groupedObjects.get(groupName) as Array);
-            if (null == groupArray) {
-                throw new Error(Joiner.pairs("destroyed GameObject is returning different object " +
-                    "groups than it did on creation", "obj", obj));
-            }
+            Preconditions.checkNotNull(groupArray,
+                "destroyed GameObject is returning different object groups than it did on creation",
+                "obj", obj);
 
             var wasInArray :Boolean = Arrays.removeFirst(groupArray, ref);
-            if (!wasInArray) {
-                throw new Error(Joiner.pairs("destroyed GameObject is returning different object " +
-                    "groups than it did on creation", "obj", obj));
-            }
+            Preconditions.checkState(wasInArray,
+                "destroyed GameObject is returning different object groups than it did on creation",
+                "obj", obj);
         }
 
         obj._mode = null;
@@ -464,7 +453,7 @@ public class AppMode extends EventDispatcher
             prev._next = next;
         } else {
             // if prev is null, ref was the head of the list
-            Assert.isTrue(ref == _listHead);
+            Preconditions.checkState(ref == _listHead);
             _listHead = next;
         }
 
