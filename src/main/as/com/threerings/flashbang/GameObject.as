@@ -18,20 +18,19 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.tasks.ParallelTask;
+import com.threerings.flashbang.tasks.TaskContainer;
+import com.threerings.flashbang.util.SignalListenerManager;
+import com.threerings.util.EventHandlerManager;
+import com.threerings.util.Preconditions;
+import com.threerings.util.StringUtil;
+
 import flash.display.DisplayObjectContainer;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
 import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
-
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.Preconditions;
-import com.threerings.util.StringUtil;
-
-import com.threerings.flashbang.tasks.ParallelTask;
-import com.threerings.flashbang.tasks.TaskContainer;
-import com.threerings.flashbang.util.SignalListenerManager;
 
 public class GameObject extends EventDispatcher
 {
@@ -53,7 +52,7 @@ public class GameObject extends EventDispatcher
     /**
      * Returns the ObjectDB that this object is contained in.
      */
-    public final function get db () :ObjectDB
+    public final function get db () :AppMode
     {
         return _parentDB;
     }
@@ -474,7 +473,7 @@ public class GameObject extends EventDispatcher
 
     // managed by ObjectDB/AppMode
     internal var _ref :GameObjectRef;
-    internal var _parentDB :ObjectDB;
+    internal var _parentDB :AppMode;
 }
 
 }
