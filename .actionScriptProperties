@@ -6,6 +6,7 @@
       <libraryPathEntry kind="4" path=""/>
       <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/threerings/aspirin/1.11/aspirin-1.11.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/org/osflash/signals/0.8.1-varargs/signals-0.8.1-varargs.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/nochump/zip/1.0/zip-1.0.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
