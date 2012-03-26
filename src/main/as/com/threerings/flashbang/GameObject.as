@@ -50,11 +50,11 @@ public class GameObject extends EventDispatcher
     }
 
     /**
-     * Returns the ObjectDB that this object is contained in.
+     * Returns the AppMode that this object is contained in.
      */
-    public final function get db () :AppMode
+    public final function get mode () :AppMode
     {
-        return _parentDB;
+        return _mode;
     }
 
     /**
@@ -113,7 +113,7 @@ public class GameObject extends EventDispatcher
      */
     public final function destroySelf () :void
     {
-        _parentDB.destroyObject(_ref);
+        _mode.destroyObject(_ref);
     }
 
     /** Adds an unnamed task to this GameObject. */
@@ -223,7 +223,7 @@ public class GameObject extends EventDispatcher
     public function addDependentObject (obj :GameObject) :void
     {
         Preconditions.checkNotNull(obj);
-        if (_parentDB != null) {
+        if (_mode != null) {
             manageDependentObject(obj, false, null, 0);
         } else {
             _pendingDependentObjects.push(new PendingDependentObject(obj, false, null, 0));
@@ -239,7 +239,7 @@ public class GameObject extends EventDispatcher
         displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :void
     {
         Preconditions.checkNotNull(obj);
-        if (_parentDB != null) {
+        if (_mode != null) {
             manageDependentObject(obj, true, displayParent, displayIdx);
         } else {
             _pendingDependentObjects.push(
@@ -350,8 +350,8 @@ public class GameObject extends EventDispatcher
         var ref :GameObjectRef;
 
         // the dependent object may already be in the DB
-        if (obj._parentDB != null) {
-            if (obj._parentDB == _parentDB) {
+        if (obj._mode != null) {
+            if (obj._mode == _mode) {
                 ref = obj.ref;
             } else {
                 throw new Error("Dependent object belongs to another ObjectDB");
@@ -359,12 +359,12 @@ public class GameObject extends EventDispatcher
 
         } else {
             if (isSceneObject) {
-                if (!(_parentDB is AppMode)) {
+                if (!(_mode is AppMode)) {
                     throw new Error("can't add SceneObject to non-AppMode ObjectDB");
                 }
-                ref = AppMode(_parentDB).addSceneObject(obj, displayParent, displayIdx);
+                ref = AppMode(_mode).addSceneObject(obj, displayParent, displayIdx);
             } else {
-                ref = _parentDB.addObject(obj);
+                ref = _mode.addObject(obj);
             }
         }
 
@@ -473,7 +473,7 @@ public class GameObject extends EventDispatcher
 
     // managed by ObjectDB/AppMode
     internal var _ref :GameObjectRef;
-    internal var _parentDB :AppMode;
+    internal var _mode :AppMode;
 }
 
 }

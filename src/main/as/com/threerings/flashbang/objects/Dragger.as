@@ -88,7 +88,7 @@ public class Dragger extends GameObject
     protected function updateDraggability () :void
     {
         // Don't updateDraggability until we've been added to the db
-        if (this.db == null) {
+        if (this.mode == null) {
             return;
         }
 

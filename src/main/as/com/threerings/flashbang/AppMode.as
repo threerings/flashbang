@@ -109,7 +109,7 @@ public class AppMode extends EventDispatcher
         }
 
         // initialize object
-        obj._parentDB = this;
+        obj._mode = this;
         obj._ref = ref;
 
         // does the object have names?
@@ -251,7 +251,7 @@ public class AppMode extends EventDispatcher
      */
     public function setUpdateOrder (first :GameObject, second :GameObject) :void
     {
-        if (second.db != this || first.db != this) {
+        if (second.mode != this || first.mode != this) {
             throw new Error("GameObject doesn't belong to this ObjectDB");
         } else if (!second.isLiveObject || !first.isLiveObject) {
             throw new Error("GameObject is not live");
@@ -446,7 +446,7 @@ public class AppMode extends EventDispatcher
             }
         }
 
-        obj._parentDB = null;
+        obj._mode = null;
     }
 
     /**
