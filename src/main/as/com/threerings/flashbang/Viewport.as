@@ -178,7 +178,7 @@ public class Viewport
         // update the top mode
         var theTopMode :AppMode = this.topMode;
         if (null != theTopMode) {
-            theTopMode.updateInternal(dt);
+            theTopMode.update(dt);
         }
     }
 
@@ -186,7 +186,7 @@ public class Viewport
     {
         var topMode :AppMode = this.topMode;
         if (null != topMode) {
-            topMode.onKeyDownInternal(e);
+            topMode.onKeyDown(e);
         }
     }
 
@@ -194,7 +194,7 @@ public class Viewport
     {
         var topMode :AppMode = this.topMode;
         if (null != topMode) {
-            topMode.onKeyUpInternal(e);
+            topMode.onKeyUp(e);
         }
     }
 

@@ -475,87 +475,58 @@ public class AppMode extends EventDispatcher
     {
     }
 
-    internal function updateInternal (dt :Number) :void
-    {
-        Flashbang.withinMode(this, function () :void {
-            update(dt);
-        });
-    }
-
-    internal function onKeyDownInternal (e :KeyboardEvent) :void
-    {
-        Flashbang.withinMode(this, function () :void {
-            onKeyDown(e);
-        });
-    }
-
-    internal function onKeyUpInternal (e :KeyboardEvent) :void
-    {
-        Flashbang.withinMode(this, function () :void {
-            onKeyUp(e);
-        });
-    }
-
     internal function setupInternal (viewport :Viewport) :void
     {
-        Flashbang.withinMode(this, function () :void {
-            _viewport = viewport;
-            setup();
-        });
+        _viewport = viewport;
+        setup();
     }
 
     internal function destroyInternal () :void
     {
-        Flashbang.withinMode(this, function () :void {
-            Preconditions.checkState(!_destroyed, "already destroyed");
-            _destroyed = true;
+        Preconditions.checkState(!_destroyed, "already destroyed");
+        _destroyed = true;
 
-            destroy();
+        destroy();
 
-            var ref :GameObjectRef = _listHead;
-            while (null != ref) {
-                if (!ref.isNull) {
-                    var obj :GameObject = ref._obj;
-                    ref._obj = null;
-                    obj.cleanupInternal();
-                }
-
-                ref = ref._next;
+        var ref :GameObjectRef = _listHead;
+        while (null != ref) {
+            if (!ref.isNull) {
+                var obj :GameObject = ref._obj;
+                ref._obj = null;
+                obj.cleanupInternal();
             }
 
-            _listHead = null;
-            _objectCount = 0;
-            _objectsPendingRemoval = null;
-            _namedObjects = null;
-            _groupedObjects = null;
+            ref = ref._next;
+        }
 
-            _events.shutdown();
-            _events = null;
-            _signals.shutdown();
-            _signals = null;
+        _listHead = null;
+        _objectCount = 0;
+        _objectsPendingRemoval = null;
+        _namedObjects = null;
+        _groupedObjects = null;
 
-            _viewport = null;
-        });
+        _events.shutdown();
+        _events = null;
+        _signals.shutdown();
+        _signals = null;
+
+        _viewport = null;
     }
 
     internal function enterInternal () :void
     {
-        Flashbang.withinMode(this, function () :void {
-            _modeSprite.mouseEnabled = true;
-            _modeSprite.mouseChildren = true;
+        _modeSprite.mouseEnabled = true;
+        _modeSprite.mouseChildren = true;
 
-            enter();
-        });
+        enter();
     }
 
     internal function exitInternal () :void
     {
-        Flashbang.withinMode(this, function () :void {
-            _modeSprite.mouseEnabled = false;
-            _modeSprite.mouseChildren = false;
+        _modeSprite.mouseEnabled = false;
+        _modeSprite.mouseChildren = false;
 
-            exit();
-        });
+        exit();
     }
 
     protected var _modeSprite :Sprite = new Sprite();

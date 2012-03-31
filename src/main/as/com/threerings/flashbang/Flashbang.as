@@ -39,39 +39,6 @@ public class Flashbang
         return _app._audio;
     }
 
-    /**
-     * @return the currently-active AppMode (or null if no AppMode is active)
-     */
-    public static function get mode () :AppMode
-    {
-        return _ctxMode;
-    }
-
-    /**
-     * @return the currently-active Viewport (the viewport that's attached to the current
-     * AppMode), or null if no AppMode is active.
-     */
-    public static function get viewport () :Viewport
-    {
-        return (_ctxMode != null ? _ctxMode.viewport : null);
-    }
-
-    /**
-     * Sets the currently-active GameObjectDatabase and runs the supplied Runnable.
-     * All calls to Flashbang.objectDatabase() from within the supplied Runnable will return
-     * the supplied db.
-     */
-    public static function withinMode (mode :AppMode, fn :Function) :void
-    {
-        var cur :AppMode = _ctxMode;
-        _ctxMode = mode;
-        try {
-            fn();
-        } finally {
-            _ctxMode = cur;
-        }
-    }
-
     internal static function registerApp (app :FlashbangApp) :void
     {
         Preconditions.checkState(_app == null, "A FlashbangApp has already been registered");
@@ -79,6 +46,5 @@ public class Flashbang
     }
 
     protected static var _app :FlashbangApp;
-    protected static var _ctxMode :AppMode;
 }
 }
