@@ -57,6 +57,14 @@ public class GameObject
     }
 
     /**
+     * Returns the Viewport that this object is a part of
+     */
+    public final function get viewport () :Viewport
+    {
+        return _mode.viewport;
+    }
+
+    /**
      * Returns true if the object is in an ObjectDB and is "live"
      * (not pending removal from the database)
      */
