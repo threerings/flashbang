@@ -329,8 +329,6 @@ public class AppMode extends EventDispatcher
         dispatchEvent(keyEvent);
     }
 
-
-
     /**
      * Adds the specified listener to the specified dispatcher for the specified event.
      *

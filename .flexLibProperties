@@ -8,7 +8,6 @@
     <classEntry path="com.threerings.flashbang.GameObject"/>
     <classEntry path="com.threerings.flashbang.GameObjectRef"/>
     <classEntry path="com.threerings.flashbang.ModeTransition"/>
-    <classEntry path="com.threerings.flashbang.ObjectDB"/>
     <classEntry path="com.threerings.flashbang.ObjectTask"/>
     <classEntry path="com.threerings.flashbang.Updatable"/>
     <classEntry path="com.threerings.flashbang.audio.AudioChannel"/>
@@ -77,6 +76,7 @@
     <classEntry path="com.threerings.flashbang.util.WeightedArray"/>
     <classEntry path="ru.etcs.utils.getDefinitionNames"/>
     <classEntry path="com.threerings.flashbang.util.SignalListenerManager"/>
+    <classEntry path="com.threerings.flashbang.Flashbang"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
