@@ -178,7 +178,7 @@ public class Viewport
         // update the top mode
         var theTopMode :AppMode = this.topMode;
         if (null != theTopMode) {
-            theTopMode.update(dt);
+            theTopMode.updateInternal(dt);
         }
     }
 
@@ -186,7 +186,7 @@ public class Viewport
     {
         var topMode :AppMode = this.topMode;
         if (null != topMode) {
-            topMode.onKeyDown(e);
+            topMode.onKeyDownInternal(e);
         }
     }
 
@@ -194,7 +194,7 @@ public class Viewport
     {
         var topMode :AppMode = this.topMode;
         if (null != topMode) {
-            topMode.onKeyUp(e);
+            topMode.onKeyUpInternal(e);
         }
     }
 
@@ -215,7 +215,7 @@ public class Viewport
             _modeStack.push(newMode);
             _topSprite.addChild(newMode.modeSprite);
 
-            newMode.setupInternal(_app, self);
+            newMode.setupInternal(self);
         }
 
         function doInsertMode (newMode :AppMode, index :int) :void {
@@ -232,7 +232,7 @@ public class Viewport
             _modeStack.splice(index, 0, newMode);
             _topSprite.addChildAt(newMode.modeSprite, index);
 
-            newMode.setupInternal(_app, self);
+            newMode.setupInternal(self);
         }
 
         function doRemoveMode (index :int) :void {

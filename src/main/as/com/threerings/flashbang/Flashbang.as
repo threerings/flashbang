@@ -24,25 +24,25 @@ import com.threerings.util.Preconditions;
 
 public class Flashbang
 {
-    public static function app () :FlashbangApp
+    public static function get app () :FlashbangApp
     {
         return _app;
     }
 
-    public static function rsrcs () :ResourceManager
+    public static function get rsrcs () :ResourceManager
     {
-        return _rsrcs;
+        return _app._rsrcs;
     }
 
-    public static function audio () :AudioManager
+    public static function get audio () :AudioManager
     {
-        return _audio;
+        return _app._audio;
     }
 
     /**
      * @return the currently-active AppMode (or null if no AppMode is active)
      */
-    public static function mode () :AppMode
+    public static function get mode () :AppMode
     {
         return _ctxMode;
     }
@@ -51,7 +51,7 @@ public class Flashbang
      * @return the currently-active Viewport (the viewport that's attached to the current
      * AppMode), or null if no AppMode is active.
      */
-    public static function viewport () :Viewport
+    public static function get viewport () :Viewport
     {
         return (_ctxMode != null ? _ctxMode.viewport : null);
     }
@@ -79,8 +79,6 @@ public class Flashbang
     }
 
     protected static var _app :FlashbangApp;
-    protected static var _rsrcs :ResourceManager = new ResourceManager();
-    protected static var _audio :AudioManager;
     protected static var _ctxMode :AppMode;
 }
 }

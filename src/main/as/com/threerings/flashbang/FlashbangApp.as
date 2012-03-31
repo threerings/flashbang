@@ -18,6 +18,14 @@
 
 package com.threerings.flashbang {
 
+import com.threerings.flashbang.audio.*;
+import com.threerings.flashbang.resource.*;
+import com.threerings.util.Arrays;
+import com.threerings.util.EventHandlerManager;
+import com.threerings.util.Map;
+import com.threerings.util.Maps;
+import com.threerings.util.Preconditions;
+
 import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.Event;
@@ -27,15 +35,6 @@ import flash.events.KeyboardEvent;
 import flash.utils.getTimer;
 
 import org.osflash.signals.Signal;
-
-import com.threerings.util.Arrays;
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.Map;
-import com.threerings.util.Maps;
-import com.threerings.util.Preconditions;
-
-import com.threerings.flashbang.audio.*;
-import com.threerings.flashbang.resource.*;
 
 public class FlashbangApp
 {
@@ -50,14 +49,13 @@ public class FlashbangApp
         _minFrameRate = config.minFrameRate;
         _hostSprite = hostSprite;
 
-        _audio = new AudioManager(this, config.maxAudioChannels);
+        _audio = new AudioManager(config.maxAudioChannels);
         addUpdatable(_audio);
-
-        _rsrcs = new ResourceManager();
-        rsrcs.registerDefaultResourceTypes(); // image, swf, xml, sound
 
         // Create our default viewport
         createViewport(Viewport.DEFAULT);
+
+        Flashbang.registerApp(this);
     }
 
     /**
@@ -65,9 +63,7 @@ public class FlashbangApp
      */
     public function run () :void
     {
-        if (_running) {
-            throw new Error("already running");
-        }
+        Preconditions.checkState(!_running, "already running");
 
         var stage :Stage = _hostSprite.stage;
         Preconditions.checkNotNull(stage, "The Flashbang host Sprite must be on the stage");
@@ -120,9 +116,8 @@ public class FlashbangApp
 
         var viewport :Viewport = new Viewport(this, name, parentSprite);
         var existing :Object = _viewports.put(name, viewport);
-        if (existing != null) {
-            throw new Error("A viewport named '" + name + "' already exists");
-        }
+        Preconditions.checkState(existing == null, "A viewport with that name already exists",
+            "name", name);
         return viewport;
     }
 
@@ -172,22 +167,6 @@ public class FlashbangApp
     public function getAppTime () :Number
     {
         return (new Date().time * 0.001); // convert millis to seconds
-    }
-
-    /**
-     * Returns the FlashbangApp's ResourceManager
-     */
-    public function get rsrcs () :ResourceManager
-    {
-        return _rsrcs;
-    }
-
-    /**
-     * Returns the FlashbangApp's AudioManager
-     */
-    public function get audio () :AudioManager
-    {
-        return _audio;
     }
 
     protected function update (e :Event) :void
@@ -268,8 +247,8 @@ public class FlashbangApp
         });
     }
 
-    protected var _rsrcs :ResourceManager;
-    protected var _audio :AudioManager;
+    internal var _rsrcs :ResourceManager = new ResourceManager();
+    internal var _audio :AudioManager;
 
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;

@@ -18,25 +18,24 @@
 
 package com.threerings.flashbang.audio {
 
-import flash.events.Event;
-import flash.media.SoundTransform;
-import flash.utils.getTimer;
-
-import com.threerings.util.F;
-import com.threerings.util.Log;
-
+import com.threerings.flashbang.Flashbang;
 import com.threerings.flashbang.FlashbangApp;
 import com.threerings.flashbang.Updatable;
 import com.threerings.flashbang.resource.*;
+import com.threerings.util.F;
+import com.threerings.util.Log;
+
+import flash.events.Event;
+import flash.media.SoundTransform;
+import flash.utils.getTimer;
 
 public class AudioManager
     implements Updatable
 {
     public static const LOOP_FOREVER :int = -1;
 
-    public function AudioManager (app :FlashbangApp, maxChannels :int = 25)
+    public function AudioManager (maxChannels :int = 25)
     {
-        _app = app;
         _maxChannels = maxChannels;
 
         _masterControls = new AudioControls();
@@ -119,7 +118,7 @@ public class AudioManager
     public function playSoundNamed (name :String, parentControls :AudioControls = null,
         loopCount :int = 0) :AudioChannel
     {
-        var rsrc :SoundResource = _app.rsrcs.getResource(name) as SoundResource;
+        var rsrc :SoundResource = Flashbang.rsrcs.getResource(name) as SoundResource;
         if (null == rsrc) {
             log.info("Discarding sound '" + name + "' (sound does not exist)");
             return new AudioChannel();
@@ -304,7 +303,6 @@ public class AudioManager
         return channel.isPlaying;
     }
 
-    protected var _app :FlashbangApp;
     protected var _maxChannels :int;
     protected var _activeChannels :Array = [];
     protected var _masterControls :AudioControls;

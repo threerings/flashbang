@@ -26,6 +26,11 @@ import com.threerings.util.Preconditions;
 
 public class ResourceManager
 {
+    public function ResourceManager ()
+    {
+        registerDefaultResourceTypes();
+    }
+
     public function shutdown () :void
     {
         cancelLoad();

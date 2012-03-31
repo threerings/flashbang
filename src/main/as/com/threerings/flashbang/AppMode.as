@@ -24,6 +24,7 @@ import com.threerings.flashbang.tasks.*;
 import com.threerings.flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
 import com.threerings.util.EventHandlerManager;
+import com.threerings.util.F;
 import com.threerings.util.Joiner;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
@@ -70,12 +71,6 @@ public class AppMode extends EventDispatcher
     public final function get modeSprite () :Sprite
     {
         return _modeSprite;
-    }
-
-    /** Returns the AppMode's FlashbangApp */
-    public final function get app () :FlashbangApp
-    {
-        return _app;
     }
 
     /** Returns the Viewport that this AppMode lives in */
@@ -480,64 +475,90 @@ public class AppMode extends EventDispatcher
     {
     }
 
-    internal function setupInternal (app :FlashbangApp, viewport :Viewport) :void
+    internal function updateInternal (dt :Number) :void
     {
-        _app = app;
-        _viewport = viewport;
-        setup();
+        Flashbang.withinMode(this, function () :void {
+            update(dt);
+        });
+    }
+
+    internal function onKeyDownInternal (e :KeyboardEvent) :void
+    {
+        Flashbang.withinMode(this, function () :void {
+            onKeyDown(e);
+        });
+    }
+
+    internal function onKeyUpInternal (e :KeyboardEvent) :void
+    {
+        Flashbang.withinMode(this, function () :void {
+            onKeyUp(e);
+        });
+    }
+
+    internal function setupInternal (viewport :Viewport) :void
+    {
+        Flashbang.withinMode(this, function () :void {
+            _viewport = viewport;
+            setup();
+        });
     }
 
     internal function destroyInternal () :void
     {
-        Preconditions.checkState(!_destroyed, "already destroyed");
-        _destroyed = true;
+        Flashbang.withinMode(this, function () :void {
+            Preconditions.checkState(!_destroyed, "already destroyed");
+            _destroyed = true;
 
-        destroy();
+            destroy();
 
-        var ref :GameObjectRef = _listHead;
-        while (null != ref) {
-            if (!ref.isNull) {
-                var obj :GameObject = ref._obj;
-                ref._obj = null;
-                obj.cleanupInternal();
+            var ref :GameObjectRef = _listHead;
+            while (null != ref) {
+                if (!ref.isNull) {
+                    var obj :GameObject = ref._obj;
+                    ref._obj = null;
+                    obj.cleanupInternal();
+                }
+
+                ref = ref._next;
             }
 
-            ref = ref._next;
-        }
+            _listHead = null;
+            _objectCount = 0;
+            _objectsPendingRemoval = null;
+            _namedObjects = null;
+            _groupedObjects = null;
 
-        _listHead = null;
-        _objectCount = 0;
-        _objectsPendingRemoval = null;
-        _namedObjects = null;
-        _groupedObjects = null;
+            _events.shutdown();
+            _events = null;
+            _signals.shutdown();
+            _signals = null;
 
-        _events.shutdown();
-        _events = null;
-        _signals.shutdown();
-        _signals = null;
-
-        _app = null;
-        _viewport = null;
+            _viewport = null;
+        });
     }
 
     internal function enterInternal () :void
     {
-        _modeSprite.mouseEnabled = true;
-        _modeSprite.mouseChildren = true;
+        Flashbang.withinMode(this, function () :void {
+            _modeSprite.mouseEnabled = true;
+            _modeSprite.mouseChildren = true;
 
-        enter();
+            enter();
+        });
     }
 
     internal function exitInternal () :void
     {
-        _modeSprite.mouseEnabled = false;
-        _modeSprite.mouseChildren = false;
+        Flashbang.withinMode(this, function () :void {
+            _modeSprite.mouseEnabled = false;
+            _modeSprite.mouseChildren = false;
 
-        exit();
+            exit();
+        });
     }
 
     protected var _modeSprite :Sprite = new Sprite();
-    protected var _app :FlashbangApp;
     protected var _viewport :Viewport;
 
     protected var _runningTime :Number = 0;
