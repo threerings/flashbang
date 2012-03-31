@@ -39,8 +39,8 @@ public class AudioManager
         _maxChannels = maxChannels;
 
         _masterControls = new AudioControls();
-        _soundTypeControls = new Array(SoundResource.TYPE__LIMIT);
-        for (var ii :int = 0; ii < SoundResource.TYPE__LIMIT; ++ii) {
+        _soundTypeControls = new Array(SoundType.values().length);
+        for (var ii :int = 0; ii < _soundTypeControls.length; ++ii) {
             var subControls :AudioControls = new AudioControls(_masterControls);
             subControls.retain(); // these subcontrols will never be cleaned up
             _soundTypeControls[ii] = subControls;
@@ -54,21 +54,17 @@ public class AudioManager
 
     public function get musicControls () :AudioControls
     {
-        return getControlsForSoundType(SoundResource.TYPE_MUSIC);
+        return getControlsForSoundType(SoundType.MUSIC);
     }
 
     public function get sfxControls () :AudioControls
     {
-        return getControlsForSoundType(SoundResource.TYPE_SFX);
+        return getControlsForSoundType(SoundType.SFX);
     }
 
-    public function getControlsForSoundType (type :int) :AudioControls
+    public function getControlsForSoundType (type :SoundType) :AudioControls
     {
-        if (type >= 0 && type < _soundTypeControls.length) {
-            return _soundTypeControls[type];
-        }
-
-        return null;
+        return _soundTypeControls[type.ordinal()];
     }
 
     public function shutdown () :void

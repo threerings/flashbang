@@ -23,6 +23,8 @@ import flash.events.IOErrorEvent;
 import flash.media.Sound;
 import flash.net.URLRequest;
 
+import flashbang.audio.SoundType;
+
 public class SoundResource extends Resource
 {
     /** Load params */
@@ -55,11 +57,6 @@ public class SoundResource extends Resource
      */
     public static const STREAM :String = "stream";
 
-    /** Sound types */
-    public static const TYPE_SFX :int = 0;
-    public static const TYPE_MUSIC :int = 1;
-    public static const TYPE__LIMIT :int = 2;
-
     public function SoundResource (resourceName :String, loadParams :Object)
     {
         super(resourceName, loadParams);
@@ -70,7 +67,7 @@ public class SoundResource extends Resource
         return _sound;
     }
 
-    public function get type () :int
+    public function get type () :SoundType
     {
         return _type;
     }
@@ -96,8 +93,13 @@ public class SoundResource extends Resource
         _errorCallback = onLoadErr;
 
         // parse loadParams
-        var typeName :String = getLoadParam(TYPE, "sfx");
-        _type = (typeName == "music" ? TYPE_MUSIC : TYPE_SFX);
+        var typeName :String = getLoadParam(TYPE, SoundType.SFX.name());
+        try {
+            _type = SoundType.valueOf(typeName.toUpperCase());
+        } catch (e :Error) {
+            onError(e.message);
+            return;
+        }
 
         _priority = getLoadParam(PRIORITY, 0);
         _volume = getLoadParam(VOLUME, 1);
@@ -172,7 +174,7 @@ public class SoundResource extends Resource
     }
 
     protected var _sound :Sound;
-    protected var _type :int;
+    protected var _type :SoundType;
     protected var _priority :int;
     protected var _volume :Number;
     protected var _pan :Number;
