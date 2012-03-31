@@ -26,17 +26,16 @@ import com.threerings.util.Preconditions;
 import com.threerings.util.StringUtil;
 
 import flash.display.DisplayObjectContainer;
-import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 
 import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
 
-public class GameObject extends EventDispatcher
+public class GameObject
 {
     public const destroyed :Signal = new Signal();
 
-    override public function toString () :String
+    public function toString () :String
     {
         return StringUtil.simpleToString(this, [ "isLiveObject", "objectNames", "objectGroups" ]);
     }
@@ -478,10 +477,10 @@ public class GameObject extends EventDispatcher
 
 }
 
-import flash.display.DisplayObjectContainer;
-
 import com.threerings.flashbang.GameObject;
 import com.threerings.flashbang.tasks.ParallelTask;
+
+import flash.display.DisplayObjectContainer;
 
 class PendingDependentObject
 {

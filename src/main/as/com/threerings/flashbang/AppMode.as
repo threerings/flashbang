@@ -24,8 +24,6 @@ import com.threerings.flashbang.tasks.*;
 import com.threerings.flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
 import com.threerings.util.EventHandlerManager;
-import com.threerings.util.F;
-import com.threerings.util.Joiner;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
@@ -33,15 +31,20 @@ import com.threerings.util.Preconditions;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
-import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 
 import org.osflash.signals.ISignal;
+import org.osflash.signals.Signal;
 
-public class AppMode extends EventDispatcher
+public class AppMode
     implements Updatable
 {
+    /** Dispatched when a key is pressed while this mode is active */
+    public const keyDown :Signal = new Signal(KeyboardEvent);
+    /** Dispatched when a key is released while this mode is active */
+    public const keyUp :Signal = new Signal(KeyboardEvent);
+
     /**
      * A convenience function that converts an Array of GameObjectRefs into an array of GameObjects.
      * The resultant Array will not have any null objects, so it may be smaller than the Array
@@ -315,13 +318,13 @@ public class AppMode extends EventDispatcher
     /** Called when a key is pressed while this mode is active */
     public function onKeyDown (keyEvent :KeyboardEvent) :void
     {
-        dispatchEvent(keyEvent);
+        this.keyDown.dispatch(keyEvent);
     }
 
     /** Called when a key is released while this mode is active */
     public function onKeyUp (keyEvent :KeyboardEvent) :void
     {
-        dispatchEvent(keyEvent);
+        this.keyUp.dispatch(keyEvent);
     }
 
     /**
