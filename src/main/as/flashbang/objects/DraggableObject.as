@@ -40,17 +40,17 @@ public class DraggableObject extends SceneObject
             _droppedCallback);
     }
 
-    override protected function addedToDB () :void
+    override protected function addedToMode () :void
     {
         _dragger = createDragger();
         this.mode.addObject(_dragger);
 
-        super.addedToDB();
+        super.addedToMode();
     }
 
-    override protected function removedFromDB () :void
+    override protected function removedFromMode () :void
     {
-        super.removedFromDB();
+        super.removedFromMode();
         _dragger.destroySelf();
     }
 

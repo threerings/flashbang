@@ -105,9 +105,9 @@ public class Dragger extends GameObject
         }
     }
 
-    override protected function addedToDB () :void
+    override protected function addedToMode () :void
     {
-        super.addedToDB();
+        super.addedToMode();
         updateDraggability();
     }
 

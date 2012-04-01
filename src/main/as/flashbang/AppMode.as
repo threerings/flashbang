@@ -146,7 +146,7 @@ public class AppMode
             groupArray.push(ref);
         }
 
-        obj.addedToDBInternal();
+        obj.addedToModeInternal();
 
         ++_objectCount;
 
@@ -205,7 +205,7 @@ public class AppMode
 
         // object group removal takes place in finalizeObjectRemoval()
 
-        obj.removedFromDBInternal();
+        obj.removedFromModeInternal();
         obj.cleanupInternal();
 
         if (null == _objectsPendingRemoval) {

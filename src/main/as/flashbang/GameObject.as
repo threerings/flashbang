@@ -295,7 +295,7 @@ public class GameObject
      * Called immediately after the GameObject has been added to an AppMode.
      * (Subclasses can override this to do something useful.)
      */
-    protected function addedToDB () :void
+    protected function addedToMode () :void
     {
     }
 
@@ -307,7 +307,7 @@ public class GameObject
      *
      * (Subclasses can override this to do something useful.)
      */
-    protected function removedFromDB () :void
+    protected function removedFromMode () :void
     {
     }
 
@@ -366,23 +366,23 @@ public class GameObject
         return null;
     }
 
-    internal function addedToDBInternal () :void
+    internal function addedToModeInternal () :void
     {
         for each (var dep :PendingDependentObject in _pendingDependentObjects) {
             manageDependentObject(dep.obj, dep.displayParent, dep.displayIdx);
         }
         _pendingDependentObjects = null;
-        addedToDB();
+        addedToMode();
     }
 
-    internal function removedFromDBInternal () :void
+    internal function removedFromModeInternal () :void
     {
         for each (var ref :GameObjectRef in _dependentObjectRefs) {
             if (ref.isLive) {
                 ref.object.destroySelf();
             }
         }
-        removedFromDB();
+        removedFromMode();
         this.destroyed.dispatch();
     }
 
