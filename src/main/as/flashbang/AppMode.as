@@ -84,11 +84,31 @@ public class AppMode
 
     /**
      * Adds a GameObject to the ObjectDB. The GameObject must not be owned by another ObjectDB.
+     *
+     * If obj is a SceneObject and displayParent is not null, the function will attach
+     * obj's displayObject to displayParent.
      */
-    public function addObject (obj :GameObject) :GameObjectRef
+    public function addObject (obj :GameObject, displayParent :DisplayObjectContainer = null,
+        displayIdx :int = -1) :GameObjectRef
     {
         Preconditions.checkArgument(obj._ref == null,
             "obj must never have belonged to another AppMode");
+
+        if (displayParent != null) {
+            Preconditions.checkArgument(obj is SceneComponent, "obj must implement SceneComponent");
+
+            // Attach the object to a display parent.
+            // (This is purely a convenience - the client is free to do the attaching themselves)
+            var disp :DisplayObject = (obj as SceneComponent).displayObject;
+            Preconditions.checkState(null != disp,
+                "obj must return a non-null displayObject to be attached to a display parent");
+
+            if (displayIdx < 0 || displayIdx >= displayParent.numChildren) {
+                displayParent.addChild(disp);
+            } else {
+                displayParent.addChildAt(disp, displayIdx);
+            }
+        }
 
         // create a new GameObjectRef
         var ref :GameObjectRef = new GameObjectRef();
@@ -279,40 +299,6 @@ public class AppMode
     public function get runningTime () :Number
     {
         return _runningTime;
-    }
-
-    /**
-     * A convenience function that adds the given SceneObject to the mode and attaches its
-     * DisplayObject to the display list.
-     *
-     * @param displayParent the parent to attach the DisplayObject to, or null to attach
-     * directly to the AppMode's modeSprite.
-     *
-     * @param displayIdx the index at which the object will be added to displayParent,
-     * or -1 to add to the end of displayParent
-     */
-    public function addSceneObject (obj :GameObject, displayParent :DisplayObjectContainer = null,
-        displayIdx :int = -1) :GameObjectRef
-    {
-        Preconditions.checkArgument(obj is SceneComponent, "obj must implement SceneComponent");
-
-        // Attach the object to a display parent.
-        // (This is purely a convenience - the client is free to do the attaching themselves)
-        var disp :DisplayObject = (obj as SceneComponent).displayObject;
-        Preconditions.checkState(null != disp,
-            "obj must return a non-null displayObject to be attached to a display parent");
-
-        if (displayParent == null) {
-            displayParent = _modeSprite;
-        }
-
-        if (displayIdx < 0 || displayIdx >= displayParent.numChildren) {
-            displayParent.addChild(disp);
-        } else {
-            displayParent.addChildAt(disp, displayIdx);
-        }
-
-        return addObject(obj);
     }
 
     /** Called when a key is pressed while this mode is active */

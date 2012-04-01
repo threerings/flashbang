@@ -66,7 +66,7 @@ public class GameObject
     }
 
     /**
-     * Returns true if the object is in an ObjectDB and is "live"
+     * Returns true if the object is in an AppMode and is "live"
      * (not pending removal from the database)
      */
     public final function get isLiveObject () :Boolean
@@ -225,33 +225,18 @@ public class GameObject
 
     /**
      * Causes the lifecycle of the given GameObject to be managed by this object. Dependent
-     * objects will be added to this object's ObjectDB, and will be destroyed when this
+     * objects will be added to this object's AppMode, and will be destroyed when this
      * object is destroyed.
      */
-    public function addDependentObject (obj :GameObject) :void
-    {
-        Preconditions.checkNotNull(obj);
-        if (_mode != null) {
-            manageDependentObject(obj, false, null, 0);
-        } else {
-            _pendingDependentObjects.push(new PendingDependentObject(obj, false, null, 0));
-        }
-    }
-
-    /**
-     * Causes the lifecycle of the given GameObject to be managed by this object. Dependent
-     * objects will be added to this object's ObjectDB, and will be destroyed when this
-     * object is destroyed.
-     */
-    public function addDependentSceneObject (obj :GameObject,
+    public function addDependentObject (obj :GameObject,
         displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :void
     {
         Preconditions.checkNotNull(obj);
         if (_mode != null) {
-            manageDependentObject(obj, true, displayParent, displayIdx);
+            manageDependentObject(obj, displayParent, displayIdx);
         } else {
             _pendingDependentObjects.push(
-                new PendingDependentObject(obj, true, displayParent, displayIdx));
+                new PendingDependentObject(obj, displayParent, displayIdx));
         }
     }
 
@@ -317,7 +302,7 @@ public class GameObject
     }
 
     /**
-     * Called immediately after the GameObject has been added to an ObjectDB.
+     * Called immediately after the GameObject has been added to an AppMode.
      * (Subclasses can override this to do something useful.)
      */
     protected function addedToDB () :void
@@ -352,28 +337,19 @@ public class GameObject
     {
     }
 
-    protected function manageDependentObject (obj :GameObject, isSceneObject :Boolean,
+    protected function manageDependentObject (obj :GameObject,
         displayParent :DisplayObjectContainer, displayIdx :int) :void
     {
         var ref :GameObjectRef;
 
         // the dependent object may already be in the DB
         if (obj._mode != null) {
-            if (obj._mode == _mode) {
-                ref = obj.ref;
-            } else {
-                throw new Error("Dependent object belongs to another ObjectDB");
-            }
+            Preconditions.checkState(obj._mode == _mode,
+                "Dependent object belongs to another AppMode");
+            ref = obj.ref;
 
         } else {
-            if (isSceneObject) {
-                if (!(_mode is AppMode)) {
-                    throw new Error("can't add SceneObject to non-AppMode ObjectDB");
-                }
-                ref = AppMode(_mode).addSceneObject(obj, displayParent, displayIdx);
-            } else {
-                ref = _mode.addObject(obj);
-            }
+            ref = _mode.addObject(obj, displayParent, displayIdx);
         }
 
         _dependentObjectRefs.push(ref);
@@ -403,7 +379,7 @@ public class GameObject
     internal function addedToDBInternal () :void
     {
         for each (var dep :PendingDependentObject in _pendingDependentObjects) {
-            manageDependentObject(dep.obj, dep.isSceneObject, dep.displayParent, dep.displayIdx);
+            manageDependentObject(dep.obj, dep.displayParent, dep.displayIdx);
         }
         _pendingDependentObjects = null;
         addedToDB();
@@ -479,7 +455,7 @@ public class GameObject
     protected var _dependentObjectRefs :Array = [];
     protected var _pendingDependentObjects :Array = [];
 
-    // managed by ObjectDB/AppMode
+    // managed by AppMode
     internal var _ref :GameObjectRef;
     internal var _mode :AppMode;
 }
@@ -494,15 +470,13 @@ import flashbang.tasks.ParallelTask;
 class PendingDependentObject
 {
     public var obj :GameObject;
-    public var isSceneObject :Boolean;
     public var displayParent :DisplayObjectContainer;
     public var displayIdx :int;
 
-    public function PendingDependentObject (obj :GameObject, isSceneObject :Boolean,
+    public function PendingDependentObject (obj :GameObject,
         displayParent :DisplayObjectContainer, displayIdx :int)
     {
         this.obj = obj;
-        this.isSceneObject = isSceneObject;
         this.displayParent = displayParent;
         this.displayIdx = displayIdx;
     }
