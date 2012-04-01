@@ -18,7 +18,7 @@
 
 package flashbang.tasks {
 
-import mx.effects.easing.*;
+import flashbang.Easing;
 
 import flashbang.GameObject;
 import flashbang.ObjectTask;
@@ -33,7 +33,7 @@ public class AnimateValueTask extends InterpolatingTask
             value,
             targetValue,
             time,
-            mx.effects.easing.Linear.easeNone);
+            Easing.linear);
     }
 
     public static function CreateSmooth (value :BoxedNumber, targetValue :Number, time :Number)
@@ -43,7 +43,7 @@ public class AnimateValueTask extends InterpolatingTask
             value,
             targetValue,
             time,
-            mx.effects.easing.Cubic.easeInOut);
+            Easing.cubic.easeInOut);
     }
 
     public static function CreateEaseIn (value :BoxedNumber, targetValue :Number, time :Number)
@@ -53,7 +53,7 @@ public class AnimateValueTask extends InterpolatingTask
             value,
             targetValue,
             time,
-            mx.effects.easing.Cubic.easeIn);
+            Easing.cubic.easeIn);
     }
 
     public static function CreateEaseOut (value :BoxedNumber, targetValue :Number, time :Number)
@@ -63,7 +63,7 @@ public class AnimateValueTask extends InterpolatingTask
             value,
             targetValue,
             time,
-            mx.effects.easing.Cubic.easeOut);
+            Easing.cubic.easeOut);
     }
 
     public function AnimateValueTask (value :BoxedNumber, targetValue :Number, time :Number = 0,

@@ -18,10 +18,9 @@
 
 package flashbang.tasks {
 
-import mx.effects.easing.Linear;
-
 import com.threerings.util.MathUtil;
 
+import flashbang.Easing;
 import flashbang.GameObject;
 import flashbang.ObjectTask;
 
@@ -32,7 +31,7 @@ public class InterpolatingTask
     {
         _totalTime = Math.max(time, 0);
         // default to linear interpolation
-        _easingFn = (easingFn != null ? easingFn : mx.effects.easing.Linear.easeNone);
+        _easingFn = (easingFn != null ? easingFn : Easing.linear);
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean

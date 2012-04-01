@@ -20,36 +20,35 @@ package flashbang.tasks {
 
 import flash.display.DisplayObject;
 
-import mx.effects.easing.*;
-
 import flashbang.GameObject;
 import flashbang.ObjectTask;
 import flashbang.components.AlphaComponent;
+import flashbang.Easing;
 
 public class AlphaTask extends InterpolatingTask
 {
     public static function CreateLinear (alpha :Number, time :Number, disp :DisplayObject = null)
         :AlphaTask
     {
-        return new AlphaTask(alpha, time, mx.effects.easing.Linear.easeNone, disp);
+        return new AlphaTask(alpha, time, Easing.linear, disp);
     }
 
     public static function CreateSmooth (alpha :Number, time :Number, disp :DisplayObject = null)
         :AlphaTask
     {
-        return new AlphaTask(alpha, time, mx.effects.easing.Cubic.easeInOut, disp);
+        return new AlphaTask(alpha, time, Easing.cubic.easeInOut, disp);
     }
 
     public static function CreateEaseIn (alpha :Number, time :Number, disp :DisplayObject = null)
         :AlphaTask
     {
-        return new AlphaTask(alpha, time, mx.effects.easing.Cubic.easeIn, disp);
+        return new AlphaTask(alpha, time, Easing.cubic.easeIn, disp);
     }
 
     public static function CreateEaseOut (alpha :Number, time :Number, disp :DisplayObject = null)
         :AlphaTask
     {
-        return new AlphaTask(alpha, time, mx.effects.easing.Cubic.easeOut, disp);
+        return new AlphaTask(alpha, time, Easing.cubic.easeOut, disp);
     }
 
     public function AlphaTask (alpha :Number, time :Number = 0, easingFn :Function = null,

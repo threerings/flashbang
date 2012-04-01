@@ -18,7 +18,7 @@
 
 package flashbang.tasks {
 
-import mx.effects.easing.*;
+import flashbang.Easing;
 
 import flashbang.GameObject;
 import flashbang.ObjectTask;
@@ -28,22 +28,22 @@ public class MeterValueTask extends InterpolatingTask
 {
     public static function CreateLinear (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(value, time, mx.effects.easing.Linear.easeNone);
+        return new MeterValueTask(value, time, Easing.linear);
     }
 
     public static function CreateSmooth (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(value, time, mx.effects.easing.Cubic.easeInOut);
+        return new MeterValueTask(value, time, Easing.cubic.easeInOut);
     }
 
     public static function CreateEaseIn (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(value, time, mx.effects.easing.Cubic.easeIn);
+        return new MeterValueTask(value, time, Easing.cubic.easeIn);
     }
 
     public static function CreateEaseOut (value :Number, time :Number) :MeterValueTask
     {
-        return new MeterValueTask(value, time, mx.effects.easing.Cubic.easeOut);
+        return new MeterValueTask(value, time, Easing.cubic.easeOut);
     }
 
     public function MeterValueTask (value :Number, time :Number = 0, easingFn :Function = null)

@@ -78,6 +78,8 @@
     <classEntry path="flashbang.util.SignalListenerManager"/>
     <classEntry path="flashbang.Flashbang"/>
     <classEntry path="flashbang.audio.SoundType"/>
+    <classEntry path="flashbang.Easing"/>
+    <classEntry path="flashbang.util.PowerEaser"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

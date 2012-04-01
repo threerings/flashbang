@@ -21,7 +21,7 @@ package flashbang.tasks {
 import flash.display.DisplayObject;
 import flash.filters.ColorMatrixFilter;
 
-import mx.effects.easing.*;
+import flashbang.Easing;
 
 import com.threerings.display.ColorMatrix;
 import com.threerings.display.FilterUtil;
@@ -85,7 +85,7 @@ public class ColorMatrixBlendTask
         _from = cmFrom;
         _to = cmTo;
         _totalTime = time;
-        _easingFn = (easingFn != null ? easingFn : mx.effects.easing.Linear.easeNone);
+        _easingFn = (easingFn != null ? easingFn : Easing.linear);
         _preserveFilters = preserveFilters;
         _removeFilterWhenComplete = removeFilterWhenComplete;
     }

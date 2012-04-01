@@ -20,7 +20,7 @@ package flashbang.tasks {
 
 import flash.display.DisplayObject;
 
-import mx.effects.easing.*;
+import flashbang.Easing;
 
 import flashbang.GameObject;
 import flashbang.ObjectTask;
@@ -31,25 +31,25 @@ public class LocationTask extends InterpolatingTask
     public static function CreateLinear (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(x, y, time, mx.effects.easing.Linear.easeNone, disp);
+        return new LocationTask(x, y, time, Easing.linear, disp);
     }
 
     public static function CreateSmooth (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(x, y, time, mx.effects.easing.Cubic.easeInOut, disp);
+        return new LocationTask(x, y, time, Easing.cubic.easeInOut, disp);
     }
 
     public static function CreateEaseIn (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(x, y, time, mx.effects.easing.Cubic.easeIn, disp);
+        return new LocationTask(x, y, time, Easing.cubic.easeIn, disp);
     }
 
     public static function CreateEaseOut (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :LocationTask
     {
-        return new LocationTask(x, y, time, mx.effects.easing.Cubic.easeOut, disp);
+        return new LocationTask(x, y, time, Easing.cubic.easeOut, disp);
     }
 
     public function LocationTask (x :Number, y :Number, time :Number = 0,

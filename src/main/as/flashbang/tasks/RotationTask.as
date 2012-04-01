@@ -20,7 +20,7 @@ package flashbang.tasks {
 
 import flash.display.DisplayObject;
 
-import mx.effects.easing.*;
+import flashbang.Easing;
 
 import flashbang.GameObject;
 import flashbang.ObjectTask;
@@ -31,25 +31,25 @@ public class RotationTask extends InterpolatingTask
     public static function CreateLinear (rotationDegrees :Number, time :Number,
         disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(rotationDegrees, time, mx.effects.easing.Linear.easeNone, disp);
+        return new RotationTask(rotationDegrees, time, Easing.linear, disp);
     }
 
     public static function CreateSmooth (rotationDegrees :Number, time :Number,
         disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(rotationDegrees, time, mx.effects.easing.Cubic.easeInOut, disp);
+        return new RotationTask(rotationDegrees, time, Easing.cubic.easeInOut, disp);
     }
 
     public static function CreateEaseIn (rotationDegrees :Number, time :Number,
         disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(rotationDegrees, time, mx.effects.easing.Cubic.easeIn, disp);
+        return new RotationTask(rotationDegrees, time, Easing.cubic.easeIn, disp);
     }
 
     public static function CreateEaseOut (rotationDegrees :Number, time :Number,
         disp :DisplayObject = null) :RotationTask
     {
-        return new RotationTask(rotationDegrees, time, mx.effects.easing.Cubic.easeOut, disp);
+        return new RotationTask(rotationDegrees, time, Easing.cubic.easeOut, disp);
     }
 
     public function RotationTask (rotationDegrees :Number, time :Number = 0,
