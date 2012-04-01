@@ -64,9 +64,9 @@ public class SimpleTimer extends GameObject
         }
     }
 
-    override public function get objectName () :String
+    override public function get objectNames () :Array
     {
-        return _name;
+        return _name == null ? [] : [ _name ];
     }
 
     public function get timeLeft () :Number

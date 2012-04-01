@@ -33,9 +33,9 @@ public class SimpleSceneObject extends SceneObject
         _group = group;
     }
 
-    override public function get objectName () :String
+    override public function get objectNames () :Array
     {
-        return _name;
+        return _name == null ? [] : [ _name ];
     }
 
     override public function get objectGroups () :Array

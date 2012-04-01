@@ -75,16 +75,6 @@ public class GameObject
     }
 
     /**
-     * Returns the name of this object.
-     * Objects can have multiple names, via {@link #objectNames}
-     * TODO: deprecate/remove this?
-     */
-    public function get objectName () :String
-    {
-        return null;
-    }
-
-    /**
      * Returns the names of this object. (Objects can have multiple names.)
      * Two objects in the same mode cannot have the same name.
      * Objects cannot change their names once added to a mode.
@@ -97,7 +87,7 @@ public class GameObject
      */
     public function get objectNames () :Array
     {
-        return (this.objectName != null ? [ this.objectName ] : []);
+        return [];
     }
 
     /**
