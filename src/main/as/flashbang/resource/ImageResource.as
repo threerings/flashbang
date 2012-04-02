@@ -26,6 +26,8 @@ import flash.events.IOErrorEvent;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
 
+import flashbang.Flashbang;
+
 public class ImageResource extends Resource
 {
     /** Load params */
@@ -42,14 +44,10 @@ public class ImageResource extends Resource
      * (URL, BYTES, or EMBEDDED_CLASS must be specified). */
     public static const BYTES :String = "bytes";
 
-    public static function instantiateBitmap (rsrcs :ResourceManager, resourceName :String) :Bitmap
+    public static function createBitmap (resourceName :String) :Bitmap
     {
-        var img :ImageResource = rsrcs.getResource(resourceName) as ImageResource;
-        if (null != img) {
-            return img.createBitmap();
-        }
-
-        return null;
+        var img :ImageResource = Flashbang.rsrcs.requireResource(resourceName, ImageResource);
+        return img.createBitmap();
     }
 
     public function ImageResource (resourceName :String, loadParams :Object)

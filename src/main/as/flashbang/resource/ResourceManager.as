@@ -19,6 +19,7 @@
 package flashbang.resource {
 
 import com.threerings.util.Arrays;
+import com.threerings.util.ClassUtil;
 import com.threerings.util.Log;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
@@ -80,20 +81,22 @@ public class ResourceManager
         _pendingSet = null;
     }
 
-    /**
-     * @deprecated
-     */
-    public function unload (resourceName :String) :void
-    {
-        var rsrc :Resource = (_resources.remove(resourceName));
-        if (rsrc != null) {
-            rsrc.loadable.unload();
-        }
-    }
-
     public function getResource (resourceName :String) :Resource
     {
         return (_resources.get(resourceName) as Resource);
+    }
+
+    public function requireResource (resourceName :String, type :Class) :*
+    {
+        var rsrc :Resource = getResource(resourceName);
+        Preconditions.checkNotNull(rsrc, "missing required resource", "name", resourceName);
+        if (!(rsrc is type)) {
+            // perform the check before calling Preconditions, to avoid an unneccessary call to
+            // ClassUtil.getClass
+            Preconditions.checkState(false, "required resource is the wrong type",
+                "name", resourceName, "expectedType", type, "actualType", ClassUtil.getClass(rsrc));
+        }
+        return rsrc;
     }
 
     public function isResourceLoaded (name :String) :Boolean

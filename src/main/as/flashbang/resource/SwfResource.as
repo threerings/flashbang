@@ -18,6 +18,9 @@
 
 package flashbang.resource {
 
+import com.threerings.util.ClassUtil;
+import com.threerings.util.Log;
+
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.Loader;
@@ -31,10 +34,9 @@ import flash.system.LoaderContext;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 
-import ru.etcs.utils.getDefinitionNames;
+import flashbang.Flashbang;
 
-import com.threerings.util.ClassUtil;
-import com.threerings.util.Log;
+import ru.etcs.utils.getDefinitionNames;
 
 public class SwfResource extends Resource
 {
@@ -57,39 +59,33 @@ public class SwfResource extends Resource
      * that occur when multiple swfs have identically-named symbols. Defaults to true. */
     public static const USE_SUBDOMAIN :String = "useSubDomain";
 
-    public static function instantiateMovieClip (rsrcs :ResourceManager, resourceName :String,
-        className :String, disableMouseInteraction :Boolean = false, fromCache :Boolean = false)
-        :MovieClip
+    public static function createMovie (resourceName :String, className :String,
+        disableMouseInteraction :Boolean = false, fromCache :Boolean = false) :MovieClip
     {
-        var theClass :Class = getClass(rsrcs, resourceName, className);
-        if (theClass != null) {
-            var movie :MovieClip;
-            if (fromCache) {
-                var cache :Array = getCache(theClass);
-                if (cache.length > 0) {
-                    movie = cache.pop();
-                    // Reset some properties of the cached movie
-                    movie.gotoAndPlay(1);
-                    movie.x = movie.y = 0;
-                    movie.scaleX = movie.scaleY = 1;
-                    movie.rotation = 0;
-                }
+        var theClass :Class = getClass(resourceName, className);
+        var movie :MovieClip;
+        if (fromCache) {
+            var cache :Array = getCache(theClass);
+            if (cache.length > 0) {
+                movie = cache.pop();
+                // Reset some properties of the cached movie
+                movie.gotoAndPlay(1);
+                movie.x = movie.y = 0;
+                movie.scaleX = movie.scaleY = 1;
+                movie.rotation = 0;
             }
-            if (movie == null) {
-                movie = new theClass();
-            }
-            if (disableMouseInteraction) {
-                movie.mouseChildren = false;
-                movie.mouseEnabled = false;
-            }
-            return movie;
         }
-
-        log.warning("No such MovieClip", "resourceName", resourceName, "className", className);
-        return null;
+        if (movie == null) {
+            movie = new theClass();
+        }
+        if (disableMouseInteraction) {
+            movie.mouseChildren = false;
+            movie.mouseEnabled = false;
+        }
+        return movie;
     }
 
-    public static function releaseMovieClip (mc :MovieClip) :void
+    public static function releaseMovie (mc :MovieClip) :void
     {
         if (mc.parent != null) {
             mc.parent.removeChild(mc);
@@ -101,36 +97,27 @@ public class SwfResource extends Resource
         }
     }
 
-    public static function instantiateButton (rsrcs :ResourceManager, resourceName :String,
-        className :String) :SimpleButton
+    public static function createButton (resourceName :String, className :String) :SimpleButton
     {
-        var theClass :Class = getClass(rsrcs, resourceName, className);
-        if (theClass == null) {
-            log.warning("No such SimpleButton", "resourceName", resourceName, "className", className);
-        }
-        return (null != theClass ? new theClass() : null);
+        var theClass :Class = getClass(resourceName, className);
+        return new theClass();
     }
 
-    public static function getBitmapData (rsrcs :ResourceManager, resourceName :String,
-        className :String, width :int, height :int) :BitmapData
+    public static function getBitmapData (resourceName :String, className :String,
+        width :int, height :int) :BitmapData
     {
-        var theClass :Class = getClass(rsrcs, resourceName, className);
-        if (theClass == null) {
-            log.warning("No such BitmapData", "resourceName", resourceName, "className", className);
-        }
-        return (null != theClass ? new theClass(width, height) : null);
+        var theClass :Class = getClass(resourceName, className);
+        return new theClass(width, height);
     }
 
-    public static function getSwfDisplayRoot (rsrcs :ResourceManager, resourceName :String)
-        :DisplayObject
+    public static function getSwfDisplayRoot (resourceName :String) :DisplayObject
     {
-        var swf :SwfResource = getSwf(rsrcs, resourceName);
-        return (null != swf ? swf.displayRoot : null);
+        return getSwf(resourceName).displayRoot;
     }
 
-    public static function getSwf (rsrcs :ResourceManager, resourceName :String) :SwfResource
+    public static function getSwf (resourceName :String) :SwfResource
     {
-        return rsrcs.getResource(resourceName) as SwfResource;
+        return Flashbang.rsrcs.requireResource(resourceName, SwfResource);
     }
 
     public function SwfResource (resourceName :String, loadParams :Object)
@@ -266,10 +253,9 @@ public class SwfResource extends Resource
         _errorCallback(createLoadErrorString(errText));
     }
 
-    protected static function getClass (rsrcs :ResourceManager, resourceName :String,
-        className :String) :Class
+    protected static function getClass (resourceName :String, className :String) :Class
     {
-        var swf :SwfResource = getSwf(rsrcs, resourceName);
+        var swf :SwfResource = getSwf(resourceName);
         return (null != swf ? swf.getClass(className) : null);
     }
 
