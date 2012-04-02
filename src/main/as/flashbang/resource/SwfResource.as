@@ -20,6 +20,7 @@ package flashbang.resource {
 
 import com.threerings.util.ClassUtil;
 import com.threerings.util.Log;
+import com.threerings.util.Preconditions;
 
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
@@ -255,8 +256,10 @@ public class SwfResource extends Resource
 
     protected static function getClass (resourceName :String, className :String) :Class
     {
-        var swf :SwfResource = getSwf(resourceName);
-        return (null != swf ? swf.getClass(className) : null);
+        var clazz :Class = getSwf(resourceName).getClass(className);
+        Preconditions.checkNotNull(clazz, "missing swf symbol", "swfName", resourceName,
+            "symbol", className);
+        return clazz;
     }
 
     protected static function getCache (c :Class) :Array
