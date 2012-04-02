@@ -23,14 +23,14 @@ import com.threerings.util.Map;
 import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
 
+import flashbang.Flashbang;
 import flashbang.util.LoadableBatch;
 
 public class ResourceSet extends LoadableBatch
 {
-    public function ResourceSet (rm :ResourceManager, loadInSequence :Boolean = false)
+    public function ResourceSet (loadInSequence :Boolean = false)
     {
         super(loadInSequence);
-        _rm = rm;
     }
 
     /**
@@ -48,7 +48,7 @@ public class ResourceSet extends LoadableBatch
         Preconditions.checkArgument(!_resources.containsKey(resourceName),
             "A resource named '" + resourceName + "' already exists");
 
-        var rsrc :Resource = _rm.createResource(resourceType, resourceName, loadParams);
+        var rsrc :Resource = Flashbang.rsrcs.createResource(resourceType, resourceName, loadParams);
         Preconditions.checkArgument(null != rsrc,
             "Unrecognized Resource type '" + resourceType + "'");
 
@@ -58,13 +58,13 @@ public class ResourceSet extends LoadableBatch
 
     override protected function doLoad () :void
     {
-        _rm.setResourceSetLoading(this, true);
+        Flashbang.rsrcs.setResourceSetLoading(this, true);
         super.doLoad();
     }
 
     override protected function onLoaded () :void
     {
-        _rm.setResourceSetLoading(this, false);
+        Flashbang.rsrcs.setResourceSetLoading(this, false);
         if(addLoadedResources()) {
             super.onLoaded();
         }
@@ -74,7 +74,7 @@ public class ResourceSet extends LoadableBatch
     {
         // add resources to the ResourceManager
         try {
-            _rm.addResources(_resources.values());
+            Flashbang.rsrcs.addResources(_resources.values());
         } catch (e :Error) {
             onLoadErr(e.message);
             return false;
@@ -85,17 +85,16 @@ public class ResourceSet extends LoadableBatch
 
     override protected function onLoadCanceled () :void
     {
-        _rm.setResourceSetLoading(this, false);
+        Flashbang.rsrcs.setResourceSetLoading(this, false);
         super.onLoadCanceled();
     }
 
     override protected function doUnload () :void
     {
         super.doUnload();
-        _rm.removeResources(_resources.values());
+        Flashbang.rsrcs.removeResources(_resources.values());
     }
 
-    protected var _rm :ResourceManager;
     protected var _resources :Map = Maps.newMapOf(String);
 
     protected static const log :Log = Log.getLog(ResourceSet);

@@ -54,7 +54,7 @@ public class ResourceManager
         :void
     {
         if (_pendingSet == null) {
-            _pendingSet = new ResourceSet(this);
+            _pendingSet = new ResourceSet();
         }
 
         _pendingSet.queueResourceLoad(resourceType, resourceName, loadParams);
