@@ -25,7 +25,6 @@
     <classEntry path="flashbang.objects.DraggableObject"/>
     <classEntry path="flashbang.objects.Dragger"/>
     <classEntry path="flashbang.objects.SceneObject"/>
-    <classEntry path="flashbang.objects.SimpleSceneObject"/>
     <classEntry path="flashbang.objects.SimpleTimer"/>
     <classEntry path="flashbang.resource.ImageResource"/>
     <classEntry path="flashbang.resource.Resource"/>

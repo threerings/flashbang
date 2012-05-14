@@ -25,9 +25,11 @@ import flash.filters.GlowFilter;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
-import flashbang.objects.SceneObject;
+import flashbang.GameObject;
+import flashbang.components.DisplayComponent;
 
-public class FramerateView extends SceneObject
+public class FramerateView extends GameObject
+    implements DisplayComponent
 {
     public function FramerateView (normalColor :uint = 0x0000ff, slowColor :uint = 0xff0000,
         outlineColor :uint = 0xffffff, slowFps :Number = 15)
@@ -61,7 +63,7 @@ public class FramerateView extends SceneObject
         _tf.textColor = (_framerate.fpsMean > _slowFps ? _normalColor : _slowColor);
     }
 
-    override public function get display () :DisplayObject
+    public function get display () :DisplayObject
     {
         return _tf;
     }

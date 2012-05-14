@@ -24,9 +24,11 @@ import flash.geom.Point;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
-import flashbang.objects.SceneObject;
+import flashbang.GameObject;
+import flashbang.components.DisplayComponent;
 
-public class MouseLocView extends SceneObject
+public class MouseLocView extends GameObject
+    implements DisplayComponent
 {
     public function MouseLocView (color :uint = 0x0000ff, outlineColor :uint = 0xffffff)
     {
@@ -42,7 +44,7 @@ public class MouseLocView extends SceneObject
         _tf.text = "Mouse: (" + int(loc.x) + ", " + int(loc.y) + ")";
     }
 
-    override public function get display () :DisplayObject
+    public function get display () :DisplayObject
     {
         return _tf;
     }

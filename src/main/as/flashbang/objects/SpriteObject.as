@@ -23,7 +23,7 @@ import flash.display.Sprite;
 /**
  * A SceneObject that creates and manages a Sprite as its displayObject.
  */
-public class SpriteObject extends SimpleSceneObject
+public class SpriteObject extends SceneObject
 {
     public function SpriteObject (name :String = null, group :String = null)
     {
