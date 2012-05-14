@@ -63,8 +63,6 @@
     <classEntry path="flashbang.tasks.VariableTimedTask"/>
     <classEntry path="flashbang.tasks.VisibleTask"/>
     <classEntry path="flashbang.tasks.WaitForFrameTask"/>
-    <classEntry path="flashbang.tasks.WaitOnPredicateTask"/>
-    <classEntry path="flashbang.tasks.When"/>
     <classEntry path="flashbang.util.BoxedNumber"/>
     <classEntry path="flashbang.util.Collision"/>
     <classEntry path="flashbang.util.IntRange"/>
