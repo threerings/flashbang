@@ -27,128 +27,128 @@ import flashbang.components.AlphaComponent;
 import flashbang.components.BoundsComponent;
 import flashbang.components.RotationComponent;
 import flashbang.components.ScaleComponent;
-import flashbang.components.SceneComponent;
+import flashbang.components.DisplayComponent;
 import flashbang.components.VisibleComponent;
 
 public class SceneObject extends GameObject
-    implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,
+    implements AlphaComponent, BoundsComponent, ScaleComponent, DisplayComponent, VisibleComponent,
                RotationComponent
 {
-    public function get displayObject () :DisplayObject
+    public function get display () :DisplayObject
     {
         throw new Error("abstract");
     }
 
     public function get alpha () :Number
     {
-        return this.displayObject.alpha;
+        return this.display.alpha;
     }
 
     public function set alpha (val :Number) :void
     {
-        this.displayObject.alpha = val;
+        this.display.alpha = val;
     }
 
     public function get x () :Number
     {
-        return this.displayObject.x;
+        return this.display.x;
     }
 
     public function set x (val :Number) :void
     {
-        this.displayObject.x = val;
+        this.display.x = val;
     }
 
     public function get y () :Number
     {
-        return this.displayObject.y;
+        return this.display.y;
     }
 
     public function set y (val :Number) :void
     {
-        this.displayObject.y = val;
+        this.display.y = val;
     }
 
     public function get loc () :Vector2
     {
-        return new Vector2(this.displayObject.x, this.displayObject.y);
+        return new Vector2(this.display.x, this.display.y);
     }
 
     public function set loc (loc :Vector2) :void
     {
-        this.displayObject.x = loc.x;
-        this.displayObject.y = loc.y;
+        this.display.x = loc.x;
+        this.display.y = loc.y;
     }
 
     public function get width () :Number
     {
-        return this.displayObject.width;
+        return this.display.width;
     }
 
     public function set width (val :Number) :void
     {
-        this.displayObject.width = val;
+        this.display.width = val;
     }
 
     public function get height () :Number
     {
-        return this.displayObject.height;
+        return this.display.height;
     }
 
     public function set height (val :Number) :void
     {
-        this.displayObject.height = val;
+        this.display.height = val;
     }
 
     public function get scaleX () :Number
     {
-        return this.displayObject.scaleX;
+        return this.display.scaleX;
     }
 
     public function set scaleX (val :Number) :void
     {
-        this.displayObject.scaleX = val;
+        this.display.scaleX = val;
     }
 
     public function get scaleY () :Number
     {
-        return this.displayObject.scaleY;
+        return this.display.scaleY;
     }
 
     public function set scaleY (val :Number) :void
     {
-        this.displayObject.scaleY = val;
+        this.display.scaleY = val;
     }
 
     public function get scale () :Vector2
     {
-        return new Vector2(this.displayObject.scaleX, this.displayObject.scaleY);
+        return new Vector2(this.display.scaleX, this.display.scaleY);
     }
 
     public function set scale (val :Vector2) :void
     {
-        this.displayObject.scaleX = val.x;
-        this.displayObject.scaleY = val.y;
+        this.display.scaleX = val.x;
+        this.display.scaleY = val.y;
     }
 
     public function get visible () :Boolean
     {
-        return this.displayObject.visible;
+        return this.display.visible;
     }
 
     public function set visible (val :Boolean) :void
     {
-        this.displayObject.visible = val;
+        this.display.visible = val;
     }
 
     public function get rotation () :Number
     {
-        return this.displayObject.rotation;
+        return this.display.rotation;
     }
 
     public function set rotation (val :Number) :void
     {
-        this.displayObject.rotation = val;
+        this.display.rotation = val;
     }
 }
 

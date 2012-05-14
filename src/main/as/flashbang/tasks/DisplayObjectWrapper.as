@@ -24,11 +24,11 @@ import flashbang.components.AlphaComponent;
 import flashbang.components.BoundsComponent;
 import flashbang.components.RotationComponent;
 import flashbang.components.ScaleComponent;
-import flashbang.components.SceneComponent;
+import flashbang.components.DisplayComponent;
 import flashbang.components.VisibleComponent;
 
 public class DisplayObjectWrapper
-    implements AlphaComponent, BoundsComponent, ScaleComponent, SceneComponent, VisibleComponent,
+    implements AlphaComponent, BoundsComponent, ScaleComponent, DisplayComponent, VisibleComponent,
                RotationComponent
 {
     public static function create (disp :DisplayObject) :DisplayObjectWrapper
@@ -41,7 +41,7 @@ public class DisplayObjectWrapper
         return (_disp == null);
     }
 
-    public function get displayObject () :DisplayObject
+    public function get display () :DisplayObject
     {
         return _disp;
     }

@@ -47,7 +47,7 @@ public class VisibleTask
 
     public function clone () :ObjectTask
     {
-        return new VisibleTask(_visible, _dispOverride.displayObject);
+        return new VisibleTask(_visible, _dispOverride.display);
     }
 
     protected var _visible :Boolean;

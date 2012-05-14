@@ -20,9 +20,9 @@ package flashbang.components {
 
 import flash.display.DisplayObject;
 
-public interface SceneComponent
+public interface DisplayComponent
 {
-    function get displayObject () :DisplayObject;
+    function get display () :DisplayObject;
 }
 
 }

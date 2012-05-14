@@ -79,7 +79,7 @@ public class RotationTask extends InterpolatingTask
 
     override public function clone () :ObjectTask
     {
-        return new RotationTask(_to, _totalTime, _easingFn, _dispOverride.displayObject);
+        return new RotationTask(_to, _totalTime, _easingFn, _dispOverride.display);
     }
 
     protected var _to :Number;

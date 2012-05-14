@@ -43,7 +43,7 @@ public class SimpleSceneObject extends SceneObject
         return _group == null ? [] : [ _group ];
     }
 
-    override public function get displayObject () :DisplayObject
+    override public function get display () :DisplayObject
     {
         return _displayObject;
     }

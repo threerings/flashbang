@@ -82,7 +82,7 @@ public class ScaleTask extends InterpolatingTask
 
     override public function clone () :ObjectTask
     {
-        return new ScaleTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.displayObject);
+        return new ScaleTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.display);
     }
 
     protected var _toX :Number;

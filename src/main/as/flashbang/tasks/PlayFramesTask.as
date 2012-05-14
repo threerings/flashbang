@@ -42,11 +42,11 @@ public class PlayFramesTask extends InterpolatingTask
         var movieClip :MovieClip = _movie;
         // if we don't have a default movie, use the SceneObject the task is being applied to
         if (null == movieClip) {
-            var sc :SceneComponent = obj as SceneComponent;
-            movieClip = (null != sc ? sc.displayObject as MovieClip : null);
+            var dc :DisplayComponent = obj as DisplayComponent;
+            movieClip = (null != dc ? dc.display as MovieClip : null);
 
             if (null == movieClip) {
-                throw new Error("Can only operate on SceneComponents with MovieClip " +
+                throw new Error("Can only operate on DisplayComponents with MovieClip " +
                     "DisplayObjects");
             }
         }

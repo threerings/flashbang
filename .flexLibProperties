@@ -20,7 +20,6 @@
     <classEntry path="flashbang.components.MeterComponent"/>
     <classEntry path="flashbang.components.RotationComponent"/>
     <classEntry path="flashbang.components.ScaleComponent"/>
-    <classEntry path="flashbang.components.SceneComponent"/>
     <classEntry path="flashbang.components.VisibleComponent"/>
     <classEntry path="flashbang.debug.FramerateView"/>
     <classEntry path="flashbang.debug.MouseLocView"/>

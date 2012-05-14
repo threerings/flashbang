@@ -19,7 +19,7 @@
 package flashbang {
 
 import com.threerings.display.DisplayUtil;
-import flashbang.components.SceneComponent;
+import flashbang.components.DisplayComponent;
 import flashbang.tasks.*;
 import flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
@@ -95,11 +95,11 @@ public class AppMode
             "obj must never have belonged to another AppMode");
 
         if (displayParent != null) {
-            Preconditions.checkArgument(obj is SceneComponent, "obj must implement SceneComponent");
+            Preconditions.checkArgument(obj is DisplayComponent, "obj must implement DisplayComponent");
 
             // Attach the object to a display parent.
             // (This is purely a convenience - the client is free to do the attaching themselves)
-            var disp :DisplayObject = (obj as SceneComponent).displayObject;
+            var disp :DisplayObject = (obj as DisplayComponent).display;
             Preconditions.checkState(null != disp,
                 "obj must return a non-null displayObject to be attached to a display parent");
 
@@ -185,11 +185,11 @@ public class AppMode
             return;
         }
 
-        if (obj is SceneComponent) {
+        if (obj is DisplayComponent) {
             // if the object is attached to a DisplayObject, and if that
             // DisplayObject is in a display list, remove it from the display list
             // so that it will no longer be drawn to the screen
-            var disp :DisplayObject = SceneComponent(obj).displayObject;
+            var disp :DisplayObject = DisplayComponent(obj).display;
             if (null != disp) {
                 DisplayUtil.detach(disp);
             }

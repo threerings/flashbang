@@ -42,11 +42,11 @@ public class GoToFrameTask
 
         // if we don't have a default movie,
         if (null == movieClip) {
-            var sc :SceneComponent = obj as SceneComponent;
-            movieClip = (null != sc ? sc.displayObject as MovieClip : null);
+            var dc :DisplayComponent = obj as DisplayComponent;
+            movieClip = (null != dc ? dc.display as MovieClip : null);
 
             if (null == movieClip) {
-                throw new Error("GoToFrameTask can only operate on SceneComponents with " +
+                throw new Error("GoToFrameTask can only operate on DisplayComponents with " +
                     "MovieClip DisplayObjects");
             }
         }

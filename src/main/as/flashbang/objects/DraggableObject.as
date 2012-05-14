@@ -36,7 +36,7 @@ public class DraggableObject extends SceneObject
 
     protected function createDragger () :Dragger
     {
-        return new Dragger(this.draggableObject, this.displayObject, _draggedCallback,
+        return new Dragger(this.draggableObject, this.display, _draggedCallback,
             _droppedCallback);
     }
 
@@ -56,7 +56,7 @@ public class DraggableObject extends SceneObject
 
     protected function get draggableObject () :InteractiveObject
     {
-        return this.displayObject as InteractiveObject;
+        return this.display as InteractiveObject;
     }
 
     protected var _draggedCallback :Function;

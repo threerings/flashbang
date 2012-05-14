@@ -42,7 +42,7 @@ public class MouseLocView extends SceneObject
         _tf.text = "Mouse: (" + int(loc.x) + ", " + int(loc.y) + ")";
     }
 
-    override public function get displayObject () :DisplayObject
+    override public function get display () :DisplayObject
     {
         return _tf;
     }

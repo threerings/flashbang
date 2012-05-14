@@ -67,7 +67,7 @@ public class ComplexLocationTask
     public function clone () :ObjectTask
     {
         return new ComplexLocationTask(_toX, _toY, _totalTime, _xEasingFn, _yEasingFn,
-            _dispOverride.displayObject);
+            _dispOverride.display);
     }
 
     protected var _xEasingFn :Function;

@@ -85,7 +85,7 @@ public class LocationTask extends InterpolatingTask
 
     override public function clone () :ObjectTask
     {
-        return new LocationTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.displayObject);
+        return new LocationTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.display);
     }
 
     protected var _toX :Number;

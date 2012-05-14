@@ -22,7 +22,7 @@ import flash.display.MovieClip;
 
 import flashbang.GameObject;
 import flashbang.ObjectTask;
-import flashbang.components.SceneComponent;
+import flashbang.components.DisplayComponent;
 
 public class GotoAndPlayUntilTask
     implements ObjectTask
@@ -30,7 +30,7 @@ public class GotoAndPlayUntilTask
     /**
      * Plays movie starting at frame until stopFrame. If the start frame isn't given, it defaults
      * to 1. If the stopFrame isn't given, it defaults to the movie's totalFrames. If movie isn't
-     * given, it defaults to the displayObject of the SceneComponent this task is on.
+     * given, it defaults to the displayObject of the DisplayComponent this task is on.
      */
     public function GotoAndPlayUntilTask (frame :Object = null, stopFrame :Object = null,
         movie :MovieClip = null)
@@ -46,11 +46,11 @@ public class GotoAndPlayUntilTask
 
         // if we don't have a default movie,
         if (null == movieClip) {
-            var sc :SceneComponent = obj as SceneComponent;
-            movieClip = (null != sc ? sc.displayObject as MovieClip : null);
+            var dc :DisplayComponent = obj as DisplayComponent;
+            movieClip = (null != dc ? dc.display as MovieClip : null);
 
             if (null == movieClip) {
-                throw new Error("GotoAndPlayUntilTask can only operate on SceneComponents with " +
+                throw new Error("GotoAndPlayUntilTask can only operate on DisplayComponents with " +
                     "MovieClip DisplayObjects");
             }
         }

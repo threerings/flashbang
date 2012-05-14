@@ -28,7 +28,7 @@ import com.threerings.display.FilterUtil;
 
 import flashbang.GameObject;
 import flashbang.ObjectTask;
-import flashbang.components.SceneComponent;
+import flashbang.components.DisplayComponent;
 
 public class ColorMatrixBlendTask
     implements ObjectTask
@@ -92,9 +92,9 @@ public class ColorMatrixBlendTask
 
     public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var sc :SceneComponent = (!_dispOverride.isNull ? _dispOverride : obj as SceneComponent);
-        if (sc == null) {
-            throw new Error("obj does not implement SceneComponent");
+        var dc :DisplayComponent = (!_dispOverride.isNull ? _dispOverride : obj as DisplayComponent);
+        if (dc == null) {
+            throw new Error("obj does not implement DisplayComponent");
         }
 
         _elapsedTime += dt;
@@ -110,15 +110,15 @@ public class ColorMatrixBlendTask
         // when adding the new filter. This can be an expensive operation, so it's false by default.
         if (_preserveFilters) {
             if (_oldFilter != null) {
-                FilterUtil.removeFilter(sc.displayObject, _oldFilter);
+                FilterUtil.removeFilter(dc.display, _oldFilter);
             }
             if (filter != null) {
-                FilterUtil.addFilter(sc.displayObject, filter);
+                FilterUtil.addFilter(dc.display, filter);
                 _oldFilter = filter;
             }
 
         } else {
-            sc.displayObject.filters = (filter != null ? [ filter ] : []);
+            dc.display.filters = (filter != null ? [ filter ] : []);
         }
 
         return complete;
@@ -126,7 +126,7 @@ public class ColorMatrixBlendTask
 
     public function clone () :ObjectTask
     {
-        return new ColorMatrixBlendTask(_from, _to, _totalTime, _dispOverride.displayObject,
+        return new ColorMatrixBlendTask(_from, _to, _totalTime, _dispOverride.display,
             _easingFn, _preserveFilters);
     }
 

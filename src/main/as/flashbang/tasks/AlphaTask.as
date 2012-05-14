@@ -80,7 +80,7 @@ public class AlphaTask extends InterpolatingTask
 
     override public function clone () :ObjectTask
     {
-        return new AlphaTask(_to, _totalTime, _easingFn, _dispOverride.displayObject);
+        return new AlphaTask(_to, _totalTime, _easingFn, _dispOverride.display);
     }
 
     protected var _to :Number;

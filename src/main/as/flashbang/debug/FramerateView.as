@@ -61,7 +61,7 @@ public class FramerateView extends SceneObject
         _tf.textColor = (_framerate.fpsMean > _slowFps ? _normalColor : _slowColor);
     }
 
-    override public function get displayObject () :DisplayObject
+    override public function get display () :DisplayObject
     {
         return _tf;
     }
