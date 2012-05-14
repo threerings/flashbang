@@ -21,12 +21,10 @@ package flashbang.tasks {
 import flash.display.DisplayObject;
 
 import flashbang.Easing;
-
 import flashbang.GameObject;
 import flashbang.ObjectTask;
-import flashbang.components.ScaleComponent;
 
-public class ScaleTask extends InterpolatingTask
+public class ScaleTask extends DisplayObjectTask
 {
     public static function CreateLinear (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :ScaleTask
@@ -55,41 +53,34 @@ public class ScaleTask extends InterpolatingTask
     public function ScaleTask (x :Number, y :Number, time :Number = 0,
         easingFn :Function = null, disp :DisplayObject = null)
     {
-        super(time, easingFn);
+        super(time, easingFn, disp);
         _toX = x;
         _toY = y;
-        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
     override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var sc :ScaleComponent =
-            (!_dispOverride.isNull ? _dispOverride : obj as ScaleComponent);
-        if (null == sc) {
-            throw new Error("obj does not implement ScaleComponent");
-        }
-
         if (0 == _elapsedTime) {
-            _fromX = sc.scaleX;
-            _fromY = sc.scaleY;
+            _target = getTarget(obj);
+            _fromX = _target.scaleX;
+            _fromY = _target.scaleY;
         }
 
         _elapsedTime += dt;
-        sc.scaleX = interpolate(_fromX, _toX);
-        sc.scaleY = interpolate(_fromY, _toY);
+        _target.scaleX = interpolate(_fromX, _toX);
+        _target.scaleY = interpolate(_fromY, _toY);
         return (_elapsedTime >= _totalTime);
     }
 
     override public function clone () :ObjectTask
     {
-        return new ScaleTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.display);
+        return new ScaleTask(_toX, _toY, _totalTime, _easingFn, _display);
     }
 
     protected var _toX :Number;
     protected var _toY :Number;
     protected var _fromX :Number;
     protected var _fromY :Number;
-    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }

@@ -24,8 +24,7 @@ import flashbang.GameObject;
 import flashbang.ObjectTask;
 import flashbang.components.DisplayComponent;
 
-public class GotoAndPlayUntilTask
-    implements ObjectTask
+public class GotoAndPlayUntilTask extends MovieTask
 {
     /**
      * Plays movie starting at frame until stopFrame. If the start frame isn't given, it defaults
@@ -35,56 +34,41 @@ public class GotoAndPlayUntilTask
     public function GotoAndPlayUntilTask (frame :Object = null, stopFrame :Object = null,
         movie :MovieClip = null)
     {
+        super(0, null, movie);
         _startFrame = frame;
         _stopFrame = stopFrame;
-        _movie = movie;
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var movieClip :MovieClip = _movie;
+        if (_target == null) {
+            _target = getTarget(obj);
 
-        // if we don't have a default movie,
-        if (null == movieClip) {
-            var dc :DisplayComponent = obj as DisplayComponent;
-            movieClip = (null != dc ? dc.display as MovieClip : null);
-
-            if (null == movieClip) {
-                throw new Error("GotoAndPlayUntilTask can only operate on DisplayComponents with " +
-                    "MovieClip DisplayObjects");
-            }
-        }
-
-        if (!_started) {
             if (_startFrame == null) {
                 _startFrame = 1;
             }
             if (_stopFrame == null) {
-                _stopFrame = movieClip.totalFrames;
+                _stopFrame = _target.totalFrames;
             }
-            movieClip.gotoAndPlay(_startFrame);
-            _started = true;
+            _target.gotoAndPlay(_startFrame);
         }
 
-        if ((_stopFrame is String && movieClip.currentFrameLabel == String(_stopFrame)) ||
-            (_stopFrame is int && movieClip.currentFrame == int(_stopFrame))) {
-            movieClip.gotoAndStop(movieClip.currentFrame);
+        if ((_stopFrame is String && _target.currentFrameLabel == String(_stopFrame)) ||
+            (_stopFrame is int && _target.currentFrame == int(_stopFrame))) {
+            _target.gotoAndStop(_target.currentFrame);
             return true;
         } else {
             return false;
         }
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
         return new GotoAndPlayUntilTask(_startFrame, _stopFrame, _movie);
     }
 
     protected var _startFrame :Object;
     protected var _stopFrame :Object;
-    protected var _movie :MovieClip;
-
-    protected var _started :Boolean;
 }
 
 }

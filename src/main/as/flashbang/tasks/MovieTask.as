@@ -18,31 +18,35 @@
 
 package flashbang.tasks {
 
-import flash.display.DisplayObject;
+import com.threerings.util.Preconditions;
+
+import flash.display.MovieClip;
 
 import flashbang.GameObject;
-import flashbang.ObjectTask;
+import flashbang.components.DisplayComponent;
 
-public class VisibleTask extends DisplayObjectTask
+public class MovieTask extends InterpolatingTask
 {
-    public function VisibleTask (visible :Boolean, disp :DisplayObject = null)
+    public function MovieTask (time :Number, easing :Function, movie :MovieClip)
     {
-        super(0, null, disp);
-        _visible = visible;
+        super(time, easing);
+        _movie = movie;
     }
 
-    override public function update (dt :Number, obj :GameObject) :Boolean
+    protected function getTarget (obj :GameObject) :MovieClip
     {
-        getTarget(obj).visible = _visible;
-        return true;
+        var movie :MovieClip = _movie;
+        if (movie == null) {
+            var dc :DisplayComponent = obj as DisplayComponent;
+            Preconditions.checkState(dc != null, "obj does not implement DisplayComponent");
+            movie = (dc.display as MovieClip);
+            Preconditions.checkState(movie != null, "obj does not contain a MovieClip");
+        }
+        return movie;
     }
 
-    override public function clone () :ObjectTask
-    {
-        return new VisibleTask(_visible, _display);
-    }
+    protected var _movie :MovieClip;
 
-    protected var _visible :Boolean;
+    protected var _target :MovieClip;
 }
-
 }

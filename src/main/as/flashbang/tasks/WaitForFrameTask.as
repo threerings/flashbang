@@ -24,10 +24,12 @@ import flashbang.*;
 import flashbang.components.*;
 import flashbang.objects.*;
 
-public class WaitForFrameTask implements ObjectTask
+public class WaitForFrameTask extends MovieTask
 {
     public function WaitForFrameTask (frameLabelOrNumber :*, movie :MovieClip = null)
     {
+        super(0, null, movie);
+
         if (frameLabelOrNumber is int) {
             _frameNumber = frameLabelOrNumber as int;
         } else if (frameLabelOrNumber is String) {
@@ -35,37 +37,25 @@ public class WaitForFrameTask implements ObjectTask
         } else {
             throw new Error("frameLabelOrNumber must be a String or an int");
         }
-
-        _movie = movie;
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var movieClip :MovieClip = _movie;
-
-        // if we don't have a default movie,
-        if (null == movieClip) {
-            var dc :DisplayComponent = obj as DisplayComponent;
-            movieClip = (null != dc ? dc.display as MovieClip : null);
-
-            if (null == movieClip) {
-                throw new Error("WaitForFrameTask can only operate on DisplayComponents " +
-                                "with MovieClip DisplayObjects");
-            }
+        if (_target == null) {
+            _target = getTarget(obj);
         }
 
-        return (null != _frameLabel ? movieClip.currentLabel == _frameLabel :
-                                      movieClip.currentFrame == _frameNumber);
+        return (null != _frameLabel ? _target.currentLabel == _frameLabel :
+                                      _target.currentFrame == _frameNumber);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
         return new WaitForFrameTask(null != _frameLabel ? _frameLabel : _frameNumber, _movie);
     }
 
     protected var _frameLabel :String;
     protected var _frameNumber :int;
-    protected var _movie :MovieClip;
 
 }
 

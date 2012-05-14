@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="1">
   <includeClasses>
     <classEntry path="flashbang.AppMode"/>
     <classEntry path="flashbang.Config"/>
     <classEntry path="flashbang.CuePoint"/>
+    <classEntry path="flashbang.Easing"/>
+    <classEntry path="flashbang.Flashbang"/>
     <classEntry path="flashbang.FlashbangApp"/>
     <classEntry path="flashbang.GameObject"/>
     <classEntry path="flashbang.GameObjectRef"/>
@@ -14,13 +16,9 @@
     <classEntry path="flashbang.audio.AudioControls"/>
     <classEntry path="flashbang.audio.AudioManager"/>
     <classEntry path="flashbang.audio.AudioState"/>
-    <classEntry path="flashbang.components.AlphaComponent"/>
-    <classEntry path="flashbang.components.BoundsComponent"/>
+    <classEntry path="flashbang.audio.SoundType"/>
     <classEntry path="flashbang.components.LocationComponent"/>
     <classEntry path="flashbang.components.MeterComponent"/>
-    <classEntry path="flashbang.components.RotationComponent"/>
-    <classEntry path="flashbang.components.ScaleComponent"/>
-    <classEntry path="flashbang.components.VisibleComponent"/>
     <classEntry path="flashbang.debug.FramerateView"/>
     <classEntry path="flashbang.debug.MouseLocView"/>
     <classEntry path="flashbang.debug.Profiler"/>
@@ -43,6 +41,7 @@
     <classEntry path="flashbang.tasks.ColorMatrixBlendTask"/>
     <classEntry path="flashbang.tasks.ComplexLocationTask"/>
     <classEntry path="flashbang.tasks.CuePointTask"/>
+    <classEntry path="flashbang.tasks.DisplayObjectTask"/>
     <classEntry path="flashbang.tasks.DisplayObjectWrapper"/>
     <classEntry path="flashbang.tasks.FunctionTask"/>
     <classEntry path="flashbang.tasks.GoToFrameTask"/>
@@ -50,6 +49,7 @@
     <classEntry path="flashbang.tasks.InterpolatingTask"/>
     <classEntry path="flashbang.tasks.LocationTask"/>
     <classEntry path="flashbang.tasks.MeterValueTask"/>
+    <classEntry path="flashbang.tasks.MovieTask"/>
     <classEntry path="flashbang.tasks.ParallelTask"/>
     <classEntry path="flashbang.tasks.PlayFramesTask"/>
     <classEntry path="flashbang.tasks.PlaySoundTask"/>
@@ -71,14 +71,11 @@
     <classEntry path="flashbang.util.Loadable"/>
     <classEntry path="flashbang.util.LoadableBatch"/>
     <classEntry path="flashbang.util.NumRange"/>
+    <classEntry path="flashbang.util.PowerEaser"/>
     <classEntry path="flashbang.util.Rand"/>
+    <classEntry path="flashbang.util.SignalListenerManager"/>
     <classEntry path="flashbang.util.WeightedArray"/>
     <classEntry path="ru.etcs.utils.getDefinitionNames"/>
-    <classEntry path="flashbang.util.SignalListenerManager"/>
-    <classEntry path="flashbang.Flashbang"/>
-    <classEntry path="flashbang.audio.SoundType"/>
-    <classEntry path="flashbang.Easing"/>
-    <classEntry path="flashbang.util.PowerEaser"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -20,16 +20,11 @@ package flashbang.tasks {
 
 import flash.display.DisplayObject;
 
-import flashbang.components.AlphaComponent;
-import flashbang.components.BoundsComponent;
-import flashbang.components.RotationComponent;
-import flashbang.components.ScaleComponent;
 import flashbang.components.DisplayComponent;
-import flashbang.components.VisibleComponent;
+import flashbang.components.LocationComponent;
 
 public class DisplayObjectWrapper
-    implements AlphaComponent, BoundsComponent, ScaleComponent, DisplayComponent, VisibleComponent,
-               RotationComponent
+    implements DisplayComponent, LocationComponent
 {
     public static function create (disp :DisplayObject) :DisplayObjectWrapper
     {
@@ -44,16 +39,6 @@ public class DisplayObjectWrapper
     public function get display () :DisplayObject
     {
         return _disp;
-    }
-
-    public function get alpha () :Number
-    {
-        return _disp.alpha;
-    }
-
-    public function set alpha (val :Number) :void
-    {
-        _disp.alpha = val;
     }
 
     public function get x () :Number
@@ -74,66 +59,6 @@ public class DisplayObjectWrapper
     public function set y (val :Number) :void
     {
         _disp.y = val;
-    }
-
-    public function get width () :Number
-    {
-        return _disp.width;
-    }
-
-    public function set width (val :Number) :void
-    {
-        _disp.width = val;
-    }
-
-    public function get height () :Number
-    {
-        return _disp.height;
-    }
-
-    public function set height (val :Number) :void
-    {
-        _disp.height = val;
-    }
-
-    public function get scaleX () :Number
-    {
-        return _disp.scaleX;
-    }
-
-    public function set scaleX (val :Number) :void
-    {
-        _disp.scaleX = val;
-    }
-
-    public function get scaleY () :Number
-    {
-        return _disp.scaleY;
-    }
-
-    public function set scaleY (val :Number) :void
-    {
-        _disp.scaleY = val;
-    }
-
-    public function get visible () :Boolean
-    {
-        return _disp.visible;
-    }
-
-    public function set visible (val :Boolean) :void
-    {
-        _disp.visible = val;
-    }
-
-    public function get rotation () :Number
-    {
-        return _disp.rotation;
-    }
-
-    public function set rotation (val :Number) :void
-    {
-        _disp.rotation = val;
     }
 
     /**

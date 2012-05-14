@@ -17,32 +17,34 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 package flashbang.tasks {
+import com.threerings.util.Preconditions;
 
 import flash.display.DisplayObject;
 
 import flashbang.GameObject;
-import flashbang.ObjectTask;
+import flashbang.components.DisplayComponent;
 
-public class VisibleTask extends DisplayObjectTask
+public class DisplayObjectTask extends InterpolatingTask
 {
-    public function VisibleTask (visible :Boolean, disp :DisplayObject = null)
+    public function DisplayObjectTask (time :Number, easing :Function, display :DisplayObject)
     {
-        super(0, null, disp);
-        _visible = visible;
+        super(time, easing);
+        _display = display;
     }
 
-    override public function update (dt :Number, obj :GameObject) :Boolean
+    protected function getTarget (obj :GameObject) :DisplayObject
     {
-        getTarget(obj).visible = _visible;
-        return true;
+        var display :DisplayObject = _display;
+        if (display == null) {
+            var dc :DisplayComponent = obj as DisplayComponent;
+            Preconditions.checkState(dc != null, "obj does not implement DisplayComponent");
+            display = dc.display;
+        }
+        return display;
     }
 
-    override public function clone () :ObjectTask
-    {
-        return new VisibleTask(_visible, _display);
-    }
+    protected var _display :DisplayObject;
 
-    protected var _visible :Boolean;
+    protected var _target :DisplayObject;
 }
-
 }

@@ -18,20 +18,18 @@
 
 package flashbang.tasks {
 
+import com.threerings.display.ColorMatrix;
+import com.threerings.display.FilterUtil;
+
 import flash.display.DisplayObject;
 import flash.filters.ColorMatrixFilter;
 
 import flashbang.Easing;
-
-import com.threerings.display.ColorMatrix;
-import com.threerings.display.FilterUtil;
-
 import flashbang.GameObject;
 import flashbang.ObjectTask;
 import flashbang.components.DisplayComponent;
 
-public class ColorMatrixBlendTask
-    implements ObjectTask
+public class ColorMatrixBlendTask extends DisplayObjectTask
 {
     public static function fadeToBlack (time :Number, disp :DisplayObject = null,
         easingFn :Function = null, preserveFilters :Boolean = false,
@@ -81,20 +79,17 @@ public class ColorMatrixBlendTask
         preserveFilters :Boolean = false,
         removeFilterWhenComplete :Boolean = false)
     {
-        _dispOverride = DisplayObjectWrapper.create(disp);
+        super(time, easingFn, disp);
         _from = cmFrom;
         _to = cmTo;
-        _totalTime = time;
-        _easingFn = (easingFn != null ? easingFn : Easing.linear);
         _preserveFilters = preserveFilters;
         _removeFilterWhenComplete = removeFilterWhenComplete;
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var dc :DisplayComponent = (!_dispOverride.isNull ? _dispOverride : obj as DisplayComponent);
-        if (dc == null) {
-            throw new Error("obj does not implement DisplayComponent");
+        if (_elapsedTime == 0) {
+            _target = getTarget(obj);
         }
 
         _elapsedTime += dt;
@@ -110,37 +105,32 @@ public class ColorMatrixBlendTask
         // when adding the new filter. This can be an expensive operation, so it's false by default.
         if (_preserveFilters) {
             if (_oldFilter != null) {
-                FilterUtil.removeFilter(dc.display, _oldFilter);
+                FilterUtil.removeFilter(_target, _oldFilter);
             }
             if (filter != null) {
-                FilterUtil.addFilter(dc.display, filter);
+                FilterUtil.addFilter(_target, filter);
                 _oldFilter = filter;
             }
 
         } else {
-            dc.display.filters = (filter != null ? [ filter ] : []);
+            _target.filters = (filter != null ? [ filter ] : []);
         }
 
         return complete;
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new ColorMatrixBlendTask(_from, _to, _totalTime, _dispOverride.display,
+        return new ColorMatrixBlendTask(_from, _to, _totalTime, _display,
             _easingFn, _preserveFilters);
     }
 
-    protected var _dispOverride :DisplayObjectWrapper;
     protected var _from :ColorMatrix;
     protected var _to :ColorMatrix;
-    protected var _totalTime :Number;
-    protected var _easingFn :Function;
     protected var _preserveFilters :Boolean;
     protected var _removeFilterWhenComplete :Boolean;
 
     protected var _oldFilter :ColorMatrixFilter;
-
-    protected var _elapsedTime :Number = 0;
 
     protected static const IDENTITY :ColorMatrix = new ColorMatrix();
     protected static const BLACK :ColorMatrix = new ColorMatrix().tint(0);

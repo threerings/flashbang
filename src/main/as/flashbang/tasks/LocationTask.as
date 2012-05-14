@@ -18,15 +18,16 @@
 
 package flashbang.tasks {
 
+import com.threerings.util.Preconditions;
+
 import flash.display.DisplayObject;
 
 import flashbang.Easing;
-
 import flashbang.GameObject;
 import flashbang.ObjectTask;
 import flashbang.components.LocationComponent;
 
-public class LocationTask extends InterpolatingTask
+public class LocationTask extends DisplayObjectTask
 {
     public static function CreateLinear (x :Number, y :Number, time :Number,
         disp :DisplayObject = null) :LocationTask
@@ -55,44 +56,49 @@ public class LocationTask extends InterpolatingTask
     public function LocationTask (x :Number, y :Number, time :Number = 0,
         easingFn :Function = null, disp :DisplayObject = null)
     {
-        super(time, easingFn);
+        super(time, easingFn, disp);
         _toX = x;
         _toY = y;
-        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
     override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var lc :LocationComponent =
-            (!_dispOverride.isNull ? _dispOverride : obj as LocationComponent);
-
-        if (null == lc) {
-            throw new Error("obj does not implement LocationComponent");
-        }
-
         if (0 == _elapsedTime) {
-            _fromX = lc.x;
-            _fromY = lc.y;
+            _lc = getLocationTarget(obj);
+            _fromX = _lc.x;
+            _fromY = _lc.y;
         }
 
         _elapsedTime += dt;
 
-        lc.x = interpolate(_fromX, _toX);
-        lc.y = interpolate(_fromY, _toY);
+        _lc.x = interpolate(_fromX, _toX);
+        _lc.y = interpolate(_fromY, _toY);
 
         return (_elapsedTime >= _totalTime);
     }
 
     override public function clone () :ObjectTask
     {
-        return new LocationTask(_toX, _toY, _totalTime, _easingFn, _dispOverride.display);
+        return new LocationTask(_toX, _toY, _totalTime, _easingFn, _display);
+    }
+
+    protected function getLocationTarget (obj :GameObject) :LocationComponent
+    {
+        var display :DisplayObject = super.getTarget(obj);
+        if (display != null) {
+            return new DisplayObjectWrapper(display);
+        }
+        var lc :LocationComponent = obj as LocationComponent;
+        Preconditions.checkState(lc != null, "obj does not implement LocationComponent");
+        return lc;
     }
 
     protected var _toX :Number;
     protected var _toY :Number;
     protected var _fromX :Number;
     protected var _fromY :Number;
-    protected var _dispOverride :DisplayObjectWrapper;
+
+    protected var _lc :LocationComponent;
 }
 
 }

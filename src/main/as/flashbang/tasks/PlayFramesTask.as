@@ -24,35 +24,26 @@ import flashbang.*;
 import flashbang.components.*;
 import flashbang.objects.*;
 
-public class PlayFramesTask extends InterpolatingTask
+public class PlayFramesTask extends MovieTask
 {
     public function PlayFramesTask (startFrame :int, endFrame :int, totalTime :Number,
         easingFn :Function = null, movie :MovieClip = null)
     {
-        super(totalTime, easingFn);
+        super(totalTime, easingFn, movie);
         _startFrame = startFrame;
         _endFrame = endFrame;
-        _movie = movie;
     }
 
     override public function update (dt :Number, obj :GameObject) :Boolean
     {
         super.update(dt, obj);
 
-        var movieClip :MovieClip = _movie;
-        // if we don't have a default movie, use the SceneObject the task is being applied to
-        if (null == movieClip) {
-            var dc :DisplayComponent = obj as DisplayComponent;
-            movieClip = (null != dc ? dc.display as MovieClip : null);
-
-            if (null == movieClip) {
-                throw new Error("Can only operate on DisplayComponents with MovieClip " +
-                    "DisplayObjects");
-            }
+        if (_target == null) {
+            _target = getTarget(obj);
         }
 
         var curFrame :int = interpolate(_startFrame, _endFrame);
-        movieClip.gotoAndStop(curFrame);
+        _target.gotoAndStop(curFrame);
 
         return _elapsedTime >= _totalTime;
     }
@@ -64,7 +55,6 @@ public class PlayFramesTask extends InterpolatingTask
 
     protected var _startFrame :int;
     protected var _endFrame :int;
-    protected var _movie :MovieClip;
 }
 
 }

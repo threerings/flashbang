@@ -20,47 +20,32 @@ package flashbang.tasks {
 
 import flash.display.MovieClip;
 
-import flashbang.*;
-import flashbang.components.*;
-import flashbang.objects.*;
+import flashbang.GameObject;
+import flashbang.ObjectTask;
 
-public class GoToFrameTask
-    implements ObjectTask
+public class GoToFrameTask extends MovieTask
 {
     public function GoToFrameTask (frame :Object, scene :String = null,
         gotoAndPlay :Boolean = true, movie :MovieClip = null)
     {
+        super(0, null, movie);
         _frame = frame;
         _scene = scene;
         _gotoAndPlay = gotoAndPlay;
-        _movie = movie;
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var movieClip :MovieClip = _movie;
-
-        // if we don't have a default movie,
-        if (null == movieClip) {
-            var dc :DisplayComponent = obj as DisplayComponent;
-            movieClip = (null != dc ? dc.display as MovieClip : null);
-
-            if (null == movieClip) {
-                throw new Error("GoToFrameTask can only operate on DisplayComponents with " +
-                    "MovieClip DisplayObjects");
-            }
-        }
-
         if (_gotoAndPlay) {
-            movieClip.gotoAndPlay(_frame, _scene);
+            getTarget(obj).gotoAndPlay(_frame, _scene);
         } else {
-            movieClip.gotoAndStop(_frame, _scene);
+            getTarget(obj).gotoAndStop(_frame, _scene);
         }
 
         return true;
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
         return new GoToFrameTask(_frame, _scene, _gotoAndPlay, _movie);
     }
@@ -68,7 +53,6 @@ public class GoToFrameTask
     protected var _frame :Object;
     protected var _scene :String;
     protected var _gotoAndPlay :Boolean;
-    protected var _movie :MovieClip;
 }
 
 }

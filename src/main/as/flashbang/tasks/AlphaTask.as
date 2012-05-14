@@ -20,12 +20,11 @@ package flashbang.tasks {
 
 import flash.display.DisplayObject;
 
+import flashbang.Easing;
 import flashbang.GameObject;
 import flashbang.ObjectTask;
-import flashbang.components.AlphaComponent;
-import flashbang.Easing;
 
-public class AlphaTask extends InterpolatingTask
+public class AlphaTask extends DisplayObjectTask
 {
     public static function CreateLinear (alpha :Number, time :Number, disp :DisplayObject = null)
         :AlphaTask
@@ -54,38 +53,29 @@ public class AlphaTask extends InterpolatingTask
     public function AlphaTask (alpha :Number, time :Number = 0, easingFn :Function = null,
         disp :DisplayObject = null)
     {
-        super(time, easingFn);
+        super(time, easingFn, disp);
         _to = alpha;
-        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
     override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var alphaComponent :AlphaComponent =
-            (!_dispOverride.isNull ? _dispOverride : obj as AlphaComponent);
-        if (null == alphaComponent) {
-            throw new Error("obj does not implement AlphaComponent");
-        }
-
         if (0 == _elapsedTime) {
-            _from = alphaComponent.alpha;
+            _target = getTarget(obj);
+            _from = _target.alpha;
         }
 
         _elapsedTime += dt;
-
-        alphaComponent.alpha = interpolate(_from, _to);
-
+        _target.alpha = interpolate(_from, _to);
         return (_elapsedTime >= _totalTime);
     }
 
     override public function clone () :ObjectTask
     {
-        return new AlphaTask(_to, _totalTime, _easingFn, _dispOverride.display);
+        return new AlphaTask(_to, _totalTime, _easingFn, _display);
     }
 
     protected var _to :Number;
     protected var _from :Number;
-    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }
