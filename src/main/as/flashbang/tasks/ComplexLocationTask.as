@@ -20,69 +20,41 @@ package flashbang.tasks {
 
 import flash.display.DisplayObject;
 
-import flashbang.Easing;
-
 import flashbang.GameObject;
 import flashbang.ObjectTask;
-import flashbang.components.LocationComponent;
 
-public class ComplexLocationTask
-    implements ObjectTask
+public class ComplexLocationTask extends LocationTask
 {
     public function ComplexLocationTask (x :Number, y :Number, time :Number, xEasingFn :Function,
         yEasingFn :Function, disp :DisplayObject = null)
     {
-        _toX = x;
-        _toY = y;
-        _totalTime = Math.max(time, 0);
+        super(x, y, time, null, disp);
         _xEasingFn = xEasingFn;
         _yEasingFn = yEasingFn;
-        _dispOverride = DisplayObjectWrapper.create(disp);
     }
 
-    public function update (dt :Number, obj :GameObject) :Boolean
+    override public function update (dt :Number, obj :GameObject) :Boolean
     {
-        var lc :LocationComponent =
-            (!_dispOverride.isNull ? _dispOverride : obj as LocationComponent);
-        if (null == lc) {
-            throw new Error("obj does not implement LocationComponent");
-        }
-
         if (0 == _elapsedTime) {
-            _fromX = lc.x;
-            _fromY = lc.y;
+            _lc = getLocationTarget(obj);
+            _fromX = _lc.x;
+            _fromY = _lc.y;
         }
 
-        _elapsedTime += dt;
-
-        var totalMs :Number = _totalTime * 1000;
-        var elapsedMs :Number = Math.min(_elapsedTime * 1000, totalMs);
-
-        lc.x = _xEasingFn(elapsedMs, _fromX, (_toX - _fromX), totalMs);
-        lc.y = _yEasingFn(elapsedMs, _fromY, (_toY - _fromY), totalMs);
+        _elapsedTime = Math.min(_elapsedTime + dt, _totalTime);
+        _lc.x = _xEasingFn(_elapsedTime, _fromX, (_toX - _fromX), _totalTime);
+        _lc.y = _yEasingFn(_elapsedTime, _fromY, (_toY - _fromY), _totalTime);
 
         return (_elapsedTime >= _totalTime);
     }
 
-    public function clone () :ObjectTask
+    override public function clone () :ObjectTask
     {
-        return new ComplexLocationTask(_toX, _toY, _totalTime, _xEasingFn, _yEasingFn,
-            _dispOverride.display);
+        return new ComplexLocationTask(_toX, _toY, _totalTime, _xEasingFn, _yEasingFn, _display);
     }
 
     protected var _xEasingFn :Function;
     protected var _yEasingFn :Function;
-
-    protected var _toX :Number;
-    protected var _toY :Number;
-
-    protected var _fromX :Number;
-    protected var _fromY :Number;
-
-    protected var _totalTime :Number = 0;
-    protected var _elapsedTime :Number = 0;
-
-    protected var _dispOverride :DisplayObjectWrapper;
 }
 
 }
