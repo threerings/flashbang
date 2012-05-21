@@ -27,9 +27,12 @@ public class Easing
     public static const quartic :PowerEaser = new PowerEaser(4);
     public static const quintic :PowerEaser = new PowerEaser(5);
 
-    public static function linear (t :Number, b :Number, c :Number, d :Number) :Number
+    public static function linear (from :Number, to :Number, dt :Number, t :Number) :Number
     {
-        return c * t / d + b;
+        if (t == 0) {
+            return to;
+        }
+        return from + ((to - from) * (dt / t));
     }
 }
 }

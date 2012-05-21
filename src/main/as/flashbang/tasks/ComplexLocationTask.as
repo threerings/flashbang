@@ -42,8 +42,8 @@ public class ComplexLocationTask extends LocationTask
         }
 
         _elapsedTime = Math.min(_elapsedTime + dt, _totalTime);
-        _lc.x = _xEasingFn(_elapsedTime, _fromX, (_toX - _fromX), _totalTime);
-        _lc.y = _yEasingFn(_elapsedTime, _fromY, (_toY - _fromY), _totalTime);
+        _lc.x = _xEasingFn(_fromX, _toX, _elapsedTime, _totalTime);
+        _lc.y = _yEasingFn(_fromY, _toY, _elapsedTime, _totalTime);
 
         return (_elapsedTime >= _totalTime);
     }

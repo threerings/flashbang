@@ -27,23 +27,31 @@ public class PowerEaser
         _pow = pow;
     }
 
-    public function easeIn (t :Number, b :Number, c :Number, d :Number) :Number
+    public function easeIn (from :Number, to :Number, dt :Number, t :Number) :Number
     {
-        return c * (t /= d) * Math.pow(t, _pow - 1) + b;
-    }
-
-    public function easeOut (t :Number, b :Number, c :Number, d :Number) :Number
-    {
-        return c * ((t = t / d - 1) * Math.pow(t, _pow - 1) + 1) + b;
-    }
-
-    public function easeInOut (t :Number, b :Number, c :Number, d :Number) :Number
-    {
-        if ((t /= d / 2) < 1) {
-            return c / 2 * Math.pow(t, _pow) + b;
-        } else {
-            return c / 2 * ((t -= 2) * Math.pow(t, _pow - 1) + 2) + b;
+        if (t == 0) {
+            return to;
         }
+        return from + ((to - from) * Math.pow(dt / t, _pow));
+    }
+
+    public function easeOut (from :Number, to :Number, dt :Number, t :Number) :Number
+    {
+        if (t == 0) {
+            return to;
+        }
+        return from + ((to - from) * (1 - Math.pow(1 - dt / t, _pow)));
+    }
+
+    public function easeInOut (from :Number, to :Number, dt :Number, t :Number) :Number
+    {
+        if (t == 0) {
+            return to;
+        }
+
+        var mid :Number = from + (to - from) * 0.5;
+        t *= 0.5;
+        return (dt <= t ? easeIn(from, mid, dt, t) : easeOut(mid, to, dt - t, t));
     }
 
     protected var _pow :int;
