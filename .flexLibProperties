@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="1">
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
   <includeClasses>
     <classEntry path="flashbang.AppMode"/>
     <classEntry path="flashbang.Config"/>
@@ -12,11 +12,13 @@
     <classEntry path="flashbang.ModeTransition"/>
     <classEntry path="flashbang.ObjectTask"/>
     <classEntry path="flashbang.Updatable"/>
+    <classEntry path="flashbang.Viewport"/>
     <classEntry path="flashbang.audio.AudioChannel"/>
     <classEntry path="flashbang.audio.AudioControls"/>
     <classEntry path="flashbang.audio.AudioManager"/>
     <classEntry path="flashbang.audio.AudioState"/>
     <classEntry path="flashbang.audio.SoundType"/>
+    <classEntry path="flashbang.components.DisplayComponent"/>
     <classEntry path="flashbang.components.LocationComponent"/>
     <classEntry path="flashbang.components.MeterComponent"/>
     <classEntry path="flashbang.debug.FramerateView"/>
@@ -26,6 +28,7 @@
     <classEntry path="flashbang.objects.Dragger"/>
     <classEntry path="flashbang.objects.SceneObject"/>
     <classEntry path="flashbang.objects.SimpleTimer"/>
+    <classEntry path="flashbang.objects.SpriteObject"/>
     <classEntry path="flashbang.resource.ImageResource"/>
     <classEntry path="flashbang.resource.Resource"/>
     <classEntry path="flashbang.resource.ResourceManager"/>
@@ -51,6 +54,7 @@
     <classEntry path="flashbang.tasks.MovieTask"/>
     <classEntry path="flashbang.tasks.ParallelTask"/>
     <classEntry path="flashbang.tasks.PlayFramesTask"/>
+    <classEntry path="flashbang.tasks.PlayOnceTask"/>
     <classEntry path="flashbang.tasks.PlaySoundTask"/>
     <classEntry path="flashbang.tasks.RepeatingTask"/>
     <classEntry path="flashbang.tasks.RotationTask"/>
