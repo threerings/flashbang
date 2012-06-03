@@ -77,6 +77,9 @@
     <classEntry path="flashbang.util.SignalListenerManager"/>
     <classEntry path="flashbang.util.WeightedArray"/>
     <classEntry path="ru.etcs.utils.getDefinitionNames"/>
+    <classEntry path="flashbang.input.MouseListener"/>
+    <classEntry path="flashbang.input.MouseInput"/>
+    <classEntry path="flashbang.input.MouseReactor"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

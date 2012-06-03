@@ -19,9 +19,6 @@
 package flashbang {
 
 import com.threerings.display.DisplayUtil;
-import flashbang.components.DisplayComponent;
-import flashbang.tasks.*;
-import flashbang.util.SignalListenerManager;
 import com.threerings.util.Arrays;
 import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
@@ -33,6 +30,10 @@ import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
+
+import flashbang.components.DisplayComponent;
+import flashbang.input.MouseInput;
+import flashbang.util.SignalListenerManager;
 
 import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
@@ -80,6 +81,11 @@ public class AppMode
     public final function get viewport () :Viewport
     {
         return _viewport;
+    }
+
+    public function get mouseInput () :MouseInput
+    {
+        return _mouseInput;
     }
 
     /**
@@ -500,6 +506,9 @@ public class AppMode
         _signals = null;
 
         _viewport = null;
+
+        _mouseInput.removeAllListeners();
+        _mouseInput = null;
     }
 
     internal function enterInternal () :void
@@ -520,6 +529,7 @@ public class AppMode
 
     protected var _modeSprite :Sprite = new Sprite();
     protected var _viewport :Viewport;
+    protected var _mouseInput :MouseInput = new MouseInput(_modeSprite);
 
     protected var _runningTime :Number = 0;
 
