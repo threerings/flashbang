@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="1">
   <includeClasses>
     <classEntry path="flashbang.AppMode"/>
     <classEntry path="flashbang.Config"/>
@@ -24,6 +24,10 @@
     <classEntry path="flashbang.debug.FramerateView"/>
     <classEntry path="flashbang.debug.MouseLocView"/>
     <classEntry path="flashbang.debug.Profiler"/>
+    <classEntry path="flashbang.input.MouseInput"/>
+    <classEntry path="flashbang.input.MouseListener"/>
+    <classEntry path="flashbang.input.MouseReactor"/>
+    <classEntry path="flashbang.objects.Dragger"/>
     <classEntry path="flashbang.objects.SceneObject"/>
     <classEntry path="flashbang.objects.SimpleTimer"/>
     <classEntry path="flashbang.objects.SpriteObject"/>
@@ -71,12 +75,8 @@
     <classEntry path="flashbang.util.LoadableBatch"/>
     <classEntry path="flashbang.util.NumRange"/>
     <classEntry path="flashbang.util.PowerEaser"/>
-    <classEntry path="ru.etcs.utils.getDefinitionNames"/>
-    <classEntry path="flashbang.input.MouseListener"/>
-    <classEntry path="flashbang.input.MouseInput"/>
-    <classEntry path="flashbang.input.MouseReactor"/>
     <classEntry path="flashbang.util.SignalAndEventConnections"/>
-    <classEntry path="flashbang.objects.Dragger"/>
+    <classEntry path="ru.etcs.utils.getDefinitionNames"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

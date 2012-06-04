@@ -3,6 +3,7 @@
 	<name>flashbang</name>
 	<comment></comment>
 	<projects>
+		<project>aspirin</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
