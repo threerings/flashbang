@@ -448,7 +448,7 @@ public class AppMode
         _namedObjects = null;
         _groupedObjects = null;
 
-        _conns.cancelAll();
+        _conns.cancel();
         _conns = null;
 
         _viewport = null;

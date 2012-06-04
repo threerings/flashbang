@@ -19,7 +19,7 @@
 package flashbang.util {
 
 import com.threerings.util.Registration;
-import com.threerings.util.RegistrationManager;
+import com.threerings.util.RegistrationList;
 import com.threerings.util.Registrations;
 
 import flash.events.Event;
@@ -28,6 +28,7 @@ import flash.events.IEventDispatcher;
 import org.osflash.signals.ISignal;
 
 public class SignalAndEventConnections
+    implements Registration
 {
     /**
      * Adds a listener to the specified signal.
@@ -85,11 +86,11 @@ public class SignalAndEventConnections
     /**
      * Cancels all signal and event listeners.
      */
-    public function cancelAll () :void
+    public function cancel () :void
     {
-        _regs.cancelAll();
+        _regs.cancel();
     }
 
-    protected var _regs :RegistrationManager = new RegistrationManager();
+    protected var _regs :RegistrationList = new RegistrationList();
 }
 }

@@ -334,7 +334,7 @@ public class GameObject
     internal function cleanupInternal () :void
     {
         cleanup();
-        _conns.cancelAll();
+        _conns.cancel();
         _conns = null;
     }
 
