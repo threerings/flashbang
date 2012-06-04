@@ -75,7 +75,7 @@
     <classEntry path="flashbang.util.LoadableBatch"/>
     <classEntry path="flashbang.util.NumRange"/>
     <classEntry path="flashbang.util.PowerEaser"/>
-    <classEntry path="flashbang.util.SignalAndEventConnections"/>
+    <classEntry path="flashbang.util.SignalAndEventRegistrations"/>
     <classEntry path="ru.etcs.utils.getDefinitionNames"/>
   </includeClasses>
   <includeResources/>

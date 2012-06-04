@@ -31,7 +31,7 @@ import flash.events.KeyboardEvent;
 
 import flashbang.components.DisplayComponent;
 import flashbang.input.MouseInput;
-import flashbang.util.SignalAndEventConnections;
+import flashbang.util.SignalAndEventRegistrations;
 
 import org.osflash.signals.Signal;
 
@@ -448,8 +448,8 @@ public class AppMode
         _namedObjects = null;
         _groupedObjects = null;
 
-        _conns.cancel();
-        _conns = null;
+        _regs.cancel();
+        _regs = null;
 
         _viewport = null;
 
@@ -491,7 +491,7 @@ public class AppMode
     /** stores a mapping from String to Array */
     protected var _groupedObjects :Map = Maps.newMapOf(String);
 
-    protected var _conns :SignalAndEventConnections = new SignalAndEventConnections();
+    protected var _regs :SignalAndEventRegistrations = new SignalAndEventRegistrations();
 
     protected var _destroyed :Boolean;
 }

@@ -25,7 +25,7 @@ import flash.display.DisplayObjectContainer;
 
 import flashbang.tasks.ParallelTask;
 import flashbang.tasks.TaskContainer;
-import flashbang.util.SignalAndEventConnections;
+import flashbang.util.SignalAndEventRegistrations;
 
 import org.osflash.signals.Signal;
 
@@ -334,8 +334,8 @@ public class GameObject
     internal function cleanupInternal () :void
     {
         cleanup();
-        _conns.cancel();
-        _conns = null;
+        _regs.cancel();
+        _regs = null;
     }
 
     internal function updateInternal (dt :Number) :void
@@ -382,7 +382,7 @@ public class GameObject
     // True if tasks were removed while an update was in progress
     protected var _collapseRemovedTasks :Boolean;
 
-    protected var _conns :SignalAndEventConnections = new SignalAndEventConnections();
+    protected var _regs :SignalAndEventRegistrations = new SignalAndEventRegistrations();
 
     protected var _dependentObjectRefs :Array = [];
     protected var _pendingDependentObjects :Array = [];

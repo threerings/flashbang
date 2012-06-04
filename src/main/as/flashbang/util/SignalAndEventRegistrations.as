@@ -27,8 +27,7 @@ import flash.events.IEventDispatcher;
 
 import org.osflash.signals.ISignal;
 
-public class SignalAndEventConnections
-    implements Registration
+public class SignalAndEventRegistrations extends RegistrationList
 {
     /**
      * Adds a listener to the specified signal.
@@ -37,7 +36,7 @@ public class SignalAndEventConnections
     public function addSignalListener (signal :ISignal, l :Function) :Registration
     {
         signal.add(l);
-        return _regs.add(Registrations.createWithFunction(function () :void {
+        return add(Registrations.createWithFunction(function () :void {
             signal.remove(l);
         }));
     }
@@ -49,7 +48,7 @@ public class SignalAndEventConnections
     public function addOneShotSignalListener (signal :ISignal, l :Function) :Registration
     {
         signal.addOnce(l);
-        return _regs.add(Registrations.createWithFunction(function () :void {
+        return add(Registrations.createWithFunction(function () :void {
             signal.remove(l);
         }));
     }
@@ -62,7 +61,7 @@ public class SignalAndEventConnections
         useCapture :Boolean = false, priority :int = 0) :Registration
     {
         dispatcher.addEventListener(type, l, useCapture, priority);
-        return _regs.add(Registrations.createWithFunction(function () :void {
+        return add(Registrations.createWithFunction(function () :void {
             dispatcher.removeEventListener(type, l, useCapture);
         }));
     }
@@ -82,15 +81,5 @@ public class SignalAndEventConnections
 
         return addEventListener(dispatcher, type, eventListener, useCapture, priority);
     }
-
-    /**
-     * Cancels all signal and event listeners.
-     */
-    public function cancel () :void
-    {
-        _regs.cancel();
-    }
-
-    protected var _regs :RegistrationList = new RegistrationList();
 }
 }
