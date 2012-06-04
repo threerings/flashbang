@@ -76,6 +76,7 @@
     <classEntry path="flashbang.input.MouseInput"/>
     <classEntry path="flashbang.input.MouseReactor"/>
     <classEntry path="flashbang.util.SignalAndEventConnections"/>
+    <classEntry path="flashbang.objects.Dragger"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
