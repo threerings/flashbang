@@ -71,7 +71,6 @@
     <classEntry path="flashbang.util.LoadableBatch"/>
     <classEntry path="flashbang.util.NumRange"/>
     <classEntry path="flashbang.util.PowerEaser"/>
-    <classEntry path="flashbang.util.WeightedArray"/>
     <classEntry path="ru.etcs.utils.getDefinitionNames"/>
     <classEntry path="flashbang.input.MouseListener"/>
     <classEntry path="flashbang.input.MouseInput"/>
