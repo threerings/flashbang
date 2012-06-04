@@ -17,29 +17,29 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 package flashbang.util {
+import com.threerings.util.Randoms;
 
 public class IntRange
 {
     public var min :int;
     public var max :int;
-    public var defaultRandStreamId :uint;
+    public var rands :Randoms;
 
-    public function IntRange (min :int, max :int, defaultRandStreamId :uint = uint.MAX_VALUE)
+    public function IntRange (min :int, max :int, rands :Randoms)
     {
         this.min = min;
         this.max = max;
-        this.defaultRandStreamId = defaultRandStreamId;
+        this.rands = rands;
     }
 
-    public function next (randStreamId :int = -1) :int
+    public function next () :int
     {
-        return Rand.nextIntInRange(min, max,
-            (randStreamId >= 0 ? randStreamId : defaultRandStreamId));
+        return rands.getInRange(min, max);
     }
 
     public function clone () :IntRange
     {
-        return new IntRange(min, max, defaultRandStreamId);
+        return new IntRange(min, max, rands);
     }
 }
 

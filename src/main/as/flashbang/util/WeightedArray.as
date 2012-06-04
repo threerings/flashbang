@@ -18,11 +18,13 @@
 
 package flashbang.util {
 
+import com.threerings.util.Randoms;
+
 public class WeightedArray
 {
-    public function WeightedArray (defaultRandStreamId :uint = uint.MAX_VALUE)
+    public function WeightedArray (rands :Randoms)
     {
-        _defaultRandStreamId = defaultRandStreamId;
+        _rands = rands;
     }
 
     public function clear () :void
@@ -41,7 +43,7 @@ public class WeightedArray
         _dataDirty = true;
     }
 
-    public function getNextData (randStreamId :int = -1) :*
+    public function getNextData () :*
     {
         updateData();
 
@@ -49,12 +51,8 @@ public class WeightedArray
             return undefined;
         }
 
-        if (randStreamId < 0) {
-            randStreamId = _defaultRandStreamId;
-        }
-
         var max :Number = WeightedData(_data[_data.length - 1]).max;
-        var val :Number = Rand.nextNumberInRange(0, max, _defaultRandStreamId);
+        var val :Number = _rands.getNumberInRange(0, max);
 
         // binary-search the set of WeightedData
         var loIdx :int = 0;
@@ -146,7 +144,7 @@ public class WeightedArray
         }
     }
 
-    protected var _defaultRandStreamId :uint;
+    protected var _rands :Randoms;
     protected var _dataDirty :Boolean;
 
     protected var _data :Array = [];

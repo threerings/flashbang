@@ -18,28 +18,29 @@
 
 package flashbang.util {
 
+import com.threerings.util.Randoms;
+
 public class NumRange
 {
     public var min :Number;
     public var max :Number;
-    public var defaultRandStreamId :uint;
+    public var rands :Randoms;
 
-    public function NumRange (min :Number, max :Number, defaultRandStreamId :uint = uint.MAX_VALUE)
+    public function NumRange (min :Number, max :Number, rands :Randoms)
     {
         this.min = min;
         this.max = max;
-        this.defaultRandStreamId = defaultRandStreamId;
+        this.rands = rands;
     }
 
-    public function next (randStreamId :int = -1) :Number
+    public function next () :Number
     {
-        return Rand.nextNumberInRange(
-            min, max, (randStreamId >= 0 ? randStreamId : defaultRandStreamId));
+        return rands.getNumberInRange(min, max);
     }
 
     public function clone () :NumRange
     {
-        return new NumRange(min, max, defaultRandStreamId);
+        return new NumRange(min, max, rands);
     }
 }
 

@@ -18,21 +18,21 @@
 
 package flashbang.tasks {
 
+import com.threerings.util.Randoms;
+
 import flashbang.GameObject;
 import flashbang.ObjectTask;
-import flashbang.util.Rand;
 
 public class VariableTimedTask
     implements ObjectTask
 {
-    public function VariableTimedTask (timeLo :Number, timeHi :Number,
-        randStreamId :uint = Rand.STREAM_UNSPECIFIED)
+    public function VariableTimedTask (timeLo :Number, timeHi :Number, rands :Randoms)
     {
         _timeLo = timeLo;
         _timeHi = timeHi;
-        _randStreamId = randStreamId;
+        _rands = rands;
 
-        _time = Rand.nextNumberInRange(timeLo, timeHi, randStreamId);
+        _time = _rands.getNumberInRange(timeLo, timeHi);
     }
 
     public function update (dt :Number, obj :GameObject) :Boolean
@@ -44,12 +44,12 @@ public class VariableTimedTask
 
     public function clone () :ObjectTask
     {
-        return new VariableTimedTask(_timeLo, _timeHi, _randStreamId);
+        return new VariableTimedTask(_timeLo, _timeHi, _rands);
     }
 
     protected var _timeLo :Number;
     protected var _timeHi :Number;
-    protected var _randStreamId :uint;
+    protected var _rands :Randoms;
     protected var _time :Number = 0;
     protected var _elapsedTime :Number = 0;
 }
