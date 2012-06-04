@@ -20,7 +20,6 @@ package flashbang {
 
 import com.threerings.display.DisplayUtil;
 import com.threerings.util.Arrays;
-import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
@@ -28,14 +27,12 @@ import com.threerings.util.Preconditions;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
-import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 
 import flashbang.components.DisplayComponent;
 import flashbang.input.MouseInput;
-import flashbang.util.SignalListenerManager;
+import flashbang.util.SignalAndEventConnections;
 
-import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
 
 public class AppMode
@@ -319,55 +316,6 @@ public class AppMode
         this.keyUp.dispatch(keyEvent);
     }
 
-    /**
-     * Adds the specified listener to the specified dispatcher for the specified event.
-     *
-     * Listeners registered in this way will be automatically unregistered when the ObjectDB is
-     * shutdown.
-     */
-    protected function registerListener (dispatcher :IEventDispatcher, event :String,
-        listener :Function, useCapture :Boolean = false, priority :int = 0) :void
-    {
-        _events.registerListener(dispatcher, event, listener, useCapture, priority);
-    }
-
-    /**
-     * Removes the specified listener from the specified dispatcher for the specified event.
-     */
-    protected function unregisterListener (dispatcher :IEventDispatcher, event :String,
-        listener :Function, useCapture :Boolean = false) :void
-    {
-        _events.unregisterListener(dispatcher, event, listener, useCapture);
-    }
-
-    /**
-     * Registers a zero-arg callback function that should be called once when the event fires.
-     *
-     * Listeners registered in this way will be automatically unregistered when the ObjectDB is
-     * shutdown.
-     */
-    protected function registerOneShotCallback (dispatcher :IEventDispatcher, event :String,
-        callback :Function, useCapture :Boolean = false, priority :int = 0) :void
-    {
-        _events.registerOneShotCallback(dispatcher, event, callback, useCapture, priority);
-    }
-
-    /**
-     * Adds the specified listener to the specified signal.
-     */
-    protected function addSignalListener (signal :ISignal, listener :Function) :void
-    {
-        _signals.addSignalListener(signal, listener);
-    }
-
-    /**
-     * Removes the specified listener from the specified signal.
-     */
-    protected function removeSignalListener (signal :ISignal, listener :Function) :void
-    {
-        _signals.removeSignalListener(signal, listener);
-    }
-
     /** Updates all objects in the mode. */
     protected function beginUpdate (dt :Number) :void
     {
@@ -500,10 +448,8 @@ public class AppMode
         _namedObjects = null;
         _groupedObjects = null;
 
-        _events.shutdown();
-        _events = null;
-        _signals.shutdown();
-        _signals = null;
+        _conns.cancelAll();
+        _conns = null;
 
         _viewport = null;
 
@@ -545,9 +491,7 @@ public class AppMode
     /** stores a mapping from String to Array */
     protected var _groupedObjects :Map = Maps.newMapOf(String);
 
-    protected var _events :EventHandlerManager = new EventHandlerManager();
-
-    protected var _signals :SignalListenerManager = new SignalListenerManager();
+    protected var _conns :SignalAndEventConnections = new SignalAndEventConnections();
 
     protected var _destroyed :Boolean;
 }

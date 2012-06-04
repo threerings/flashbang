@@ -24,8 +24,6 @@
     <classEntry path="flashbang.debug.FramerateView"/>
     <classEntry path="flashbang.debug.MouseLocView"/>
     <classEntry path="flashbang.debug.Profiler"/>
-    <classEntry path="flashbang.objects.DraggableObject"/>
-    <classEntry path="flashbang.objects.Dragger"/>
     <classEntry path="flashbang.objects.SceneObject"/>
     <classEntry path="flashbang.objects.SimpleTimer"/>
     <classEntry path="flashbang.objects.SpriteObject"/>
@@ -74,12 +72,12 @@
     <classEntry path="flashbang.util.NumRange"/>
     <classEntry path="flashbang.util.PowerEaser"/>
     <classEntry path="flashbang.util.Rand"/>
-    <classEntry path="flashbang.util.SignalListenerManager"/>
     <classEntry path="flashbang.util.WeightedArray"/>
     <classEntry path="ru.etcs.utils.getDefinitionNames"/>
     <classEntry path="flashbang.input.MouseListener"/>
     <classEntry path="flashbang.input.MouseInput"/>
     <classEntry path="flashbang.input.MouseReactor"/>
+    <classEntry path="flashbang.util.SignalAndEventConnections"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

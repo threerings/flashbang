@@ -18,18 +18,15 @@
 
 package flashbang {
 
-import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Preconditions;
 import com.threerings.util.StringUtil;
 
 import flash.display.DisplayObjectContainer;
-import flash.events.IEventDispatcher;
 
 import flashbang.tasks.ParallelTask;
 import flashbang.tasks.TaskContainer;
-import flashbang.util.SignalListenerManager;
+import flashbang.util.SignalAndEventConnections;
 
-import org.osflash.signals.ISignal;
 import org.osflash.signals.Signal;
 
 public class GameObject
@@ -231,58 +228,6 @@ public class GameObject
     }
 
     /**
-     * Adds the specified listener to the specified dispatcher for the specified event.
-     *
-     * Listeners registered in this way will be automatically unregistered when the GameObject is
-     * destroyed.
-     */
-    public function registerListener (dispatcher :IEventDispatcher, event :String,
-        listener :Function, useCapture :Boolean = false, priority :int = 0) :void
-    {
-        _events.registerListener(dispatcher, event, listener, useCapture, priority);
-    }
-
-    /**
-     * Removes the specified listener from the specified dispatcher for the specified event.
-     */
-    public function unregisterListener (dispatcher :IEventDispatcher, event :String,
-        listener :Function, useCapture :Boolean = false) :void
-    {
-        _events.unregisterListener(dispatcher, event, listener, useCapture);
-    }
-
-    /**
-     * Registers a zero-arg callback function that should be called once when the event fires.
-     *
-     * Listeners registered in this way will be automatically unregistered when the GameObject is
-     * destroyed.
-     */
-    public function registerOneShotCallback (dispatcher :IEventDispatcher, event :String,
-        callback :Function, useCapture :Boolean = false, priority :int = 0) :void
-    {
-        _events.registerOneShotCallback(dispatcher, event, callback, useCapture, priority);
-    }
-
-    /**
-     * Adds the specified listener to the specified signal.
-     *
-     * Listeners registered in this way will be automatically unregistered when the GameObject is
-     * destroyed.
-     */
-    public function addSignalListener (signal :ISignal, listener :Function) :void
-    {
-        _signals.addSignalListener(signal, listener);
-    }
-
-    /**
-     * Removes the specified listener from the specified signal.
-     */
-    public function removeSignalListener (signal :ISignal, listener :Function) :void
-    {
-        _signals.removeSignalListener(signal, listener);
-    }
-
-    /**
      * Called once per update tick. (Subclasses can override this to do something useful.)
      *
      * @param dt the number of seconds that have elapsed since the last update.
@@ -389,10 +334,8 @@ public class GameObject
     internal function cleanupInternal () :void
     {
         cleanup();
-        _events.shutdown();
-        _events = null;
-        _signals.shutdown();
-        _signals = null;
+        _conns.cancelAll();
+        _conns = null;
     }
 
     internal function updateInternal (dt :Number) :void
@@ -439,8 +382,7 @@ public class GameObject
     // True if tasks were removed while an update was in progress
     protected var _collapseRemovedTasks :Boolean;
 
-    protected var _events :EventHandlerManager = new EventHandlerManager();
-    protected var _signals :SignalListenerManager = new SignalListenerManager();
+    protected var _conns :SignalAndEventConnections = new SignalAndEventConnections();
 
     protected var _dependentObjectRefs :Array = [];
     protected var _pendingDependentObjects :Array = [];
