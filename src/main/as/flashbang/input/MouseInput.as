@@ -27,16 +27,11 @@ public class MouseInput
         _listeners.unshift(l);
         installMouseListeners();
         return Registrations.createWithFunction(function () :void {
-            removeEventListener(l);
+            Arrays.removeFirst(_listeners, l);
+            if (_listeners.length == 0) {
+                uninstallMouseListeners();
+            }
         });
-    }
-
-    public function removeEventListener (l :MouseListener) :void
-    {
-        Arrays.removeFirst(_listeners, l);
-        if (_listeners.length == 0) {
-            uninstallMouseListeners();
-        }
     }
 
     public function removeAllListeners () :void
