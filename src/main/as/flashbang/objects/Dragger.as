@@ -45,6 +45,8 @@ public class Dragger extends GameObject
                 onDragEnd(current, start);
             });
         _dragReg = this.mode.mouseInput.registerListener(_listener);
+
+        onDragStart(_listener.start);
     }
 
     public function cancelDrag () :void
