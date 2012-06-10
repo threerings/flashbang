@@ -421,6 +421,8 @@ public class AppMode
     internal function setupInternal (viewport :Viewport) :void
     {
         _viewport = viewport;
+        _mouseInput = new MouseInput(_modeSprite.stage);
+        _mouseInputWasEnabled = true;
         setup();
     }
 
@@ -462,6 +464,8 @@ public class AppMode
         _modeSprite.mouseEnabled = true;
         _modeSprite.mouseChildren = true;
 
+        this.mouseInput.enabled = _mouseInputWasEnabled;
+
         enter();
     }
 
@@ -471,11 +475,15 @@ public class AppMode
         _modeSprite.mouseChildren = false;
 
         exit();
+
+        _mouseInputWasEnabled = this.mouseInput.enabled;
+        this.mouseInput.enabled = false;
     }
 
     protected var _modeSprite :Sprite = new Sprite();
     protected var _viewport :Viewport;
-    protected var _mouseInput :MouseInput = new MouseInput(_modeSprite);
+    protected var _mouseInput :MouseInput;
+    protected var _mouseInputWasEnabled :Boolean;
 
     protected var _runningTime :Number = 0;
 
