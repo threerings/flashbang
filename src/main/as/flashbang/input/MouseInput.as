@@ -39,9 +39,22 @@ public class MouseInput
         uninstallMouseListeners();
     }
 
+    public function get enabled () :Boolean {
+        return _enabled;
+    }
+
+    public function set enabled (enabled :Boolean) :void {
+        _enabled = enabled;
+        if (_enabled) {
+            installMouseListeners();
+        } else {
+            uninstallMouseListeners();
+        }
+    }
+
     protected function installMouseListeners () :void
     {
-        if (!_mouseListenersInstalled) {
+        if (_enabled && !_mouseListenersInstalled) {
             for each (var type :String in MOUSE_EVENTS) {
                 connect(_root, type, handleMouseEvent);
             }
@@ -125,6 +138,7 @@ public class MouseInput
     protected var _root :InteractiveObject;
     protected var _listeners :Array = [];
     protected var _mouseListenersInstalled :Boolean;
+    protected var _enabled :Boolean = true;
 
     protected var _lastEvent :MouseEvent;
 
