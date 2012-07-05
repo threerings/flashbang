@@ -18,10 +18,7 @@
 
 package flashbang {
 
-import flashbang.audio.*;
-import flashbang.resource.*;
 import com.threerings.util.Arrays;
-import com.threerings.util.EventHandlerManager;
 import com.threerings.util.Map;
 import com.threerings.util.Maps;
 import com.threerings.util.Preconditions;
@@ -29,10 +26,12 @@ import com.threerings.util.Preconditions;
 import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.Event;
-import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
-import flash.utils.getTimer;
+
+import flashbang.audio.*;
+import flashbang.resource.*;
+import flashbang.util.SignalAndEventRegistrations;
 
 import org.osflash.signals.Signal;
 
@@ -71,9 +70,9 @@ public class FlashbangApp
 
         _running = true;
 
-        _events.registerListener(_hostSprite, Event.ENTER_FRAME, update);
-        _events.registerListener(_keyDispatcher, KeyboardEvent.KEY_DOWN, onKeyDown);
-        _events.registerListener(_keyDispatcher, KeyboardEvent.KEY_UP, onKeyUp);
+        _regs.addEventListener(_hostSprite, Event.ENTER_FRAME, update);
+        _regs.addEventListener(_keyDispatcher, KeyboardEvent.KEY_DOWN, onKeyDown);
+        _regs.addEventListener(_keyDispatcher, KeyboardEvent.KEY_UP, onKeyUp);
 
         _lastTime = getAppTime();
 
@@ -202,7 +201,7 @@ public class FlashbangApp
         // should the MainLoop be stopped?
         if (_shutdownPending) {
             _running = false;
-            _events.freeAllHandlers();
+            _regs.cancel();
             shutdownNow();
         }
 
@@ -220,8 +219,8 @@ public class FlashbangApp
         _keyDispatcher = null;
         _updatables = null;
 
-        _events.shutdown();
-        _events = null;
+        _regs.cancel();
+        _regs = null;
 
         _audio.shutdown();
         _rsrcs.shutdown();
@@ -253,7 +252,7 @@ public class FlashbangApp
     protected var _minFrameRate :Number;
     protected var _hostSprite :Sprite;
     protected var _keyDispatcher :IEventDispatcher;
-    protected var _events :EventHandlerManager = new EventHandlerManager();
+    protected var _regs :SignalAndEventRegistrations = new SignalAndEventRegistrations();
 
     protected var _running :Boolean;
     protected var _shutdownPending :Boolean;
