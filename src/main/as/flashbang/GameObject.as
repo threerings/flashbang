@@ -21,8 +21,10 @@ package flashbang {
 import com.threerings.util.Preconditions;
 import com.threerings.util.StringUtil;
 
+import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 
+import flashbang.components.DisplayComponent;
 import flashbang.tasks.ParallelTask;
 import flashbang.tasks.TaskContainer;
 import flashbang.util.SignalAndEventRegistrations;
@@ -219,11 +221,19 @@ public class GameObject
         displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :void
     {
         Preconditions.checkNotNull(obj);
+
+        // Was a displayParent specified?
+        // We attach the object's displayObject to its displayParent immediately,
+        // even if we're not yet live, to ensure that the displayList is ordered
+        // as the client code intends.
+        if (displayParent != null) {
+            obj.attachToDisplayList(displayParent, displayIdx);
+        }
+
         if (_mode != null) {
-            manageDependentObject(obj, displayParent, displayIdx);
+            manageDependentObject(obj);
         } else {
-            _pendingDependentObjects.push(
-                new PendingDependentObject(obj, displayParent, displayIdx));
+            _pendingDependentObjects.push(obj);
         }
     }
 
@@ -272,8 +282,7 @@ public class GameObject
     {
     }
 
-    protected function manageDependentObject (obj :GameObject,
-        displayParent :DisplayObjectContainer, displayIdx :int) :void
+    protected function manageDependentObject (obj :GameObject) :void
     {
         var ref :GameObjectRef;
 
@@ -284,7 +293,7 @@ public class GameObject
             ref = obj.ref;
 
         } else {
-            ref = _mode.addObject(obj, displayParent, displayIdx);
+            ref = _mode.addObject(obj);
         }
 
         _dependentObjectRefs.push(ref);
@@ -313,8 +322,8 @@ public class GameObject
 
     internal function addedToModeInternal () :void
     {
-        for each (var dep :PendingDependentObject in _pendingDependentObjects) {
-            manageDependentObject(dep.obj, dep.displayParent, dep.displayIdx);
+        for each (var obj :GameObject in _pendingDependentObjects) {
+            manageDependentObject(obj);
         }
         _pendingDependentObjects = null;
         addedToMode();
@@ -372,6 +381,24 @@ public class GameObject
         }
     }
 
+    internal function attachToDisplayList (displayParent :DisplayObjectContainer,
+        displayIdx :int) :void
+    {
+        Preconditions.checkState(this is DisplayComponent, "obj must implement DisplayComponent");
+
+        // Attach the object to a display parent.
+        // (This is purely a convenience - the client is free to do the attaching themselves)
+        var disp :DisplayObject = (this as DisplayComponent).display;
+        Preconditions.checkState(null != disp,
+            "obj must return a non-null displayObject to be attached to a display parent");
+
+        if (displayIdx < 0 || displayIdx >= displayParent.numChildren) {
+            displayParent.addChild(disp);
+        } else {
+            displayParent.addChildAt(disp, displayIdx);
+        }
+    }
+
     // Note: this is null until needed. Subclassers beware
     protected var _lazyAnonymousTasks :ParallelTask;
     // This is really a linked map : String -> ParallelTask. We use an array though and take the
@@ -394,25 +421,7 @@ public class GameObject
 
 }
 
-import flash.display.DisplayObjectContainer;
-
-import flashbang.GameObject;
 import flashbang.tasks.ParallelTask;
-
-class PendingDependentObject
-{
-    public var obj :GameObject;
-    public var displayParent :DisplayObjectContainer;
-    public var displayIdx :int;
-
-    public function PendingDependentObject (obj :GameObject,
-        displayParent :DisplayObjectContainer, displayIdx :int)
-    {
-        this.obj = obj;
-        this.displayParent = displayParent;
-        this.displayIdx = displayIdx;
-    }
-}
 
 class NamedParallelTask extends ParallelTask
 {
