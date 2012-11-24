@@ -33,9 +33,9 @@
           </libraryPathEntry>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="3" linkType="1" path="/aspirin/bin/aspirin.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/org/osflash/signals/0.8.1-varargs/signals-0.8.1-varargs.swc" sourcepath="/export/as3-signals-groves/src" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/nochump/zip/1.0/zip-1.0.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/aspirin/dist/aspirin.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="${M2_REPO}/org/osflash/signals/0.8.1-varargs/signals-0.8.1-varargs.swc" sourcepath="/export/as3-signals-groves/src" useDefaultLinkType="false"/>
